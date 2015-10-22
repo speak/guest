@@ -1,0 +1,42 @@
+{
+  "name": "speak-guest-frontend",
+  "version": "0.0.1",
+  "description": "Speak guest access front end",
+  "scripts": {
+    "build": "grunt build",
+    "test": "jest"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/support/preprocessor.js",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react",
+      "<rootDir>/src/renderer/stores/store",
+      "<rootDir>/node_modules/delorean"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules",
+      "<rootDir>/cache",
+      "<rootDir>/build"
+    ]
+  },
+  "devDependencies": {
+    "aliasify": "^1.7.2",
+    "babelify": "^6.3.0",
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^4.0.1",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-less": "^1.0.0",
+    "grunt-contrib-copy": "^0.8.1",
+    "jest-cli": "^0.2.1"
+  },
+  "dependencies": {
+    "delorean": "^0.9.7",
+    "jquery-browserify": "^1.8.1",
+    "react": "^0.13.3",
+    "react-document-title": "^2.0.1",
+    "react-router": "^1.0.0-rc1",
+    "history": "1.12.1",
+    "underscore": "^1.8.3"
+  }
+}

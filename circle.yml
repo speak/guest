@@ -1,0 +1,22 @@
+dependencies:
+  override:
+    - pip install awscli
+    - npm install -g grunt-cli
+    - npm install
+
+
+machine:
+  ruby:
+    version: 2.2.1
+
+deployment:
+  staging:
+    branch: master
+    commands:  
+      - grunt build
+      - /bin/bash deploy.sh staging
+  production:
+    branch: production
+    commands:
+      - grunt build
+      - /bin/bash deploy.sh production 
