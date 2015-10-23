@@ -16,9 +16,11 @@ var Login = React.createClass({
     ev.preventDefault();
     this.setState({saving: true});
 
-    AuthActions.signin({
+    AuthActions.create({
+      first_name: this.refs.first_name.getDOMNode().value,
+      last_name: this.refs.last_name.getDOMNode().value,
       email: this.refs.email.getDOMNode().value,
-      password: this.refs.password.getDOMNode().value
+      guest: true
     });
   },
 
@@ -26,8 +28,9 @@ var Login = React.createClass({
     return <DocumentTitle title='Login'>
       <form onSubmit={this.handleSubmit}>
         <p>Login already</p>
+        <input type="text" ref="first_name" placeholder="First Name" />
+        <input type="text" ref="last_name" placeholder="Last Name" />
         <input type="email" ref="email" placeholder="Email" />
-        <input type="password" ref="password" placeholder="Password" />
         <input type="submit" value="Login" />
       </form>
     </DocumentTitle>;

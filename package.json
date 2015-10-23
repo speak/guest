@@ -31,6 +31,7 @@
     "jest-cli": "^0.2.1"
   },
   "dependencies": {
+    "MD5": "^1.2.1",
     "delorean": "^0.9.7",
     "jquery-browserify": "^1.8.1",
     "react": "^0.13.3",
