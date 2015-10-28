@@ -6,7 +6,7 @@ var AuthStore = Flux.createStore({
     id: null,
     ticket: null,
     token: function(){
-      return localStorage.getItem("token");
+      return localStorage.getItem("token") || null;
     }
   },
   

@@ -36,8 +36,6 @@
     "jquery-browserify": "^1.8.1",
     "react": "^0.13.3",
     "react-document-title": "^2.0.1",
-    "react-router": "^1.0.0-rc1",
-    "history": "1.12.1",
     "underscore": "^1.8.3"
   }
 }

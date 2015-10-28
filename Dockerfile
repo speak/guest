@@ -1,5 +1,6 @@
 FROM ruby:2.1.5
 RUN gem install foreman
+RUN gem install sinatra
 RUN apt-get update
 RUN apt-get install -y curl
 RUN apt-get install -y nodejs

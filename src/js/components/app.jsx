@@ -1,9 +1,10 @@
 var React = require('react');
 var Flux = require('delorean').Flux;
 var Header = require('./header');
-var Navigation = require('./navigation');
-var OrganizationsSelect = require('./organizations-select');
+var ChannelInfo = require('./channel-info');
+var Login = require('./login');
 var Api = require('../libs/api');
+var Bulldog = require('../libs/bulldog');
 var DocumentTitle = require('react-document-title');
 var _ = require('underscore');
 
@@ -14,22 +15,35 @@ var App = React.createClass({
 
   componentDidMount: function(){
     var auth = this.getStore('authStore');
-    if(auth.token){
-      Api.configure();
+    console.log("app mounted")
+    console.log(auth)
+    if(auth.token) {
+      Bulldog.createSessionFromToken(auth.token)
     }
   },
   
   render: function() {
     var auth = this.getStore('authStore');
     var orgs = this.getStore('organizationsStore');
-    
-    return <DocumentTitle title='Account'>
+    var pageContent;
+
+    if(auth.token) {
+      pageContent = (
       <div id="app">
         {auth.token ? <Header /> : null}
-        {auth.token ? <OrganizationsSelect organizations={_.values(orgs)} /> : null}
-        {auth.token ? <Navigation /> : null}
-        <section>{this.props.children}</section>
       </div>
+      )
+    } else {
+      pageContent = (
+        <div id="app">
+          <ChannelInfo />
+          <Login />
+        </div>
+      )
+    }
+    
+    return <DocumentTitle title='Account'>
+      {pageContent}
     </DocumentTitle>;
   }
 });

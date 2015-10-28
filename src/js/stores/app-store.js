@@ -4,19 +4,23 @@ var _ = require('underscore');
 var AppStore = Flux.createStore({
   
   scheme: {
-    organization_id: null
+    user_id:         null,
+    organization_id: null,
+    muted:           false,
+    online:          true,
+    stream:          null,
+    level:           null
   },
 
   actions: {
-    'app.configured': 'reset'
+    'user.configuration': 'reset'
   },
 
   reset: function(data) {
-    if(!this.state.organization_id) {
-      var firstOrg = _.values(data.organizations)[0]
-      var orgId = firstOrg ? firstOrg.id : null;
-      this.set({organization_id:orgId})
-    }
+    this.set({
+      user_id: data.user.id,
+      level: data.user.level
+    })
   },
 
 });
