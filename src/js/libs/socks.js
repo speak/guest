@@ -180,6 +180,9 @@ var Socks = {
 
   
   dispatchAction: function(action, payload) {
+    console.log("DISPATCH ACTION INTO SOCKS")
+    console.log(action)
+    console.log(payload)
     var callback = this.actions[action];
     
     // fallback to .* callback

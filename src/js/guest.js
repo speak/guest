@@ -5,12 +5,24 @@ var Route = ReactRouter.Route;
 var Link = ReactRouter.Link;
 
 var History = require('./libs/thepast');
+var Socks = require('./libs/socks');
+var AppDispatcher = require('./dispatcher/app-dispatcher');
 var App = require('./components/app');
 var Login = require('./components/login');
 var Billing = require('./components/billing');
 var Organization = require('./components/organization');
 var Integrations = require('./components/integrations');
 var AuthStore = require('./stores/auth-store');
+
+// forward events into webrtc and socks libs
+AppDispatcher.register(function(action, payload, options) {
+  Socks.dispatchAction(action, payload, options);
+  // WebRTC.dispatchAction(action, payload);
+  // Calls.dispatchAction(action, payload);
+  // Sound.dispatchAction(action, payload);
+  // Shortcuts.dispatchAction(action, payload);
+  // AppLib.dispatchAction(action, payload);
+});
 
 function requireAuth(nextState, replaceState) {
   if (!AuthStore.get('token')) {
