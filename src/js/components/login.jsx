@@ -1,6 +1,4 @@
 var React = require('react');
-var ReactRouter = require('react-router');
-var Link = ReactRouter.Link;
 var DocumentTitle = require('react-document-title');
 var AuthActions = require('../actions/auth-actions');
 

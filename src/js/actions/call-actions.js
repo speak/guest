@@ -1,7 +1,4 @@
 var AppDispatcher = require('../dispatcher/app-dispatcher');
-var UsersStore = require('../stores/users-store');
-var ChannelsStore = require('../stores/channels-store');
-var AppActions = require('../actions/app-actions');
 var _ = require('underscore');
 
 var CallActions = {

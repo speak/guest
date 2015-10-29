@@ -16,7 +16,9 @@ var AuthStore = Flux.createStore({
   },
 
   sessionCreated: function(data) {
-    localStorage.setItem('token', data.token)
+    if(data.token) {
+      localStorage.setItem('token', data.token)
+    }
     this.set(data);
   },
   

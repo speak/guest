@@ -1,5 +1,4 @@
 var AppDispatcher = require('../dispatcher/app-dispatcher');
-// var UserStore = require('../stores/user-store');
 var Analytics = require('../libs/analytics');
 var Config = require('config');
 var dns = require('dns');
@@ -58,9 +57,10 @@ var AppActions = {
   },
 
   updateTimezone: function(name) {
-    if (name && (UserStore.get('timezone') != name)) {
-      AppDispatcher.dispatch('user.update', {timezone: name});
-    }
+    //TODO
+    // if (name && (UserStore.get('timezone') != name)) {
+    //   AppDispatcher.dispatch('user.update', {timezone: name});
+    // }
   },
   
   debuggingEnabled: function() {
@@ -116,11 +116,12 @@ var AppActions = {
   },
 
   updatePreferredServer: function(){
-    dns.lookup(Config.hosts.twoface.replace(/^http:\/\//i, ''), function(err, ip) { 
-      if(!err && UserStore.get('preferred_server') != ip) {
-        AppDispatcher.dispatch('user.update', {preferred_server: ip});
-      }
-    });
+    //TODO
+    // dns.lookup(Config.hosts.twoface.replace(/^http:\/\//i, ''), function(err, ip) { 
+    //   if(!err && UserStore.get('preferred_server') != ip) {
+    //     AppDispatcher.dispatch('user.update', {preferred_server: ip});
+    //   }
+    // });
   },
 
   clearCache: function() {
