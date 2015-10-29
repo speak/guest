@@ -6,21 +6,20 @@ var Config = require('config');
 
 var Api = {
 
-  configure: function(data) {
-    Api.get({
-      endpoint: '/user/configuration',
-      data: data
-    })
-    .done(ApiActions.configured)
-    .fail(this.dispatchError);
-  },
-
   organizationUpdate: function(id, data) {
     Api.put({
       endpoint: '/organizations/' + id,
       data: data
     })
     .done(ApiActions.organizationUpdated)
+    .fail(this.dispacthError);
+  },
+
+  getChannel: function(id){
+    Api.get({
+      endpoint: '/channels/' + id,
+    })
+    .done(ApiActions.channelFound)
     .fail(this.dispacthError);
   },
 
@@ -64,8 +63,10 @@ var Api = {
     options.crossDomain = true;
     options.dataType = 'json';
     options.contentType = 'application/json';
-    options.beforeSend = function (xhr) {
-      xhr.setRequestHeader('Authorization', 'Basic ' + btoa(AuthStore.state.token + ':'));
+    if(AuthStore.state.token) {
+      options.beforeSend = function (xhr) {
+        xhr.setRequestHeader('Authorization', 'Basic ' + btoa(AuthStore.state.token + ':'));
+      }
     }
 
     return $.ajax(options);

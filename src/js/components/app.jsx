@@ -11,12 +11,10 @@ var _ = require('underscore');
 var App = React.createClass({
   mixins: [Flux.mixins.storeListener],
 
-  watchStores: ['authStore', 'organizationsStore', 'appStore'],
+  watchStores: ['authStore', 'appStore', 'channelStore'],
 
   componentDidMount: function(){
     var auth = this.getStore('authStore');
-    console.log("app mounted")
-    console.log(auth)
     if(auth.token) {
       Bulldog.createSessionFromToken(auth.token)
     }
@@ -24,7 +22,7 @@ var App = React.createClass({
   
   render: function() {
     var auth = this.getStore('authStore');
-    var orgs = this.getStore('organizationsStore');
+    var channel = this.getStore('channelStore');
     var pageContent;
 
     if(auth.token) {
@@ -36,7 +34,7 @@ var App = React.createClass({
     } else {
       pageContent = (
         <div id="app">
-          <ChannelInfo />
+          <ChannelInfo name={channel.name}/>
           <Login />
         </div>
       )

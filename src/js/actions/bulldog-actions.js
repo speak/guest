@@ -5,7 +5,6 @@ var BulldogActions = {
   signedIn: function(data) {
     AppDispatcher.dispatch('user.signedin', data);
     AppDispatcher.dispatch('session.created', data);
-    Api.configure();
   },
 
   error: function(response) {

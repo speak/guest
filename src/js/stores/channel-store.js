@@ -4,8 +4,13 @@ var _ = require('underscore');
 var ChannelStore = Flux.createStore({
   
   actions: {
-    // 'user.configuration': 'reset'
+    'channel.found': 'reset'
   },
+
+  reset: function(data){
+    this.state = data;
+    this.emit('change');
+  }
 
 });
 
