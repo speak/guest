@@ -1,5 +1,6 @@
 var AppDispatcher = require('../dispatcher/app-dispatcher');
 var AuthActions = require('../actions/auth-actions');
+var Bulldog = require('../libs/bulldog');
 var AppActions = require('../actions/app-actions');
 var _ = require('underscore');
 
@@ -18,9 +19,9 @@ var SocksActions = {
     }
     
     var current_user_id = AppDispatcher.getStore('appStore').user_id;
-    var user_id_matches = data.user_id && data.user_id == current_user_id;
-    var user_matches = data.user && data.user.id == current_user_id;
-    var id_matches = event.match(/^user\./) && data.id == current_user_id;
+    var user_id_matches = data && data.user_id && data.user_id == current_user_id;
+    var user_matches = data && data.user && data.user.id == current_user_id;
+    var id_matches = data && event.match(/^user\./) && data.id == current_user_id;
     
     if (user_id_matches || user_matches || id_matches) {
       AppDispatcher.dispatch('me.' + event, data);
@@ -33,7 +34,7 @@ var SocksActions = {
     var auth = AppDispatcher.getStore('authStore');
     
     if (auth.token) {
-      BulldogAction.createSessionWithToken(auth.token);
+      Bulldog.createSessionFromToken(auth.token);
     } else {
       AuthActions.signout();
     }

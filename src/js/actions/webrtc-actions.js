@@ -1,4 +1,5 @@
 var AppDispatcher = require('../dispatcher/app-dispatcher');
+var Config = require('config');
 
 var appendServerToEvent = function(event, server) {
   server = (Config.environment == "development") ? "development" : server;

@@ -1,4 +1,6 @@
 var CallActions = require('../actions/call-actions');
+var ChannelStore = require('../stores/channel-store');
+var AppStore = require('../stores/app-store');
 var AppActions = require('../actions/app-actions');
 // var Stopwatch = require('./stopwatch');
 var WebRTC = require('./webrtc');
@@ -11,6 +13,7 @@ var ringTimeout = 30000;
 
 var Calls = {
   actions: {
+    'user.configuration':        'userConfiguration',
     'user.mute':                 'muteLocalStream',
     'user.unmute':               'unmuteLocalStream',
     'user.start_speaking':       'startSpeaking',
@@ -37,6 +40,14 @@ var Calls = {
     'webrtc.disconnected':       'webrtcDisconnected'
   },
 
+  userConfiguration: function(){
+    console.log('user configured calls lib');
+    //TODO only temporarily firing from here
+    if(ChannelStore.state.id) {
+      CallActions.connect(ChannelStore.state);
+    }
+  },
+
   reconnect_to: null,
 
   getLocalStream: function() {
@@ -52,7 +63,7 @@ var Calls = {
     this.microphoneGain = context.createGain();
 
     // ensure new stream keeps our mute preference
-    if (!UserStore.get('muted')) this.connectMicrophone();
+    if (!AppStore.get('muted')) this.connectMicrophone();
 
     // begin processing new stream for speech events
     this.speech_events = hark(stream);
@@ -106,20 +117,13 @@ var Calls = {
     var self = this;
 
     if (!this.local_stream || force) {
-      clearTimeout(this.request_media_timeout);
 
-      this.request_media_timeout = setTimeout(function(){
-        console.warn('Timed out whilst requesting user media...');
-        self.activateMedia();
-      }, 1000);
-
+      console.log("HIT ME WITH YOUR MEDIA")
       navigator.webkitGetUserMedia(MediaManager.getAudioConstraints(), function(stream) {
-        clearTimeout(self.request_media_timeout);
         console.log("Calls:gotUserMedia")
         self.updateLocalStream(stream);
         CallActions.localStream({stream: stream});
       }, function(err) {
-        clearTimeout(self.request_media_timeout);
         throw err;
         CallActions.error("Could not access microphone");
       });
@@ -214,16 +218,16 @@ var Calls = {
     if(user && user.online && !user.manual_offline) {
 
       // start the timer from initiators side
-      Stopwatch.start({
-        params: {
-          initiator: true
-        },
-        stop: function(timings) {
-          // as the events are async and can be returned in any order we simply
-          // provide the events that must be received in order to finish timing.
-          return timings['me channel joined'] && timings['webrtc connected'];
-        }
-      });
+      // Stopwatch.start({
+      //   params: {
+      //     initiator: true
+      //   },
+      //   stop: function(timings) {
+      //     // as the events are async and can be returned in any order we simply
+      //     // provide the events that must be received in order to finish timing.
+      //     return timings['me channel joined'] && timings['webrtc connected'];
+      //   }
+      // });
 
       this.startRinging(data)
     }
@@ -233,12 +237,12 @@ var Calls = {
     // this is an offline invite, no need to go any further
     if(!data.id) return;
 
-    if (Stopwatch.isRunning()) {
-      Stopwatch.mark('channel invited', {
-        channel_id: data.id,
-        server: data.server
-      });
-    }
+    // if (Stopwatch.isRunning()) {
+    //   Stopwatch.mark('channel invited', {
+    //     channel_id: data.id,
+    //     server: data.server
+    //   });
+    // }
 
     if(this.shouldChangeCall(data)) {
       this.changeCall(data);
@@ -304,21 +308,21 @@ var Calls = {
   },
 
   connect: function(data) {
-    if (!Stopwatch.isRunning()) {
-      // start the timer from receivers side
-      Stopwatch.start({
-        params: {
-          channel_id: data.id,
-          server: data.server,
-          initiator: false
-        },
-        stop: function(timings) {
-          // as the events are async and can be returned in any order we simply
-          // provide the events that must be received in order to finish timing.
-          return timings['me channel joined'] && timings['webrtc connected'];
-        }
-      });
-    }
+    // if (!Stopwatch.isRunning()) {
+    //   // start the timer from receivers side
+    //   Stopwatch.start({
+    //     params: {
+    //       channel_id: data.id,
+    //       server: data.server,
+    //       initiator: false
+    //     },
+    //     stop: function(timings) {
+    //       // as the events are async and can be returned in any order we simply
+    //       // provide the events that must be received in order to finish timing.
+    //       return timings['me channel joined'] && timings['webrtc connected'];
+    //     }
+    //   });
+    // }
 
     CallActions.connect(data);
   },
@@ -332,11 +336,11 @@ var Calls = {
   },
 
   meChannelJoined: function(data) {
-    Stopwatch.mark('me channel joined');
+    // Stopwatch.mark('me channel joined');
 
-    if (PreferencesStore.get('pause_music_during_calls')) {
-      Music.pause();
-    }
+    // if (PreferencesStore.get('pause_music_during_calls')) {
+    //   Music.pause();
+    // }
     this.activateMedia();
   },
 

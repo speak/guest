@@ -6,9 +6,6 @@ var BulldogActions = {
   signedIn: function(data) {
     AppDispatcher.dispatch('user.signedin', data);
     AppDispatcher.dispatch('session.created', data);
-    if(ChannelStore.state.id) {
-      AppDispatcher.dispatch('channel.join', ChannelStore.state);
-    }
   },
 
   error: function(response) {
