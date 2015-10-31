@@ -4,9 +4,11 @@ var _ = require('underscore');
 
 var UsersStore = Flux.createStore({
   actions: {
-    'channel.found': 'channelUpdated',
+    'channel.found':   'channelUpdated',
     'channel.created': 'channelUpdated',
-    'channel.joined': 'channelJoined'
+    'channel.joined':  'channelJoined',
+    'channel.left':    'channelLeft',
+    'channel.kicked':  'channelLeft'
   },
 
   channelUpdated: function(data) {
@@ -17,9 +19,12 @@ var UsersStore = Flux.createStore({
   },
 
   channelJoined: function(data){
-    console.log("Channel Joined users store handler");
-    console.log(data);
     this.state[data.user_id] = data.user;
+    this.emit('change');
+  },
+
+  channelLeft: function(data){
+    delete this.state[data.user_id];
     this.emit('change');
   },
 
