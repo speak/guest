@@ -6,7 +6,8 @@ var Signin = React.createClass({
   
   getInitialState: function() {
     return {
-      saving: false
+      saving: false,
+      authentication_required: false
     }
   },
   
@@ -29,15 +30,28 @@ var Signin = React.createClass({
     ev.preventDefault();
     this.setState({saving: true});
 
-    AuthActions.create({
-      first_name: this.refs.first_name.getDOMNode().value,
-      email: this.refs.email.getDOMNode().value,
-      guest: true
-    }, {
-      error: function() {
-        // TODO: handle account already exists
-      }
-    });
+    if (this.refs.password) {
+      AuthActions.signin({
+        email: this.refs.email.getDOMNode().value,
+        password: this.refs.password.getDOMNode().value
+      });
+    } else {
+      AuthActions.create({
+        first_name: this.refs.first_name.getDOMNode().value,
+        email: this.refs.email.getDOMNode().value,
+        guest: true
+      }, {
+        error: this.handleError
+      });
+    }
+  },
+  
+  handleError: function(xhr) {
+    if (xhr.status == 403) {
+      this.setState({authentication_required: true});
+    } else {
+      // TODO: real error
+    }
   },
   
   reset: function() {
@@ -46,10 +60,14 @@ var Signin = React.createClass({
 
   render: function() {
     var heading = this.getHeading();
-    var name;
+    var name, password;
     
     if (this.props.channel.guest) {
       name = <input type="text" ref="channel_name" placeholder="Meeting Name" className="optional" />;
+    }
+    
+    if (this.state.authentication_required) {
+      password = <input type="password" ref="password" placeholder="Password" />;
     }
     
     return <DocumentTitle title={heading}>
@@ -57,6 +75,7 @@ var Signin = React.createClass({
         <h2>{heading}</h2>
         <input type="text" ref="first_name" placeholder="First Name" />
         <input type="email" ref="email" placeholder="Email" className="optional" />
+        {password}
         {name}
         <input type="submit" value={this.getButtonText()} />
       </form>
