@@ -32,12 +32,13 @@
   },
   "dependencies": {
     "MD5": "^1.2.1",
+    "attachmediastream": "^1.3.5",
     "delorean": "^0.9.7",
     "hark": "^1.1.1",
-    "rtcpeerconnection": "speak/RTCPeerConnection",
     "jquery-browserify": "^1.8.1",
     "react": "^0.13.3",
     "react-document-title": "^2.0.1",
+    "rtcpeerconnection": "speak/RTCPeerConnection",
     "underscore": "^1.8.3"
   }
 }

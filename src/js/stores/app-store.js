@@ -13,7 +13,9 @@ var AppStore = Flux.createStore({
   },
 
   actions: {
-    'user.configuration': 'reset'
+    'user.configuration':       'reset',
+    'webrtc.stream.remote':     'webrtcConnected',
+    'webrtc.disconnected':      'webrtcDisconnected'
   },
 
   reset: function(data) {
@@ -22,7 +24,14 @@ var AppStore = Flux.createStore({
       level: data.user.level
     })
   },
-
+  
+  webrtcConnected: function(stream_id) {
+    this.set({stream: stream_id});
+  },
+  
+  webrtcDisconnected: function() {
+    this.set({stream: null});
+  }
 });
 
 module.exports = AppStore;

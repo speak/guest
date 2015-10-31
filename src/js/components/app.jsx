@@ -8,6 +8,7 @@ var Bulldog = require('../libs/bulldog');
 var UsersStore = require('../stores/users-store');
 
 var ChannelInfo = require('./channel-info');
+var AudioOutput = require('./audio-output');
 var Signin = require('./signin');
 var Users = require('./users');
 
@@ -24,6 +25,7 @@ var App = React.createClass({
   },
   
   render: function() {
+    var app = this.getStore('appStore');
     var auth = this.getStore('authStore');
     var channel = this.getStore('channelStore');
 
@@ -42,6 +44,7 @@ var App = React.createClass({
     
     return <div id="app">
       <Users users={UsersStore.otherUsers()} />
+      <AudioOutput streamId={app.stream} />
     </div>
   }
 });
