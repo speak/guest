@@ -2,7 +2,7 @@ var Flux = require('delorean').Flux;
 var AuthStore = require('../stores/auth-store');
 var AppStore = require('../stores/app-store');
 var utilities = require('../libs/utilities');
-var OrganizationsStore = require('../stores/organizations-store');
+var UsersStore = require('../stores/users-store');
 var ChannelStore = require('../stores/channel-store');
 
 var transactions = {};
@@ -13,7 +13,7 @@ var AppDispatcher = Flux.createDispatcher({
       authStore: AuthStore,
       appStore: AppStore,
       channelStore: ChannelStore,
-      organizationsStore: OrganizationsStore
+      usersStore: UsersStore
     }
   }
 });

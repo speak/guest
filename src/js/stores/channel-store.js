@@ -5,13 +5,13 @@ var ChannelStore = Flux.createStore({
   
   actions: {
     'channel.found': 'reset',
-    'channel.created': 'reset'
+    'channel.created': 'reset',
   },
 
   reset: function(data){
     this.state = data;
     this.emit('change');
-  }
+  },
 
 });
 

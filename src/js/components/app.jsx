@@ -1,12 +1,17 @@
+var _ = require('underscore');
 var React = require('react');
 var Flux = require('delorean').Flux;
+
+var Api = require('../libs/api');
+var Bulldog = require('../libs/bulldog');
+
+var UsersStore = require('../stores/users-store');
+
+var DocumentTitle = require('react-document-title');
 var Header = require('./header');
 var ChannelInfo = require('./channel-info');
 var Login = require('./login');
-var Api = require('../libs/api');
-var Bulldog = require('../libs/bulldog');
-var DocumentTitle = require('react-document-title');
-var _ = require('underscore');
+var Users = require('./users');
 
 var App = React.createClass({
   mixins: [Flux.mixins.storeListener],
@@ -28,7 +33,8 @@ var App = React.createClass({
     if(auth.token) {
       pageContent = (
       <div id="app">
-        {auth.token ? <Header /> : null}
+        <Header />
+        <Users users={UsersStore.otherUsers()} />
       </div>
       )
     } else {
