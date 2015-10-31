@@ -4,15 +4,14 @@ module.exports = {
   hosts: {
     ws: 'ws://docker:4000',
     wss: 'wss://docker:4000',
-    app: 'http://docker:3003',
+    app: 'http://docker:5002',
     bulldog: 'http://docker:9393',
     api: 'http://docker:4444',
   },
   storage: {
-    avatars: 'speak-development-photos'
+    photos: 'speak-development-photos'
   },
   tokens: {
-    slack_client_id: '3521049616.4126340936',
-    sentry: 'https://a9e92fe0b3c94755a00afd7a977d4578:0e89c597c9f543628b91b491911e4703@app.getsentry.com/34938'
+    sentry: 'https://6eec4872a99f4a379f856829b7b9ab16:061bd343010646cd8013c82bf8ea337c@app.getsentry.com/39377'
   }
 }

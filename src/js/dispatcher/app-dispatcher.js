@@ -4,7 +4,7 @@ var AppStore = require('../stores/app-store');
 var utilities = require('../libs/utilities');
 var UsersStore = require('../stores/users-store');
 var ChannelStore = require('../stores/channel-store');
-
+var Config = require('config');
 var transactions = {};
 
 var AppDispatcher = Flux.createDispatcher({
@@ -20,6 +20,10 @@ var AppDispatcher = Flux.createDispatcher({
 
 AppDispatcher._dispatch = AppDispatcher.dispatch;
 AppDispatcher.dispatch = function(action, payload) {
+  if (Config.environment == 'development') {
+    console.log(action, payload);
+  }
+  
   var args = [];
   
   // v8 optimization: https://code.google.com/p/v8/issues/detail?id=3037
@@ -31,9 +35,6 @@ AppDispatcher.dispatch = function(action, payload) {
   // run callbacks for transaction_id if available
   if (options) {
     if (typeof options == 'string') {
-      console.log("McLogging out")
-      console.log(options)
-      console.log(transactions)
       var transaction = transactions[options];
 
       // okay, we have a transaction for this renderer
@@ -50,8 +51,6 @@ AppDispatcher.dispatch = function(action, payload) {
 
     // translate callbacks into transaction_id
     } else if (typeof options == 'object') {
-      console.log("McLogging in")
-
       var transaction_id = utilities.generateTransactionId();
       transactions[transaction_id] = options;
       args[2] = transaction_id;

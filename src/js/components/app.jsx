@@ -7,10 +7,8 @@ var Bulldog = require('../libs/bulldog');
 
 var UsersStore = require('../stores/users-store');
 
-var DocumentTitle = require('react-document-title');
-var Header = require('./header');
 var ChannelInfo = require('./channel-info');
-var Login = require('./login');
+var Signin = require('./signin');
 var Users = require('./users');
 
 var App = React.createClass({
@@ -28,27 +26,23 @@ var App = React.createClass({
   render: function() {
     var auth = this.getStore('authStore');
     var channel = this.getStore('channelStore');
-    var pageContent;
 
-    if(auth.token) {
-      pageContent = (
-      <div id="app">
-        <Header />
-        <Users users={UsersStore.otherUsers()} />
+    if (!channel.id) {
+      return <div id="app">
+        Loading...
       </div>
-      )
-    } else {
-      pageContent = (
-        <div id="app">
-          <ChannelInfo name={channel.name} path={channel.path} />
-          <Login />
-        </div>
-      )
+    }
+
+    if (!auth.token) {
+      return <div id="app">
+        <ChannelInfo path={channel.path} />
+        <Signin channel={channel} />
+      </div>
     }
     
-    return <DocumentTitle title='Account'>
-      {pageContent}
-    </DocumentTitle>;
+    return <div id="app">
+      <Users users={UsersStore.otherUsers()} />
+    </div>
   }
 });
 

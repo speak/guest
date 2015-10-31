@@ -15,7 +15,9 @@ var ApiActions = {
   },
 
   channelCreated: function(data) {
-    window.history.pushState("object or string", "Speak guest access", "/" + data.id);
+    window.history.pushState(data.id, "Speak", "/" + data.id);
+    
+    data.guest = true;
     AppDispatcher.dispatch('channel.created', data);
   },
 

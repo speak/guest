@@ -7,10 +7,7 @@ var WebRTC = require('./libs/webrtc');
 var AppDispatcher = require('./dispatcher/app-dispatcher');
 var App = require('./components/app');
 var AuthStore = require('./stores/auth-store');
-
 var channelId = window.location.pathname.split('/')[1];
-console.log("channel id");
-console.log(channelId);
 
 if(channelId) {
   Api.getChannel(channelId);
@@ -27,4 +24,4 @@ AppDispatcher.register(function(action, payload, options) {
 });
 
 // React Router does all the fancy stuff for us
-React.render(<App />, document.getElementById('guest'));
+React.render(<App dispatcher={AppDispatcher} />, document.getElementById('guest'));

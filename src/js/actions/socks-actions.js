@@ -9,15 +9,6 @@ var SocksActions = {
     // there's a pattern around the app of checking if an
     // event is directly relevant to ourselves, instead of duping
     // this logic we emit another event me.original.event
-    
-    console.log("SOCKS MESSAGE")
-    console.log("event: " + event)
-    console.log("data: ")
-    console.log(data)
-    if(transaction_id) {
-      console.log("transaction_id: " + transaction_id)
-    }
-    
     var current_user_id = AppDispatcher.getStore('appStore').user_id;
     var user_id_matches = data && data.user_id && data.user_id == current_user_id;
     var user_matches = data && data.user && data.user.id == current_user_id;

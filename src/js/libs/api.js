@@ -63,7 +63,6 @@ var Api = {
     return this.request(data);
   },
 
-
   request: function(options) {
     //TODO error out when no auth token
     options = _.extend({url: Config.hosts.api}, options);

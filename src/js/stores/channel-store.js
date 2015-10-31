@@ -1,5 +1,4 @@
 var Flux = require('delorean').Flux;
-var _ = require('underscore');
 
 var ChannelStore = Flux.createStore({
   
@@ -16,4 +15,3 @@ var ChannelStore = Flux.createStore({
 });
 
 module.exports = ChannelStore;
-
