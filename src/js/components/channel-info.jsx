@@ -13,7 +13,7 @@ var ChannelInfo = React.createClass({
   
   render: function() {
     return <div>
-    Join {this.props.name}
+    Join { this.props.name || this.props.path }
     </div>;
   }
 });

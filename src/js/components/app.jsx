@@ -34,7 +34,7 @@ var App = React.createClass({
     } else {
       pageContent = (
         <div id="app">
-          <ChannelInfo name={channel.name}/>
+          <ChannelInfo name={channel.name} path={channel.path} />
           <Login />
         </div>
       )

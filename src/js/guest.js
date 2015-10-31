@@ -14,6 +14,8 @@ console.log(channelId);
 
 if(channelId) {
   Api.getChannel(channelId);
+} else {
+  Api.createChannel();
 }
 
 // forward events into webrtc and socks libs

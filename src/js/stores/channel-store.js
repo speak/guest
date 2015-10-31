@@ -4,7 +4,8 @@ var _ = require('underscore');
 var ChannelStore = Flux.createStore({
   
   actions: {
-    'channel.found': 'reset'
+    'channel.found': 'reset',
+    'channel.created': 'reset'
   },
 
   reset: function(data){

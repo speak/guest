@@ -14,6 +14,11 @@ var ApiActions = {
     AppDispatcher.dispatch('channel.found', data);
   },
 
+  channelCreated: function(data) {
+    window.history.pushState("object or string", "Speak guest access", "/" + data.id);
+    AppDispatcher.dispatch('channel.created', data);
+  },
+
   error: function(){
     //TODO
   }

@@ -23,6 +23,18 @@ var Api = {
     .fail(this.dispacthError);
   },
 
+  createChannel: function(id){
+    Api.post({
+      endpoint: '/channels',
+      data:{
+        public:true,
+        temporary:false
+      }
+    })
+    .done(ApiActions.channelCreated)
+    .fail(this.dispacthError);
+  },
+
   dispatchError: function(xhr) {
     var response;
 
