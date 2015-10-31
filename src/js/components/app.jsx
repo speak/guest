@@ -11,7 +11,7 @@ var _ = require('underscore');
 var App = React.createClass({
   mixins: [Flux.mixins.storeListener],
 
-  watchStores: ['authStore', 'appStore', 'channelStore'],
+  watchStores: ['authStore', 'appStore', 'channelStore', 'usersStore'],
 
   componentDidMount: function(){
     var auth = this.getStore('authStore');
