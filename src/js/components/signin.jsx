@@ -1,14 +1,25 @@
 var React = require('react');
 var DocumentTitle = require('react-document-title');
 var AuthActions = require('../actions/auth-actions');
+var Config = require('config');
+var $ = require('jquery-browserify');
 
 var Signin = React.createClass({
   
   getInitialState: function() {
     return {
       saving: false,
-      authentication_required: false
+      authentication_required: false,
+      preferred_server: null
     }
+  },
+  
+  componentDidMount: function() {
+    $.get(Config.hosts.twoface + '/status', this.gotPreferredIp);
+  },
+  
+  gotPreferredIp: function(data) {
+    this.setState({preferred_server: data.ip});
   },
   
   getHeading: function() {
@@ -39,6 +50,7 @@ var Signin = React.createClass({
       AuthActions.create({
         first_name: this.refs.first_name.getDOMNode().value,
         email: this.refs.email.getDOMNode().value,
+        server: this.state.preferred_server,
         guest: true
       }, {
         error: this.handleError

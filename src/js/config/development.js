@@ -7,6 +7,7 @@ module.exports = {
     app: 'http://docker:5002',
     bulldog: 'http://docker:9393',
     api: 'http://docker:4444',
+    twoface: 'http://docker:9999'
   },
   storage: {
     photos: 'speak-development-photos'
