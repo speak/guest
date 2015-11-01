@@ -5,7 +5,7 @@ var Api = require('../libs/api');
 var BulldogActions = {
   signedIn: function(data) {
     AppDispatcher.dispatch('user.signedin', data);
-    AppDispatcher.dispatch('session.created', data);
+    AppDispatcher.dispatch('session.created', data.ticket);
   },
 
   error: function(response) {

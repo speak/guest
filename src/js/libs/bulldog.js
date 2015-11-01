@@ -38,7 +38,7 @@ var Bulldog = {
     })
     .done(function(data){
       clearTimeout(self.timeoutRetry);
-      BulldogActions.signedIn(data.ticket);
+      BulldogActions.signedIn(data);
     })
     .fail(function(xhr) {
       // server couldn't be reached, retry

@@ -11,18 +11,23 @@ var AuthStore = Flux.createStore({
   },
   
   actions: {
-    'session.created': 'sessionCreated',
-    'session.destroy': 'sessionDestroy'
+    'user.signedin':   'updateAuth',
+    'session.error':   'removeAuth',
+    'session.destroy': 'removeAuth'
   },
 
-  sessionCreated: function(data) {
-    if(data.token) {
-      localStorage.setItem('token', data.token)
+  updateAuth: function(data) {
+    var update = {};
+    
+    if (data.token) {
+      update.token = data.token;
+      localStorage.setItem('token', data.token);
     }
-    this.set(data);
+    if (data.ticket) update.ticket = data.ticket;
+    this.set(update);
   },
   
-  sessionDestroy: function(data) {
+  removeAuth: function(data) {
     localStorage.removeItem('token')
     this.set({
       ticket: null,
