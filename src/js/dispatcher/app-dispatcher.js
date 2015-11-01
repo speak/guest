@@ -12,8 +12,8 @@ var AppDispatcher = Flux.createDispatcher({
     return {
       authStore: AuthStore,
       appStore: AppStore,
-      channelStore: ChannelStore,
-      usersStore: UsersStore
+      usersStore: UsersStore,
+      channelStore: ChannelStore
     }
   }
 });
