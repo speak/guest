@@ -1,9 +1,11 @@
-var Flux = require('delorean').Flux;
+var Store =  require('./store');
+var UsersStore = require('./users-store');
 var _ = require('underscore');
 
-var AppStore = Flux.createStore({
+var AppStore = new Store({
   
   scheme: {
+    call_completed:         false, 
     ice_servers:            null,
     ice_servers_expire_at:  null,
     user_id:                null,
@@ -17,7 +19,8 @@ var AppStore = Flux.createStore({
   actions: {
     'user.configuration':       'reset',
     'webrtc.stream.remote':     'webrtcConnected',
-    'webrtc.disconnected':      'webrtcDisconnected'
+    'webrtc.disconnected':      'webrtcDisconnected',
+    'channel.left':             'checkCallCompleted'
   },
 
   reset: function(data) {
@@ -35,6 +38,12 @@ var AppStore = Flux.createStore({
   
   webrtcDisconnected: function() {
     this.set({stream: null});
+  },
+  
+  checkCallCompleted: function() {
+    if (!UsersStore.otherUsers().length) {
+      this.set({call_completed: true});
+    }
   }
 });
 

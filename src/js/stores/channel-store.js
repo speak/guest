@@ -1,10 +1,9 @@
-var Flux = require('delorean').Flux;
+var Store =  require('./store');
 
-var ChannelStore = Flux.createStore({
-  
+var ChannelStore = new Store({
   actions: {
-    'channel.found': 'reset',
-    'channel.created': 'reset',
+    'channel.found':    'reset',
+    'channel.created':  'reset',
   },
 
   reset: function(data){

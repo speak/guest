@@ -28,7 +28,8 @@ var App = React.createClass({
     var app = this.getStore('appStore');
     var auth = this.getStore('authStore');
     var channel = this.getStore('channelStore');
-
+    var users = this.getStore('usersStore');
+    
     if (!channel.id) {
       return <div id="app">
         Loading...
@@ -42,8 +43,14 @@ var App = React.createClass({
       </div>
     }
     
+    if (app.call_completed && !UsersStore.otherUsers().length) {
+      return <div id="app">
+        Looks like the call is over!
+      </div>
+    }
+    
     return <div id="app">
-      <Users users={UsersStore.otherUsers()} />
+      <Users users={users} />
       <AudioOutput streamId={app.stream} />
     </div>
   }

@@ -1,22 +1,21 @@
 var React = require('react');
 var User = require('./user');
+var _ = require('underscore');
 
 var Users = React.createClass({
   
   render: function() {
-    var users = []
-    this.props.users.forEach(function(user) {
-        users.push(<User first_name={user.first_name} />);
-    }.bind(this));
+    var list = [];
+    
+    _.each(this.props.users, function(user) {
+      list.push(<User key={user.id} first_name={user.first_name} />);
+    });
 
-    return (<div> 
-    <h1>Users</h1>
-    <ul>
-    {users}
-    </ul>
-    </div>);
+    return <div> 
+      <h1>Users</h1>
+      <ul>{list}</ul>
+    </div>;
   }
 });
 
 module.exports = Users;
-

@@ -1,13 +1,14 @@
-var Flux = require('delorean').Flux;
+var Store =  require('./store');
 
-var AuthStore = Flux.createStore({
-
+var AuthStore = new Store({
+  storeName: 'auth',
+  persisted: true,
+  
   scheme: {
     id: null,
     ticket: null,
-    token: function(){
-      return localStorage.getItem("token") || null;
-    }
+    email: '',
+    token: null
   },
   
   actions: {
@@ -18,17 +19,13 @@ var AuthStore = Flux.createStore({
 
   updateAuth: function(data) {
     var update = {};
-    
-    if (data.token) {
-      update.token = data.token;
-      localStorage.setItem('token', data.token);
-    }
+    if (data.token) update.token = data.token;
     if (data.ticket) update.ticket = data.ticket;
+    if (data.email) update.email = data.email;
     this.set(update);
   },
   
   removeAuth: function(data) {
-    localStorage.removeItem('token')
     this.set({
       ticket: null,
       token: null

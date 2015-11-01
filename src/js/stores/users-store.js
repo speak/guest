@@ -1,26 +1,31 @@
-var Flux = require('delorean').Flux;
+var Store =  require('./store');
+var AppStore = require('./app-store');
 var Config = require('config');
 var _ = require('underscore');
 
-var UsersStore = Flux.createStore({
+var UsersStore = new Store({
   actions: {
-    'channel.found':   'channelUpdated',
-    'channel.created': 'channelUpdated',
-    'channel.joined':  'channelJoined',
-    'channel.left':    'channelLeft',
-    'channel.kicked':  'channelLeft'
+    'user.configuration': 'userConfiguration',
+    'channel.found':      'channelUpdated',
+    'channel.created':    'channelUpdated',
+    'channel.joined':     'channelJoined',
+    'channel.left':       'channelLeft',
+    'channel.kicked':     'channelLeft'
+  },
+  
+  userConfiguration: function(data) {
+    data.user.me = true;
+    this.update(data.user);
   },
 
   channelUpdated: function(data) {
-    data.users.forEach(function(u){
-      this.state[u.id] = u;
+    _.each(data.users, function(user){
+      this.update(user);
     }.bind(this));
-    this.emit('change');
   },
 
   channelJoined: function(data){
-    this.state[data.user_id] = data.user;
-    this.emit('change');
+    this.update(data.user);
   },
 
   channelLeft: function(data){
@@ -29,7 +34,7 @@ var UsersStore = Flux.createStore({
   },
 
   otherUsers: function(){
-    return _.filter(this.state, function(u){ return u.me != true });
+    return _.filter(this.state, function(user){ return user.me != true });
   }
 });
 

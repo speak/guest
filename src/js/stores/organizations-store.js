@@ -1,7 +1,7 @@
-var Flux = require('delorean').Flux;
+var Store =  require('./store');
 var _ = require('underscore');
 
-var OrganizationsStore = Flux.createStore({
+var OrganizationsStore = new Store({
 
   actions: {
     'app.configured': 'reset',
