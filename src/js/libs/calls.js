@@ -4,6 +4,7 @@ var AppStore = require('../stores/app-store');
 var AppActions = require('../actions/app-actions');
 // var Stopwatch = require('./stopwatch');
 var WebRTC = require('./webrtc');
+var getUserMedia = require('getusermedia');
 var MediaManager = require('./media-manager');
 var hark = require('hark');
 var _ = require('underscore');
@@ -115,14 +116,12 @@ var Calls = {
 
     if (!this.local_stream || force) {
 
-      console.log("HIT ME WITH YOUR MEDIA")
-      navigator.webkitGetUserMedia(MediaManager.getAudioConstraints(), function(stream) {
-        console.log("Calls:gotUserMedia")
+      getUserMedia(MediaManager.getAudioConstraints(), function(err, stream) {
+        if (err) throw err;
+        
+        console.log("Calls:gotUserMedia");
         self.updateLocalStream(stream);
         CallActions.localStream({stream: stream});
-      }, function(err) {
-        throw err;
-        CallActions.error("Could not access microphone");
       });
     }
   },

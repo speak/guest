@@ -24,8 +24,7 @@ var WebRTC = {
   manually_closed: false,    // true if we closed with no need to reconnect
   connect_timeout: null,
   connect_drop_timeout: 5000,// after x ms, give up and try connecting again
-  offer_failed_timeout: 100,
-  connect_failed_timeout: 4000,
+  connect_failed_timeout: 10000,
   reconnect_timeout: null,
   reconnect_attempts: 0,     // The number of attempted reconnects since success
   interval_stats: null,
@@ -86,9 +85,7 @@ var WebRTC = {
     this.pc.addStream(proxy_stream);
 
     // start new timers for this connection
-    clearTimeout(this.offer_failed);
     clearTimeout(this.connect_failed);
-    //this.offer_failed = setTimeout(this.handleFailedOffer, this.offer_failed_timeout);
     this.connect_failed = setTimeout(this.handleConnectTimeout, this.connect_failed_timeout + (1000*this.reconnect_attempts));
 
     // setup callbacks
@@ -151,7 +148,6 @@ var WebRTC = {
     if (err) throw err;
 
     // Stopwatch.mark('offer generated');
-    clearTimeout(this.offer_failed);
     offer.channel_id = this.channel_id;
     offer.token = this.token;
     
@@ -213,7 +209,6 @@ var WebRTC = {
     this.remote_stream = null;
     
     clearTimeout(this.connect_failed);
-    clearTimeout(this.offer_failed);
     clearInterval(this.interval_stats);
     WebRTCActions.remoteStream();
     // Stopwatch.reset();
@@ -299,10 +294,8 @@ var WebRTC = {
 
   getOfferConstraints: function() {
     return {
-      "mandatory": {
-        "OfferToReceiveAudio": true,
-        "OfferToReceiveVideo": false 
-      }
+      offerToReceiveAudio: true,
+      offerToReceiveVideo: false 
     };
   },
 

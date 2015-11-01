@@ -18,7 +18,7 @@ var AudioOutput = React.createClass({
     if (this.props.streamId) {
       attachMediaStream(WebRTC.getRemoteStream(), element);
     } else {
-      element.src = '';
+      element.removeAttribute('src');
     }
   },
   
