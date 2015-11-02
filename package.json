@@ -38,12 +38,15 @@
   "dependencies": {
     "MD5": "^1.2.1",
     "attachmediastream": "^1.3.5",
+    "classnames": "^2.2.0",
     "delorean": "^0.9.7",
+    "formsy-react": "^0.17.0",
     "getusermedia": "^1.3.5",
     "hark": "^1.1.1",
     "jquery-browserify": "^1.8.1",
-    "react": "^0.13.3",
+    "react": "^0.14.2",
     "react-document-title": "^2.0.1",
+    "react-dom": "^0.14.2",
     "rtcpeerconnection": "speak/RTCPeerConnection",
     "speak-widgets": "git+https://github.com/speak/speak-widgets",
     "underscore": "^1.8.3"

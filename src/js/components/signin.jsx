@@ -43,13 +43,13 @@ var Signin = React.createClass({
 
     if (this.refs.password) {
       AuthActions.signin({
-        email: this.refs.email.getDOMNode().value,
-        password: this.refs.password.getDOMNode().value
+        email: this.refs.email.value,
+        password: this.refs.password.value
       });
     } else {
       AuthActions.create({
-        first_name: this.refs.first_name.getDOMNode().value,
-        email: this.refs.email.getDOMNode().value,
+        first_name: this.refs.first_name.value,
+        email: this.refs.email.value,
         server: this.state.preferred_server,
         guest: true
       }, {

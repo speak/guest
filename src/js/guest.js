@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDOM = require('react-dom')
 
 var Api = require('./libs/api');
 var Calls = require('./libs/calls');
@@ -24,4 +25,4 @@ AppDispatcher.register(function(action, payload, options) {
 });
 
 // React Router does all the fancy stuff for us
-React.render(<App dispatcher={AppDispatcher} />, document.getElementById('guest'));
+ReactDOM.render(<App dispatcher={AppDispatcher} />, document.getElementById('guest'));
