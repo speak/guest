@@ -82,6 +82,7 @@ var Signin = React.createClass({
       var invalid = {};
       invalid[data.params.param] = data.params.message;
       invalidate(invalid);
+      this.setState({can_submit: true});
     }
   },
 

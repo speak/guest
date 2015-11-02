@@ -5,8 +5,6 @@ var Formsy = require('formsy-react');
 var Input = React.createClass({
   mixins: [Formsy.Mixin],
 
-  // setValue() will set the value of the component, which in
-  // turn will validate it and the rest of the form
   changeValue: function (event) {
     this.setValue(event.currentTarget.value);
   },
