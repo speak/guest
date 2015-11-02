@@ -2,7 +2,7 @@ module.exports = {
   environment: 'staging',
   report_errors: false,
   hosts: {
-    wss: 'wss://staging-socks.speak.io',
+    ws: 'wss://staging-socks.speak.io',
     app: 'https://staging-go.speak.io',
     bulldog: 'https://staging-bulldog.speak.io',
     api: 'https://staging-api.speak.io',

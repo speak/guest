@@ -2,7 +2,7 @@ module.exports = {
   environment: 'production',
   report_errors: false,
   hosts: {
-    wss: 'wss://socks.speak.io',
+    ws: 'wss://socks.speak.io',
     app: 'https://go.speak.io',
     bulldog: 'https://bulldog.speak.io',
     api: 'https://api.speak.io',
