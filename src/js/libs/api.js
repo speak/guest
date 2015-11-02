@@ -66,14 +66,15 @@ var Api = {
   request: function(options) {
     //TODO error out when no auth token
     options = _.extend({url: Config.hosts.api}, options);
-    options.data = JSON.stringify(options.data || {});
 
+    if (options.data) options.data = JSON.stringify(options.data);
     if (options.endpoint) options.url += options.endpoint;
 
     // we're only dealing with JSON.
     options.crossDomain = true;
     options.dataType = 'json';
     options.contentType = 'application/json';
+
     if(AuthStore.state.token) {
       options.beforeSend = function (xhr) {
         xhr.setRequestHeader('Authorization', 'Basic ' + btoa(AuthStore.state.token + ':'));
@@ -85,4 +86,3 @@ var Api = {
 };
 
 module.exports = Api;
-
