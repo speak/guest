@@ -3,7 +3,6 @@ module.exports = {
   report_errors: false,
   hosts: {
     ws: 'ws://docker:4000',
-    wss: 'wss://docker:4000',
     app: 'http://docker:5002',
     bulldog: 'http://docker:9393',
     api: 'http://docker:4444',
