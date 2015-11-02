@@ -2,16 +2,16 @@ var AppDispatcher = require('../dispatcher/app-dispatcher');
 var Bulldog = require('../libs/bulldog');
 
 var AuthActions = {
-  create: function(input, opts) {
-    Bulldog.createUser(input, opts);
+  create: function(input, options) {
+    Bulldog.createUser(input, options);
   },
 
   signout: function(input) {
     AppDispatcher.dispatch('session.destroy');
   },
   
-  signin: function(input) {
-    Bulldog.createSessionFromEmailPassword(input);
+  signin: function(input, options) {
+    Bulldog.createSessionFromEmailPassword(input, options);
   }
 };
 
