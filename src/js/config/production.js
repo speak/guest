@@ -1,5 +1,5 @@
 module.exports = {
-  environment: 'staging',
+  environment: 'production',
   report_errors: false,
   hosts: {
     wss: 'wss://socks.speak.io',
