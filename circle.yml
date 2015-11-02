@@ -13,10 +13,10 @@ deployment:
   staging:
     branch: master
     commands:  
-      - grunt build
+      - grunt build --staging
       - /bin/bash deploy.sh staging
   production:
     branch: production
     commands:
-      - grunt build
+      - grunt build --production
       - /bin/bash deploy.sh production 
