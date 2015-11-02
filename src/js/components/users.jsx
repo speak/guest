@@ -8,7 +8,7 @@ var Users = React.createClass({
     var list = [];
     
     _.each(this.props.users, function(user) {
-      list.push(<User key={user.id} first_name={user.first_name} />);
+      list.push(<User key={user.id} item={user} />);
     });
 
     return <div> 

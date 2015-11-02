@@ -1,7 +1,7 @@
 {
-  "name": "speak-guest-frontend",
+  "name": "speak-go",
   "version": "0.0.1",
-  "description": "Speak guest access front end",
+  "description": "Speak web portal",
   "scripts": {
     "build": "grunt build",
     "test": "jest"
@@ -18,6 +18,11 @@
       "<rootDir>/cache",
       "<rootDir>/build"
     ]
+  },
+  "license": "Copyright",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/speak/guest"
   },
   "devDependencies": {
     "aliasify": "^1.7.2",
@@ -40,6 +45,7 @@
     "react": "^0.13.3",
     "react-document-title": "^2.0.1",
     "rtcpeerconnection": "speak/RTCPeerConnection",
+    "speak-widgets": "git+https://github.com/speak/speak-widgets",
     "underscore": "^1.8.3"
   }
 }
