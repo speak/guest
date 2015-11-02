@@ -112,20 +112,26 @@ var Calls = {
 
   activateMedia: function(force) {
     console.log("Calls:activateMedia");
-    var self = this;
 
     if (!this.local_stream || force) {
-
+      this.permissions_timeout = setTimeout(this.showPermissionsDialog, 500);
+      
       getUserMedia(MediaManager.getAudioConstraints(), function(err, stream) {
+        clearTimeout(this.permissions_timeout);
+        
         if (err) throw err;
         
         console.log("Calls:gotUserMedia");
-        self.updateLocalStream(stream);
+        this.updateLocalStream(stream);
         CallActions.localStream({stream: stream});
-      });
+      }.bind(this));
     }
   },
 
+  showPermissionsDialog: function() {
+    CallActions.permissionsDialog();
+  },
+  
   webrtcDisconnected: function(data) {
     console.log('Calls:webrtcDisconnected');
     if(this.reconnect_to) {

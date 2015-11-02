@@ -5,6 +5,7 @@ var _ = require('underscore');
 var AppStore = new Store({
   
   scheme: {
+    permission_dialog:      false,
     call_completed:         false, 
     ice_servers:            null,
     ice_servers_expire_at:  null,
@@ -18,7 +19,9 @@ var AppStore = new Store({
 
   actions: {
     'user.configuration':       'reset',
+    'webrtc.stream.local':      'webrtcGotStream',
     'webrtc.stream.remote':     'webrtcConnected',
+    'webrtc.permissions':       'webrtcPermissions',
     'webrtc.disconnected':      'webrtcDisconnected',
     'channel.left':             'checkCallCompleted'
   },
@@ -30,6 +33,14 @@ var AppStore = new Store({
       user_id: data.user.id,
       level: data.user.level
     })
+  },
+
+  webrtcPermissions: function() {
+    this.set({permission_dialog: true});
+  },
+  
+  webrtcGotStream: function() {
+    this.set({permission_dialog: false});
   },
   
   webrtcConnected: function(stream_id) {

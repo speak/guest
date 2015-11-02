@@ -43,6 +43,12 @@ var App = React.createClass({
       </div>
     }
     
+    if (app.permission_dialog) {
+      return <div id="app">
+        Accept camera and mic permissions
+      </div>
+    }
+    
     if (app.call_completed && !UsersStore.otherUsers().length) {
       return <div id="app">
         Looks like the call is over!
