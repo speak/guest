@@ -6,6 +6,7 @@ var AppStore = new Store({
   
   scheme: {
     permission_dialog:      false,
+    permission_denied:      false,
     call_completed:         false, 
     ice_servers:            null,
     ice_servers_expire_at:  null,
@@ -35,12 +36,13 @@ var AppStore = new Store({
     })
   },
 
-  webrtcPermissions: function() {
-    this.set({permission_dialog: true});
+  webrtcPermissions: function(value) {
+    if (value) this.set({permission_dialog: true});
+    if (!value) this.set({permission_denied: true});
   },
   
   webrtcGotStream: function() {
-    this.set({permission_dialog: false});
+    this.set({permission_dialog: false, permission_denied: false});
   },
   
   webrtcConnected: function(stream_id) {

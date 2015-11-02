@@ -23,7 +23,7 @@ var Calls = {
     // 'session.error':             'disconnect',
     // 'socks.disconnected':        'disconnect',
     // 'user.disconnected':         'cleanupEmptyChannels',
-    // 'app.request_audio_stream':  'requestStream',
+    'app.request_audio_stream':  'requestStream',
     // 'me.channel.left':           'meChannelLeft',
     // 'me.channel.kicked':         'meChannelKicked',
     'me.channel.joined':         'meChannelJoined',
@@ -119,17 +119,19 @@ var Calls = {
       getUserMedia(MediaManager.getAudioConstraints(), function(err, stream) {
         clearTimeout(this.permissions_timeout);
         
-        if (err) throw err;
-        
-        console.log("Calls:gotUserMedia");
-        this.updateLocalStream(stream);
-        CallActions.localStream({stream: stream});
+        if (err) {
+          CallActions.permissionsDialog(false);
+        } else {
+          console.log("Calls:gotUserMedia");
+          this.updateLocalStream(stream);
+          CallActions.localStream({stream: stream});
+        }
       }.bind(this));
     }
   },
 
   showPermissionsDialog: function() {
-    CallActions.permissionsDialog();
+    CallActions.permissionsDialog(true);
   },
   
   webrtcDisconnected: function(data) {

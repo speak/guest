@@ -31,8 +31,8 @@ var CallActions = {
     }
   },
   
-  permissionsDialog: function() {
-    AppDispatcher.dispatch('webrtc.permissions');
+  permissionsDialog: function(value) {
+    AppDispatcher.dispatch('webrtc.permissions', value);
   },
   
   disconnect: function(reconnect_okay) {

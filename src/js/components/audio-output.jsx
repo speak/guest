@@ -6,6 +6,7 @@ var AudioOutput = React.createClass({
   componentDidMount: function() {
     this.updateMediaStream();
   },
+
   componentDidUpdate: function(prevProps) {
     if (prevProps.streamId != this.props.streamId) {
       this.updateMediaStream();

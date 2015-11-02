@@ -11,4 +11,3 @@ var ChannelInfo = React.createClass({
 });
 
 module.exports = ChannelInfo;
-

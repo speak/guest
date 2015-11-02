@@ -6,6 +6,7 @@ var Api = require('../libs/api');
 var Bulldog = require('../libs/bulldog');
 
 var UsersStore = require('../stores/users-store');
+var UserActions = require('../actions/user-actions');
 
 var ChannelInfo = require('./channel-info');
 var AudioOutput = require('./audio-output');
@@ -23,13 +24,14 @@ var App = React.createClass({
       Bulldog.createSessionFromToken(auth.token)
     }
   },
-  
+
   render: function() {
     var app = this.getStore('appStore');
     var auth = this.getStore('authStore');
     var channel = this.getStore('channelStore');
     var users = this.getStore('usersStore');
     
+    // TODO: we'll tidy all this logic up soon
     if (!channel.id) {
       return <div id="app">
         Loading...
@@ -43,12 +45,18 @@ var App = React.createClass({
       </div>
     }
     
+    if (app.permission_denied) {
+      return <div id="app">
+        Sorry, you blocked camera and mic access but these are needed to use Speak!
+      </div>
+    }
+
     if (app.permission_dialog) {
       return <div id="app">
         Accept camera and mic permissions
       </div>
     }
-    
+
     if (app.call_completed && !UsersStore.otherUsers().length) {
       return <div id="app">
         Looks like the call is over!
