@@ -15,7 +15,7 @@ var ApiActions = {
   },
 
   channelCreated: function(data) {
-    window.history.pushState(data.id, "Speak", "/" + data.id);
+    window.history.pushState(data.id, "Speak", "/" + data.path);
     
     data.guest = true;
     AppDispatcher.dispatch('channel.created', data);
