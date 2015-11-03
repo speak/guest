@@ -20,7 +20,7 @@ var AppDispatcher = Flux.createDispatcher({
 
 AppDispatcher._dispatch = AppDispatcher.dispatch;
 AppDispatcher.dispatch = function(action, payload) {
-  if (Config.environment == 'development') {
+  if (Config.environment != 'production') {
     console.log(action, payload);
   }
   
