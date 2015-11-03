@@ -1,3 +1,5 @@
+@import "elements.css.less";
+
 #channel-info {
   h2 {
     text-transform: uppercase;
@@ -8,5 +10,13 @@
   h3 {
     font-size: 24px;
     font-weight: normal;
+    cursor: pointer;
+    .opacity(0.75);
+  }
+  
+  &:hover {
+    h3 {
+      .opacity(1);
+    }
   }
 }
