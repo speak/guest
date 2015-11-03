@@ -6,7 +6,7 @@ module.exports = {
     app: 'https://go.speak.io',
     bulldog: 'https://bulldog.speak.io',
     api: 'https://api.speak.io',
-    twoface: 'http://mcu.speak.io:9999',
+    twoface: 'https://mcu.speak.io',
   },
   storage: {
     photos: 'speak-production-photos'

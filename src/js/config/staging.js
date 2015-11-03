@@ -6,7 +6,7 @@ module.exports = {
     app: 'https://staging-go.speak.io',
     bulldog: 'https://staging-bulldog.speak.io',
     api: 'https://staging-api.speak.io',
-    twoface: 'http://staging-mcu.speak.io:9999',
+    twoface: 'https://staging-mcu.speak.io',
   },
   storage: {
     photos: 'speak-staging-photos'
