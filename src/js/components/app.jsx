@@ -67,7 +67,6 @@ var App = React.createClass({
     if (!modal && !other_users.length) {
       modal = <div id="modal-wrapper">
         <ChannelInfo path={channel.path} />
-        <div className="notice">Waiting for someone to join</div>
       </div>;
     }
 
