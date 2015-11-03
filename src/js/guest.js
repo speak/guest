@@ -2,6 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom')
 
 var Api = require('./libs/api');
+var Bulldog = require('./libs/bulldog');
 var Calls = require('./libs/calls');
 var Socks = require('./libs/socks');
 var WebRTC = require('./libs/webrtc');
@@ -10,7 +11,11 @@ var App = require('./components/app');
 var AuthStore = require('./stores/auth-store');
 var channelId = window.location.pathname.split('/')[1];
 
-if(channelId) {
+if (AuthStore.get('token')) {
+  Bulldog.createSessionFromToken(AuthStore.get('token'));
+}
+
+if (channelId) {
   Api.getChannel(channelId);
 } else {
   Api.createChannel();

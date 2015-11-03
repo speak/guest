@@ -49,14 +49,21 @@ module.exports = function(grunt) {
       }
     },
     copy: {
-      all: {
+      html: {
         expand: true,
         flatten: false,
         cwd: 'src/html',
         src: ['*'],
         dest: 'build/'
+      },
+      images: {
+        expand: true,
+        flatten: false,
+        cwd: 'src/images',
+        src: ['*'],
+        dest: 'build/images/'
       }
-    },
+    }
   });
 
   // Default task(s).

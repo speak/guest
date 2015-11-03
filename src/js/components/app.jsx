@@ -1,71 +1,79 @@
-var _ = require('underscore');
 var React = require('react');
 var Flux = require('delorean').Flux;
 
-var Api = require('../libs/api');
-var Bulldog = require('../libs/bulldog');
-
 var UsersStore = require('../stores/users-store');
 var UserActions = require('../actions/user-actions');
-
+var CallCompleted = require('./call-completed');
+var PermissionError = require('./permission-error');
+var PermissionDialog = require('./permission-dialog');
+var Loading = require('./loading');
 var ChannelInfo = require('./channel-info');
 var AudioOutput = require('./audio-output');
 var Signin = require('./signin');
 var Users = require('./users');
+var _ = require('underscore');
 
 var App = React.createClass({
   mixins: [Flux.mixins.storeListener],
 
   watchStores: ['authStore', 'appStore', 'channelStore', 'usersStore'],
 
-  componentDidMount: function(){
+  getModal: function() {
+    var app = this.getStore('appStore');
     var auth = this.getStore('authStore');
-    if(auth.token) {
-      Bulldog.createSessionFromToken(auth.token)
+    var channel = this.getStore('channelStore');
+    
+    if (!channel.id) {
+      return <Loading />;
     }
+
+    if (!auth.token) {
+      return <Signin channel={channel} />;
+    }
+    
+    if (app.permission_denied) {
+      return <PermissionError />;
+    }
+
+    if (app.permission_dialog) {
+      return <PermissionDialog />;
+    }
+    
+    if (!app.permission_granted) {
+      return <Loading />;
+    }
+
+    if (app.call_completed && !UsersStore.otherUsers().length) {
+      return <CallCompleted />;
+    }
+
+    return null;
   },
 
   render: function() {
     var app = this.getStore('appStore');
-    var auth = this.getStore('authStore');
-    var channel = this.getStore('channelStore');
     var users = this.getStore('usersStore');
+    var channel = this.getStore('channelStore');
+    var other_users = UsersStore.otherUsers();
+    var modal = this.getModal();
     
-    // TODO: we'll tidy all this logic up soon
-    if (!channel.id) {
-      return <div id="app">
-        Loading...
-      </div>
-    }
-
-    if (!auth.token) {
-      return <div id="app">
+    if (modal) {
+      modal = <div id="modal-wrapper">
         <ChannelInfo path={channel.path} />
-        <Signin channel={channel} />
-      </div>
+        <div id="modal" className="animated fadeIn">{modal}</div>
+      </div>;
     }
     
-    if (app.permission_denied) {
-      return <div id="app">
-        Sorry, you blocked camera and mic access but these are needed to use Speak!
-      </div>
+    if (!modal && !other_users.length) {
+      modal = <div id="modal-wrapper">
+        <ChannelInfo path={channel.path} />
+      </div>;
     }
 
-    if (app.permission_dialog) {
-      return <div id="app">
-        Accept camera and mic permissions
-      </div>
-    }
-
-    if (app.call_completed && !UsersStore.otherUsers().length) {
-      return <div id="app">
-        Looks like the call is over!
-      </div>
-    }
-    
     return <div id="app">
-      <Users users={users} />
       <AudioOutput streamId={app.stream} />
+      <Users users={users} />
+      {modal}
     </div>
   }
 });
