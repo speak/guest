@@ -66,7 +66,7 @@ var Socks = {
     
     delete this.ws;
     // this.ws = new WebSocket(Config.hosts.ws + "?ticket=" + ticket + "&version=" + app.getVersion() + "&platform=" + window.process.platform);
-    this.ws = new WebSocket(Config.hosts.ws + "?ticket=" + ticket);
+    this.ws = new WebSocket(Config.hosts.ws + "?ticket=" + ticket + "&platform=browser");
     this.ws.onopen = this.onopen;
     this.ws.onclose = this.onclose;
     this.ws.onmessage = this.onmessage;
