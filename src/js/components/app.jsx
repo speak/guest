@@ -45,6 +45,12 @@ var App = React.createClass({
         Accept camera and mic permissions
       </div>
     }
+    
+    if (!app.permission_granted) {
+      return <div>
+        Loading...
+      </div>
+    }
 
     if (app.call_completed && !UsersStore.otherUsers().length) {
       return <CallCompleted />;
@@ -59,7 +65,9 @@ var App = React.createClass({
     var modal = this.getModal();
     
     if (modal) {
-      modal = <div id="modal" className="animated fadeIn">{modal}</div>;
+      modal = <div id="modal-wrapper">
+        <div id="modal" className="animated fadeIn">{modal}</div>
+      </div>;
     }
       
     return <div id="app">
