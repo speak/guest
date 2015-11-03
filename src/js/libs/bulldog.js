@@ -6,25 +6,30 @@ var Config = require('config');
 
 var Bulldog = {
   
-  createUser: function(data, opts) {
-    if(!opts) {
-      opts = {};
-    }
+  createUser: function(data, options) {
+    options = options || {};
+    
     Bulldog.post({
       endpoint: '/users',
       data: data
     })
-    .done(opts.success || BulldogActions.signedIn)
-    .fail(opts.error || this.dispatchError);
+    .done(options.success || BulldogActions.signedIn)
+    .fail(function(xhr){
+      this.dispatchError(xhr, options);
+    }.bind(this));
   },
   
-  createSessionFromEmailPassword: function(data) {
+  createSessionFromEmailPassword: function(data, options) {
+    options = options || {};
+    
     Bulldog.post({
       endpoint: '/sessions',
       data: data
     })
     .done(BulldogActions.signedIn)
-    .fail(this.dispatchError);
+    .fail(function(xhr){
+      this.dispatchError(xhr, options);
+    }.bind(this));
   },
   
   createSessionFromToken: function(token) {
@@ -102,7 +107,6 @@ var Bulldog = {
   },
 
   createPasswordReset: function(email){
-    var self = this;
     Bulldog.post({
       endpoint: '/password/reset',
       data: {
@@ -112,12 +116,10 @@ var Bulldog = {
     .done(function(data){
       BulldogActions.passwordResetRequested();
     })
-    .fail(function(xhr) {
-      self.dispatchError(xhr);
-    });
+    .fail(this.dispatchError);
   },
   
-  dispatchError: function(xhr) {
+  dispatchError: function(xhr, options) {
     var response;
     
     try {
@@ -125,6 +127,10 @@ var Bulldog = {
       response.status = xhr.status;
     } catch(e) {
       response = {error: ""};
+    }
+    
+    if (options && options.error) {
+      options.error(xhr, response);
     }
     
     BulldogActions.error(response);

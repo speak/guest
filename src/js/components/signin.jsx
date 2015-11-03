@@ -2,18 +2,33 @@ var React = require('react');
 var DocumentTitle = require('react-document-title');
 var AuthActions = require('../actions/auth-actions');
 var Config = require('config');
+var Formsy = require('formsy-react');
+var Input = require('./input');
 var $ = require('jquery-browserify');
+var _ = require('underscore');
 
 var Signin = React.createClass({
   
   getInitialState: function() {
     return {
-      saving: false,
+      can_submit: false,
       authentication_required: false,
       preferred_server: null
     }
   },
-  
+
+  enableButton: function () {
+    this.setState({
+      can_submit: true
+    });
+  },
+
+  disableButton: function () {
+    this.setState({
+      can_submit: false
+    });
+  },
+
   componentDidMount: function() {
     $.get(Config.hosts.twoface + '/status', this.gotPreferredIp);
   },
@@ -37,37 +52,38 @@ var Signin = React.createClass({
     return this.props.channel.guest ? "Start Meeting" : "Join Meeting";
   },
 
-  handleSubmit: function(ev) {
-    ev.preventDefault();
-    this.setState({saving: true});
+  handleSubmit: function(data, reset, invalidate) {
+    this.setState({can_submit: false});
 
-    if (this.refs.password) {
-      AuthActions.signin({
-        email: this.refs.email.getDOMNode().value,
-        password: this.refs.password.getDOMNode().value
+    if (data.password) {
+      AuthActions.signin(data, {
+        error: function(xhr, data){
+          this.handleError(xhr, data, invalidate);
+        }.bind(this)
       });
     } else {
-      AuthActions.create({
-        first_name: this.refs.first_name.getDOMNode().value,
-        email: this.refs.email.getDOMNode().value,
-        server: this.state.preferred_server,
-        guest: true
-      }, {
-        error: this.handleError
+      data.server = this.state.preferred_server;
+      data.guest = true;
+      AuthActions.create(data, {
+        error: function(xhr, data){
+          this.handleError(xhr, data, invalidate);
+        }.bind(this)
       });
     }
   },
   
-  handleError: function(xhr) {
+  handleError: function(xhr, data, invalidate) {
     if (xhr.status == 403) {
-      this.setState({authentication_required: true});
+      this.setState({
+        authentication_required: true, 
+        can_submit: true
+      });
     } else {
-      // TODO: real error
+      var invalid = {};
+      invalid[data.params.param] = data.params.message;
+      invalidate(invalid);
+      this.setState({can_submit: true});
     }
-  },
-  
-  reset: function() {
-    this.setState({saving: false});
   },
 
   render: function() {
@@ -75,22 +91,22 @@ var Signin = React.createClass({
     var name, password;
     
     if (this.props.channel.guest) {
-      name = <input type="text" ref="channel_name" placeholder="Meeting Name" className="optional" />;
+      name = <Input type="text" name="channel_name" placeholder="Meeting Name" />;
     }
     
     if (this.state.authentication_required) {
-      password = <input type="password" ref="password" placeholder="Password" />;
+      password = <Input type="password" name="password" placeholder="Password" />;
     }
-    
+
     return <DocumentTitle title={heading}>
-      <form onSubmit={this.handleSubmit}>
+      <Formsy.Form onValidSubmit={this.handleSubmit} onValid={this.enableButton} onInvalid={this.disableButton}>
         <h2>{heading}</h2>
-        <input type="text" ref="first_name" placeholder="First Name" />
-        <input type="email" ref="email" placeholder="Email" className="optional" />
+        <Input type="text" name="first_name" placeholder="First Name" />
+        <Input type="email" name="email" placeholder="Email" />
         {password}
         {name}
-        <input type="submit" value={this.getButtonText()} />
-      </form>
+        <input type="submit" value={this.getButtonText()} disabled={!this.state.can_submit} />
+      </Formsy.Form>
     </DocumentTitle>;
   }
 });
