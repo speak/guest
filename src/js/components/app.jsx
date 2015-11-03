@@ -4,6 +4,9 @@ var Flux = require('delorean').Flux;
 var UsersStore = require('../stores/users-store');
 var UserActions = require('../actions/user-actions');
 var CallCompleted = require('./call-completed');
+var PermissionError = require('./permission-error');
+var PermissionDialog = require('./permission-dialog');
+var Loading = require('./loading');
 var ChannelInfo = require('./channel-info');
 var AudioOutput = require('./audio-output');
 var Signin = require('./signin');
@@ -22,9 +25,7 @@ var App = React.createClass({
     
     // TODO: we'll tidy all this logic up soon
     if (!channel.id) {
-      return <div>
-        Loading...
-      </div>
+      return <Loading />;
     }
 
     if (!auth.token) {
@@ -35,21 +36,15 @@ var App = React.createClass({
     }
     
     if (app.permission_denied) {
-      return <div>
-        Sorry, you blocked camera and mic access but these are needed to use Speak!
-      </div>
+      return <PermissionError />;
     }
 
     if (app.permission_dialog) {
-      return <div>
-        Accept camera and mic permissions
-      </div>
+      return <PermissionDialog />;
     }
     
     if (!app.permission_granted) {
-      return <div>
-        Loading...
-      </div>
+      return <Loading />;
     }
 
     if (app.call_completed && !UsersStore.otherUsers().length) {
@@ -69,7 +64,11 @@ var App = React.createClass({
         <div id="modal" className="animated fadeIn">{modal}</div>
       </div>;
     }
-      
+    
+    if (!modal && !UsersStore.otherUsers().length) {
+      modal = <div className="notice">Waiting for someone to join</div>;
+    }
+
     return <div id="app">
       <AudioOutput streamId={app.stream} />
       <Users users={users} />
