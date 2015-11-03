@@ -23,16 +23,12 @@ var App = React.createClass({
     var auth = this.getStore('authStore');
     var channel = this.getStore('channelStore');
     
-    // TODO: we'll tidy all this logic up soon
     if (!channel.id) {
       return <Loading />;
     }
 
     if (!auth.token) {
-      return <div>
-        <ChannelInfo path={channel.path} />
-        <Signin channel={channel} />
-      </div>
+      return <Signin channel={channel} />;
     }
     
     if (app.permission_denied) {
@@ -50,23 +46,29 @@ var App = React.createClass({
     if (app.call_completed && !UsersStore.otherUsers().length) {
       return <CallCompleted />;
     }
-    
+
     return null;
   },
 
   render: function() {
     var app = this.getStore('appStore');
     var users = this.getStore('usersStore');
+    var channel = this.getStore('channelStore');
+    var other_users = UsersStore.otherUsers();
     var modal = this.getModal();
     
     if (modal) {
       modal = <div id="modal-wrapper">
+        <ChannelInfo path={channel.path} />
         <div id="modal" className="animated fadeIn">{modal}</div>
       </div>;
     }
     
-    if (!modal && !UsersStore.otherUsers().length) {
-      modal = <div className="notice">Waiting for someone to join</div>;
+    if (!modal && !other_users.length) {
+      modal = <div id="modal-wrapper">
+        <ChannelInfo path={channel.path} />
+        <div className="notice">Waiting for someone to join</div>
+      </div>;
     }
 
     return <div id="app">

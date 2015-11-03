@@ -101,7 +101,7 @@ var Signin = React.createClass({
     return <DocumentTitle title={heading}>
       <Formsy.Form onValidSubmit={this.handleSubmit} onValid={this.enableButton} onInvalid={this.disableButton}>
         <h2>{heading}</h2>
-        <Input type="text" name="first_name" placeholder="First Name" />
+        <Input type="text" name="first_name" placeholder="Name" />
         <Input type="email" name="email" placeholder="Email" />
         {password}
         {name}
