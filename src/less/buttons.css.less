@@ -1,0 +1,95 @@
+@import "elements.css.less";
+
+html body .button {
+  cursor: default;
+}
+
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  display: inline-block;
+  height: 44px;
+  padding: 0 40px;
+  color: #555;
+  text-align: center;
+  line-height: 3.2;
+  letter-spacing: 0;
+  font-size: 14px;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 1px solid #bbb;
+  box-sizing: border-box;
+  -webkit-app-region: no-drag;
+  .rounded(4px);
+}
+
+.button:hover,
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+.button:focus,
+button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus {
+  color: #333;
+  border-color: #888;
+  outline: 0; 
+}
+
+.button.primary,
+button.primary,
+input[type="submit"].primary,
+input[type="reset"].primary,
+input[type="button"].primary {
+  color: #FFF;
+  background-color: #4A90E2;
+  border-color: #4A90E2; 
+}
+
+.button.primary:hover,
+button.primary:hover,
+input[type="submit"].primary:hover,
+input[type="reset"].primary:hover,
+input[type="button"].primary:hover,
+.button.primary:focus,
+button.primary:focus,
+input[type="submit"].primary:focus,
+input[type="reset"].primary:focus,
+input[type="button"].primary:focus {
+  color: #FFF;
+  background-color: darken(#4A90E2, 10%);
+  border-color: darken(#4A90E2, 10%);
+}
+
+.button.with-icon {
+  position: relative;
+  padding-left: 44px;
+    
+  span.icon {
+    position: absolute;
+    left: 24px;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+.button.small {
+  padding: 6px;
+  line-height: 1;
+  height: auto;
+  font-size: 11px;
+}
+
+.button.negative {
+  background: #E32170;
+  color: #fff;
+  border: none;
+}
+
+.button.negative:hover {
+  background: darken(#E32170, 10%);
+}
