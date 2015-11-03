@@ -130,6 +130,7 @@ var AppActions = {
 
   signOut: function() {
     AppDispatcher.dispatch('session.destroy');
+    window.history.pushState("Speak", "Speak", "/");
   },
 
   netscanResults: function(results) {
