@@ -19,10 +19,10 @@ if (channelId) {
   Api.getChannel(channelId, {
     error: function(xhr){
       if(xhr.status == 404) {
-        AppDispatcher.dispatch("channel.not_found")
-      }
-      if(xhr.status == 401) {
-        AppDispatcher.dispatch("channel.not_authorized")
+        AppDispatcher.dispatch("channel.not_found");
+      } else {
+        AppDispatcher.dispatch("session.destroy");
+        window.location.assign("/");
       }
     }
   });
