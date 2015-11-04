@@ -10,12 +10,18 @@ var UsersStore = new Store({
     'channel.created':    'channelUpdated',
     'channel.joined':     'channelJoined',
     'channel.left':       'channelLeft',
-    'channel.kicked':     'channelLeft'
+    'channel.kicked':     'channelLeft',
+    'session.destroy':    'sessionDestroyed'
   },
   
   userConfiguration: function(data) {
     data.user.me = true;
     this.update(data.user);
+  },
+
+  sessionDestroyed: function(data) {
+    this.state = {};
+    this.emit("change")
   },
 
   channelUpdated: function(data) {

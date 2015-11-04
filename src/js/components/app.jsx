@@ -3,6 +3,8 @@ var Flux = require('delorean').Flux;
 
 var UsersStore = require('../stores/users-store');
 var UserActions = require('../actions/user-actions');
+var AppActions = require('../actions/app-actions');
+var CallCompleted = require('./call-completed');
 var PermissionError = require('./permission-error');
 var PermissionDialog = require('./permission-dialog');
 var Loading = require('./loading');
@@ -41,13 +43,28 @@ var App = React.createClass({
     return null;
   },
 
+  signOut: function(){
+    AppActions.signOut();
+  },
+
   render: function() {
     var app = this.getStore('appStore');
     var users = this.getStore('usersStore');
     var channel = this.getStore('channelStore');
+    var auth = this.getStore('authStore');
     var other_users = UsersStore.otherUsers();
     var user = UsersStore.getCurrentUser();
     var modal = this.getModal();
+    var sessionLink;
+    var channelInfo;
+
+    if(auth.token) {
+      sessionLink = <a onClick={this.signOut}>Logout</a>;
+    }
+
+    if(channel.id) {
+      channelInfo = <ChannelInfo path={channel.path} />;
+    }
     
     if (modal) {
       modal = <div id="modal-wrapper">
@@ -57,7 +74,6 @@ var App = React.createClass({
     
     if (!modal && !other_users.length && !channel.highlighted_user_id) {
       modal = <div id="modal-wrapper">
-        <ChannelInfo path={channel.path} />
       </div>;
     }
 
@@ -66,6 +82,7 @@ var App = React.createClass({
       <Video users={users} user={user} channel={channel} />
       {modal}
       <a href="https://speak.io" target="_blank" className="logo"></a>
+      {sessionLink}
     </div>
   }
 });

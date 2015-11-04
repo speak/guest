@@ -42,7 +42,7 @@ var Signin = React.createClass({
   getHeading: function() {
     var channel = this.props.channel;
     
-    if (channel.guest) {
+    if (!channel.id) {
       return "Start a Meeting";
     }
     

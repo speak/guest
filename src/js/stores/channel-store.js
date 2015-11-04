@@ -6,7 +6,13 @@ var ChannelStore = new Store({
   actions: {
     'channel.found':              'reset',
     'channel.created':            'reset',
+    'session.destroy':            'destroy',
     'channel.highlighted':        'channelToggleHighlight'
+  },
+
+  destroy: function(data){
+    this.state = {};
+    this.emit('change');
   },
 
   reset: function(data){

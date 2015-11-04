@@ -11,7 +11,8 @@ var ChannelInfo = React.createClass({
   componentWillUnmount: function() {
     this.state.clipboard.destroy();
   },
-  
+
+
   render: function() {
     var url = Config.hosts.app + "/" + this.props.path;
     var display = url.replace(/^https?:\/\//gi, "");
