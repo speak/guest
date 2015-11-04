@@ -30,6 +30,7 @@ var Calls = {
     'channel.leave':             'disconnect',
     // 'channel.left':              'deleteChannelIfEmpty',
     'channel.join':              'channelJoin',
+    'channel.created':           'channelCreated',
     'channel.deleted':           'channelDeleted',
     'channel.defunct':           'channelDeleted',
     'channel.cancelled':         'channelCancelled',
@@ -44,6 +45,10 @@ var Calls = {
     if(ChannelStore.state.id) {
       CallActions.connect(ChannelStore.state);
     }
+  },
+
+  channelCreated: function(data){
+    CallActions.connect(data);
   },
 
   reconnect_to: null,

@@ -24,10 +24,6 @@ var App = React.createClass({
     var auth = this.getStore('authStore');
     var channel = this.getStore('channelStore');
     
-    if (!channel.id) {
-      return <Loading />;
-    }
-
     if (!auth.token) {
       return <Signin channel={channel} />;
     }

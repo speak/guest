@@ -23,10 +23,12 @@ var Api = {
     .fail(this.dispacthError);
   },
 
-  createChannel: function(id){
+  createChannel: function(opts){
+    opts = opts || {};
     Api.post({
       endpoint: '/channels',
       data:{
+        name: opts.name,
         public:true,
         temporary:false
       }
