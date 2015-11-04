@@ -33,11 +33,9 @@ var ChannelStore = new Store({
   },
 
   channelNotFound: function(){
-    console.log("CHANNEL STORE: not found")
     this.set({
       not_found: true
     })
-    console.log(this.state)
   },
 
   destroy: function(data){
@@ -68,15 +66,12 @@ var ChannelStore = new Store({
         temporary: true,
         public: true
       }
-      console.log("channel store socks connected ")
-      console.log(this.state)
       if(this.state.name){
         opts.name = this.state.name;
       }
       if(this.state.requested_path){
         opts.path = this.state.requested_path;
       }
-      console.log(this.opts)
       AppActions.createChannel(opts);
     }
     if(this.state.id){
