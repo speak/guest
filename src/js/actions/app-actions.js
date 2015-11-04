@@ -153,8 +153,12 @@ var AppActions = {
     AppDispatcher.dispatch('user.configure');
   },
 
-  installUpdate: function(){
-    AppDispatcher.dispatch('app.install_update');
+  createChannel: function(opts){
+    AppDispatcher.dispatch('channel.create', {
+      name: opts.name,
+      public:true,
+      temporary:false
+    })
   }
 };
 

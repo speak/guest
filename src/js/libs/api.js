@@ -6,34 +6,11 @@ var Config = require('config');
 
 var Api = {
 
-  organizationUpdate: function(id, data) {
-    Api.put({
-      endpoint: '/organizations/' + id,
-      data: data
-    })
-    .done(ApiActions.organizationUpdated)
-    .fail(this.dispacthError);
-  },
-
   getChannel: function(id){
     Api.get({
       endpoint: '/channels/' + id,
     })
     .done(ApiActions.channelFound)
-    .fail(this.dispacthError);
-  },
-
-  createChannel: function(opts){
-    opts = opts || {};
-    Api.post({
-      endpoint: '/channels',
-      data:{
-        name: opts.name,
-        public:true,
-        temporary:false
-      }
-    })
-    .done(ApiActions.channelCreated)
     .fail(this.dispacthError);
   },
 
