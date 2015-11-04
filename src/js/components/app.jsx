@@ -11,7 +11,7 @@ var Loading = require('./loading');
 var ChannelInfo = require('./channel-info');
 var AudioOutput = require('./audio-output');
 var Signin = require('./signin');
-var Users = require('./users');
+var Video = require('./video');
 var _ = require('underscore');
 
 var App = React.createClass({
@@ -40,10 +40,6 @@ var App = React.createClass({
       return <Loading />;
     }
 
-    if (app.call_completed && !UsersStore.otherUsers().length) {
-      return <CallCompleted />;
-    }
-
     return null;
   },
 
@@ -57,6 +53,7 @@ var App = React.createClass({
     var channel = this.getStore('channelStore');
     var auth = this.getStore('authStore');
     var other_users = UsersStore.otherUsers();
+    var user = UsersStore.getCurrentUser();
     var modal = this.getModal();
     var sessionLink;
     var channelInfo;
@@ -71,21 +68,21 @@ var App = React.createClass({
     
     if (modal) {
       modal = <div id="modal-wrapper">
-        {channelInfo}
         <div id="modal" className="animated fadeIn">{modal}</div>
       </div>;
     }
     
-    if (!modal && !other_users.length) {
+    if (!modal && !other_users.length && !channel.highlighted_user_id) {
       modal = <div id="modal-wrapper">
       </div>;
     }
 
     return <div id="app">
       <AudioOutput streamId={app.stream} />
-      <Users users={users} />
-      {sessionLink}
+      <Video users={users} user={user} channel={channel} />
       {modal}
+      <a href="https://speak.io" target="_blank" className="logo"></a>
+      {sessionLink}
     </div>
   }
 });

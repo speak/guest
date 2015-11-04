@@ -21,12 +21,6 @@ var CallActions = {
             channel_id: data.id,
             token: response.token
           });
-        }, error: function(response){
-          var title = "Whoops something went wrong"
-          if(response.code == 403) {
-            title = "Whoops!"
-          }
-          AppActions.desktopNotification(title, (response.message || "We couldn't connect you right now"))
         }
       });
     }

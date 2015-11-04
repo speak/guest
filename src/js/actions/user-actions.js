@@ -1,8 +1,11 @@
 var AppDispatcher = require('../dispatcher/app-dispatcher');
 
 var UserActions = {
-  requestMediaPermissions: function(data) {
-    AppDispatcher.dispatch('app.request_audio_stream');
+  channelToggleHighlight: function(user_id, type) {
+    AppDispatcher.dispatch('channel.highlighted', {
+      user_id: user_id,
+      type: type
+    });
   }
 };
 

@@ -1,0 +1,419 @@
+@import "elements.css.less";
+
+#video {
+  width: 100%;
+  height: 100%;
+
+  ul.users {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li.user {
+      float: right;
+      position: relative;
+      box-sizing: border-box;
+      width: 85px;
+      height: 85px;
+      transition: opacity 300ms linear;
+
+      @media (max-width: 600px) {
+        width: 70px;
+        height: 70px;
+      }
+      @media (max-width: 450px) {
+        width: 60px;
+        height: 60px;
+      }
+      @media (max-width: 350px) {
+        width: 40px;
+        height: 40px;
+      }
+
+      // get to OT div
+      .video,
+      .screen,
+      .overlay {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        // all of these need to be set
+        > div,
+        .OT_publisher,
+        .OT_subscriber {
+          width: 100% !important;
+          height: 100% !important;
+        }
+      }
+
+      .video,
+      .screen {
+        display: none;
+      }
+
+      .name,
+      .initial {
+        top: 50%;
+        position: absolute;
+        width: 100%;
+        display: block;
+        color: #fff;
+        text-align: center;
+        line-height: 1.2;
+        font-size: 13px;
+        cursor: default;
+        transition: opacity 300ms linear;
+        transform: translate3d(0, -50%, 0);
+        .opacity(0);
+
+        @media (max-width: 600px) {
+          font-size: 11px;
+        }
+        @media (max-width: 450px) {
+          display: none;
+        }
+        @media (max-width: 350px) {
+          display: none;
+        }
+      }
+
+      .initial {
+        display: none;
+
+        @media (max-width: 600px) {
+          display: none;
+        }
+        @media (max-width: 450px) {
+          display: block;
+          font-size: 10px;
+        }
+        @media (max-width: 350px) {
+          display: block;
+          font-size: 10px;
+        }
+      }
+
+      .mute {
+        cursor: default;
+        position: absolute;
+        background-image: url('../images/audio-on@2x.png');
+        background-color: #aaa;
+        background-repeat: no-repeat;
+        background-size: 10px;
+        background-position: center;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        bottom: 6px;
+        right: 6px;
+        .rounded(12px);
+        .transition();
+        .scale(1.2);
+
+        &.warning {
+          .scale(1.4);
+        }
+
+        &.muted {
+          background-image: url('../images/audio-off@2x.png');
+          background-color: #E32170;
+        }
+      }
+
+      .overlay {
+        transition: background 300ms linear, opacity 300ms linear;
+      }
+
+      .avatar {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        transition: none;
+        .rounded(0);
+
+        img {
+          .rounded(0);
+        }
+
+        .availability {
+          display: none;
+        }
+        .badge.muted {
+          display: none;
+        }
+      }
+
+      .background-wrapper {
+        display: none;
+      }
+    }
+
+    li.user.screen,
+    li.user.video {
+      .video,
+      .screen {
+        display: block;
+      }
+    }
+
+    li.user.screen,
+    li.user.video,
+    li.user.mini {
+      .audio-activity-wrapper {
+        position: absolute;
+        display: block;
+        width: 4px;
+        height: 12px;
+
+        // move above avatar
+        z-index: 1;
+        bottom: 8px;
+        right: 8px;
+        overflow: hidden;
+
+        // rounding the bottom of the parent...
+        .border-radius(0, 2px, 2px, 0);
+
+        .audio-activity {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+
+          width: 100%;
+          height: 0;
+          background: #fff;
+
+          // ... and the top of the child to achieve a rounded bar
+          .border-radius(2px, 0, 0, 2px);
+
+          -webkit-transition: height 100ms ease-in-out;
+          -moz-transition: height 100ms ease-in-out;
+          transition: height 100ms ease-in-out;
+        }
+      }
+    }
+
+    li.user.speaking {
+      .avatar:not(.muted) {
+        .audio-activity-wrapper {
+          .audio-activity {
+            height: 100%;
+          }
+        }
+      }
+    }
+
+    li.user:hover {
+      background: rgba(0,0,0,0.8);
+
+      .name,
+      .initial {
+        .opacity(1);
+      }
+
+      .overlay {
+        background: rgba(0,0,0,0.8);
+      }
+    }
+
+    li.user.mini {
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    // pushes screenshare up against associated user
+    li.user.screen,
+    li.user.screen.selected,
+    li.user.screen.centered {
+      margin-left: 0;
+    }
+
+    li.user.centered,
+    li.user.selected {
+      z-index: 0;
+
+      // ensures video takes up entire pane
+      .screen,
+      .video {
+        position: fixed;
+      }
+
+      .name,
+      .initial {
+        .opacity(1);
+      }
+
+      .overlay {
+        background: rgba(0,0,0,0.8);
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+    }
+
+    li.user.centered.audio-only,
+    li.user.selected.audio-only {
+
+      .background-wrapper {
+        // uncomment these lines to bring back the background blur. This is
+        // disabled at the moment for performance reasons.
+        //width: 100%;
+        //height: 100%;
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
+
+      .background {
+        width: 100%;
+        height: 100%;
+
+        // hardware accelerate this element otherwise the css blur
+        // causes fans to go cray cray. For some reason combining this
+        // transform with the scale breaks the blur too...
+        -webkit-transform: translate3d(0,0,0);
+
+        .cover {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background-size: cover;
+
+          // this scale is needed as the blur filter adds a vignette
+          // around the edges that we want to hide.
+          -webkit-filter: blur(20px);
+          -webkit-transform: scale(1.2);
+        }
+
+        &:after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.7);
+        }
+      }
+
+      // puts avatar in center of video window
+      .avatar {
+        overflow: initial;
+        border: 3px solid #fff;
+        width: 130px;
+        height: 130px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        transition: none;
+        .rounded(80px);
+
+        img {
+          .rounded(80px);
+        }
+
+        @media (max-width: 600px) {
+          width: 120px;
+          height: 120px;
+        }
+        @media (max-width: 450px) {
+          width: 100px;
+          height: 100px;
+        }
+        @media (max-width: 350px) {
+          width: 80px;
+          height: 80px;
+        }
+
+        .audio-activity {
+          display: block;
+          width: 100%;
+          height: 100%;
+          background: #fff;
+          position: absolute;
+          z-index: 0;
+          top: 50%;
+          left: 50%;
+          transform: translate3d(-50%,-50%,0);
+          .rounded(100px);
+        }
+
+        // show speaking animations
+        &.speaking {
+          .audio-activity {
+            .transition(75ms);
+
+            width: 120%;
+            height: 120%;
+          }
+        }
+      }
+    }
+
+    li.user.selected {
+      .overlay {
+        border: 3px solid #fff;
+      }
+    }
+
+    li:first-child {
+      .border-radius(4px, 4px, 0, 0);
+
+      .overlay {
+        .border-radius(4px, 4px, 0, 0);
+      }
+    }
+
+    li:last-child {
+      .border-radius(0, 0, 4px, 4px);
+
+      .overlay {
+        .border-radius(0, 0, 4px, 4px);
+      }
+    }
+    
+    li:last-child:first-child {
+      .rounded(4px);
+      
+      .overlay {
+        .rounded(4px);
+      }
+    }
+  }
+}
+
+#video.screen-centered {
+  ul.users {
+    li.user.centered .overlay,
+    li.user.centered .name,
+    li.user.centered .initial,
+    li.user.mini {
+      .opacity(0);
+    }
+  }
+
+  &.hovering {
+    ul.users {
+      li.user.centered .overlay,
+      li.user.centered .name,
+      li.user.centered .initial,
+      li.user.mini {
+        .opacity(1);
+      }
+    }
+  }
+}
+
+#video #call-controls:hover,
+#video.hovering #call-controls {
+  transform: translate3d(-50%, 0, 0);
+  .opacity(1);
+}
