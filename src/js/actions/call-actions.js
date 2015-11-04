@@ -60,35 +60,27 @@ var CallActions = {
   },
 
   startSpeaking: function() {
-    // var currentUser = _.findWhere(AppDispatcher.getStore('usersStore'), {me: true});
-    // var inActiveChannel = currentUser.id && currentUser.channel_id && currentUser.channel_state != 'calling';
-    // var notAlone = UsersStore.where({channel_id: currentUser.channel_id, channel_state: null}).length > 1
+    var user = _.findWhere(AppDispatcher.getStore('usersStore'), {me: true});
     
-    // if (inActiveChannel && notAlone) {
-    //   if (!currentUser.muted) {
-    //     AppDispatcher.dispatch('user.start_speaking');
-    //   }
-      
-    //   // we don't get our own started/stopped events so need to trigger them manually
-    //   AppDispatcher.dispatch('user.started_speaking', {id: currentUser.id});
-    //   AppDispatcher.dispatch('me.user.started_speaking');
-    // }
+    if (!user.muted) {
+      AppDispatcher.dispatch('user.start_speaking');
+    }
+    
+    // we don't get our own started/stopped events so need to trigger manually
+    AppDispatcher.dispatch('user.started_speaking', {id: user.id});
+    AppDispatcher.dispatch('me.user.started_speaking');
   },
   
   stopSpeaking: function() {
-    // var currentUser = _.findWhere(AppDispatcher.getStore('usersStore'), {me: true});
-    // var inActiveChannel = currentUser.id && currentUser.channel_id && currentUser.channel_state != 'calling';
-    // var notAlone = UsersStore.where({channel_id: currentUser.channel_id, channel_state: null}).length > 1
+    var user = _.findWhere(AppDispatcher.getStore('usersStore'), {me: true});
     
-    // if (inActiveChannel && notAlone) {
-    //   if (!currentUser.muted) {
-    //     AppDispatcher.dispatch('user.stop_speaking');
-    //   }
-      
-    //   // we don't get our own started/stopped events so need to trigger them manually
-    //   AppDispatcher.dispatch('user.stopped_speaking', {id: currentUser.id});
-    //   AppDispatcher.dispatch('me.user.stopped_speaking');
-    // }
+    if (!user.muted) {
+      AppDispatcher.dispatch('user.stop_speaking');
+    }
+    
+    // we don't get our own started/stopped events so need to trigger manually
+    AppDispatcher.dispatch('user.stopped_speaking', {id: user.id});
+    AppDispatcher.dispatch('me.user.stopped_speaking');
   },
   
   localStream: function(data) {

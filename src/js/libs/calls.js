@@ -15,27 +15,19 @@ var ringTimeout = 30000;
 var Calls = {
   actions: {
     'user.configuration':        'userConfiguration',
-    // 'user.mute':                 'muteLocalStream',
-    // 'user.unmute':               'unmuteLocalStream',
-    // 'user.start_speaking':       'startSpeaking',
-    // 'user.stop_speaking':        'stopSpeaking',
-    // 'session.destroy':           'disconnect',
-    // 'session.error':             'disconnect',
-    // 'socks.disconnected':        'disconnect',
-    // 'user.disconnected':         'cleanupEmptyChannels',
+    'user.mute':                 'muteLocalStream',
+    'user.unmute':               'unmuteLocalStream',
+    'session.destroy':           'disconnect',
+    'session.error':             'disconnect',
+    'socks.disconnected':        'disconnect',
     'app.request_audio_stream':  'requestStream',
-    // 'me.channel.left':           'meChannelLeft',
-    // 'me.channel.kicked':         'meChannelKicked',
     'me.channel.joined':         'meChannelJoined',
     'channel.leave':             'disconnect',
-    // 'channel.left':              'deleteChannelIfEmpty',
     'channel.join':              'channelJoin',
     'channel.created':           'channelCreated',
     'channel.deleted':           'channelDeleted',
     'channel.defunct':           'channelDeleted',
     'channel.cancelled':         'channelCancelled',
-    // 'channel.ignored':           'deleteChannelIfEmpty',
-    // 'channel.timedout':          'channelTimedOut',
     'webrtc.disconnected':       'webrtcDisconnected'
   },
 
@@ -63,7 +55,6 @@ var Calls = {
 
     var context = MediaManager.getAudioContext();
     this.microphone = context.createMediaStreamSource(stream);
-    this.microphoneGain = context.createGain();
 
     // ensure new stream keeps our mute preference
     if (!AppStore.get('muted')) this.connectMicrophone();
@@ -78,8 +69,7 @@ var Calls = {
 
   connectMicrophone: function() {
     if (this.microphone) {
-      this.microphone.connect(this.microphoneGain);
-      this.microphoneGain.connect(WebRTC.proxy_destination);
+      this.microphone.connect(WebRTC.proxy_destination);
     }
   },
 
@@ -186,47 +176,7 @@ var Calls = {
   meChannelJoined: function(data) {
     // Stopwatch.mark('me channel joined');
 
-    // if (PreferencesStore.get('pause_music_during_calls')) {
-    //   Music.pause();
-    // }
     this.activateMedia();
-  },
-
-  meChannelLeft: function(data) {
-    //TODO
-    // var current_user = UsersStore.getCurrentUser();
-
-    // if (PreferencesStore.get('pause_music_during_calls')) {
-    //   Music.resume();
-    // }
-    // if (!current_user || !current_user.channel_id || data.id == current_user.channel_id) {
-    //   this.disconnect();
-    // }
-  },
-
-  meChannelKicked: function(data) {
-    //TODO
-    // this.meChannelLeft(data);
-    // var kicker = UsersStore.get(data.kicker_id);
-    // if(kicker) {
-    //   AppActions.desktopNotification(
-    //     "You were kicked!",
-    //     "It looks like "+ kicker.first_name.capitalize() +" kicked you from the call, no hard feelings"
-    //   );
-    // }
-  },
-
-  startSpeaking: function() {
-    // immediately increase mix volume to 100%
-    this.microphoneGain.gain.value = 1;
-  },
-
-  stopSpeaking: function() {
-    // slowly lower the mix volume over half a second
-    if (PreferencesStore.get('ambient_noise_reduction')) {
-      var context = MediaManager.getAudioContext();
-      this.microphoneGain.gain.linearRampToValueAtTime(0.65, context.currentTime+0.5);
-    }
   },
 
   dispatchAction: function(action, payload) {

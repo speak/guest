@@ -5,18 +5,28 @@ var _ = require('underscore');
 
 var UsersStore = new Store({
   actions: {
-    'user.configuration': 'userConfiguration',
-    'channel.found':      'channelUpdated',
-    'channel.created':    'channelUpdated',
-    'channel.joined':     'channelJoined',
-    'channel.left':       'channelLeft',
-    'channel.kicked':     'channelLeft',
-    'session.destroy':    'sessionDestroyed'
+    'user.configuration':     'userConfiguration',
+    'user.started_speaking':  'userStartedSpeaking',
+    'user.stopped_speaking':  'userStoppedSpeaking',
+    'channel.found':          'channelUpdated',
+    'channel.created':        'channelUpdated',
+    'channel.joined':         'channelJoined',
+    'channel.left':           'channelLeft',
+    'channel.kicked':         'channelLeft',
+    'session.destroy':        'sessionDestroyed'
   },
   
   userConfiguration: function(data) {
     data.user.me = true;
     this.update(data.user);
+  },
+
+  userStartedSpeaking: function(data) {
+    this.update(data.id, {speaking: true});
+  },
+  
+  userStoppedSpeaking: function(data) {
+    this.update(data.id, {speaking: false});
   },
 
   sessionDestroyed: function(data) {
