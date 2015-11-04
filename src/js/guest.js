@@ -17,8 +17,6 @@ if (AuthStore.get('token')) {
 
 if (channelId) {
   Api.getChannel(channelId);
-} else {
-  Api.createChannel();
 }
 
 // forward events into webrtc and socks libs
