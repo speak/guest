@@ -12,6 +12,24 @@ var ChannelStore = new Store({
     'socks.connected':            'socksConnected',
   },
 
+  scheme: {
+    id: null,
+    name: null,
+    public: null,
+    public_url: null,
+    server: null,
+    temporary: null,
+    token: null,
+    users: [],
+    video_session_id: null,
+    path: null,
+    requested_path: {
+      calculate: function () {
+        return window.location.pathname.split('/')[1];
+      }
+    }
+  },
+
   destroy: function(data){
     window.history.pushState({}, "Speak", "/");
     this.state = {};
@@ -32,13 +50,16 @@ var ChannelStore = new Store({
       this.emit('change');
     }
   }, 
-  
+
   socksConnected: function(){
     var AppActions =  require('../actions/app-actions');
-    if(!this.state.id) {
+    if(!this.state.id && !this.state.requested_path) {
       AppActions.createChannel({
         name:this.state.name
       });
+    }
+    if(this.state.id){
+      CallActions.connect(this.state)
     }
   },
 
