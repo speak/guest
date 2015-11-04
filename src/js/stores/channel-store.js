@@ -13,11 +13,15 @@ var ChannelStore = new Store({
   },
 
   destroy: function(data){
+    window.history.pushState({}, "Speak", "/");
     this.state = {};
     this.emit('change');
   },
 
   reset: function(data){
+    if(data.path) {
+      window.history.pushState(data.id, "Speak", "/" + data.path);
+    }
     this.state = data;
     this.emit('change');
   },
@@ -31,7 +35,7 @@ var ChannelStore = new Store({
   
   socksConnected: function(){
     var AppActions =  require('../actions/app-actions');
-    if(this.state.name && !this.state.id) {
+    if(!this.state.id) {
       AppActions.createChannel({
         name:this.state.name
       });
