@@ -11,6 +11,8 @@ var ChannelStore = new Store({
     'channel.highlighted':        'channelToggleHighlight',
     'user.signedin':              'userSignedin',
     'socks.connected':            'socksConnected',
+    'signaling.video_session_started':  'videoSessionStarted',
+    'signaling.video_token_generated':  'videoTokenGenerated'
   },
 
   scheme: {
@@ -111,6 +113,16 @@ var ChannelStore = new Store({
     // Wow - I'm alone.
     return null;
   },
+
+  videoSessionStarted: function(data) {
+    this.state.video_session_id = data.video_session_id;
+    this.emit('change');
+  },
+  
+  videoTokenGenerated: function(data) {
+    this.state.video_token = data.video_token;
+    this.emit('change');
+  }
 });
 
 module.exports = ChannelStore;

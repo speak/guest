@@ -60,7 +60,7 @@ module.exports = function(grunt) {
         expand: true,
         flatten: false,
         cwd: 'src/images',
-        src: ['*'],
+        src: ['**/*'],
         dest: 'build/images/'
       }
     }

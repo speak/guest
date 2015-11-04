@@ -3,7 +3,7 @@ var classNames = require('classnames');
 //var MuteButton = require('./mute-button');
 var Avatar = require('speak-widgets').Avatar;
 var UserActions = require('../actions/user-actions');
-//var OpenTok = require('../libs/opentok');
+var OpenTok = require('../libs/opentok');
 var $ = require('jquery-browserify');
 
 var UserVideo = React.createClass({
@@ -65,11 +65,9 @@ var UserVideo = React.createClass({
       {mute}
     </li>;
   },
-  
-  
-  /*
+
   updateVideoElement: function() {
-    var video = this.refs.video.getDOMNode();
+    var video = this.refs.video;
     var user = this.props.item;
     var element = OpenTok.getDOMElement(user.id, 'camera');
     
@@ -88,7 +86,7 @@ var UserVideo = React.createClass({
 
   bindPlayingEvent: function() {
     if (this.refs.video) {
-      var container = this.refs.video.getDOMNode();
+      var container = this.refs.video;
       var $video = $(container).find('video');
 
       if($video.length) {
@@ -115,7 +113,6 @@ var UserVideo = React.createClass({
     var element = OpenTok.getDOMElement(user.id, 'camera');
     if (element) $(element).trigger('resize');
   }
-  */
 });
 
 module.exports = UserVideo;

@@ -8,8 +8,31 @@ var _ = require('underscore');
 
 var Video = React.createClass({
   
+  getDefaultProps: function() {
+    return {
+      stopHoveringAfter: 1000
+    }
+  },
+
+  getInitialState: function() {
+    return {
+      hovering: false,
+      timeout_hide: null,
+    }
+  },
+
   handleMouseMove: function() {
+    clearTimeout(this.state.timeout_hide);
     
+    if (!this.state.hovering) {
+      this.setState({hovering: true});    
+    }
+    
+    this.state.timeout_hide = setTimeout(function(){
+      if (this.isMounted() && this.state.hovering) {
+        this.setState({hovering: false});
+      }
+    }.bind(this), this.props.stopHoveringAfter);
   },
 
   render: function(){
@@ -37,7 +60,7 @@ var Video = React.createClass({
     }
 
     var classes = classNames({
-      'hovering': this.props.hovering,
+      'hovering': this.state.hovering,
       'screen-centered': active_speaker && active_speaker.type == 'screen'
     });
 

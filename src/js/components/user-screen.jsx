@@ -52,7 +52,7 @@ var UserScreen = React.createClass({
   },
 /*
   updateScreenElement: function() {
-    var screen = this.refs.screen.getDOMNode();
+    var screen = this.refs.screen;
     var user = this.props.item;
     var element = OpenTok.getDOMElement(user.id, 'screen');
 
