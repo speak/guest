@@ -59,21 +59,25 @@ var App = React.createClass({
     var other_users = UsersStore.otherUsers();
     var modal = this.getModal();
     var sessionLink;
+    var channelInfo;
 
     if(auth.token) {
-      sessionLink = <a onClick={this.signOut}>Logout</a>
+      sessionLink = <a onClick={this.signOut}>Logout</a>;
+    }
+
+    if(channel.id) {
+      channelInfo = <ChannelInfo path={channel.path} />;
     }
     
     if (modal) {
       modal = <div id="modal-wrapper">
-        <ChannelInfo path={channel.path} />
+        {channelInfo}
         <div id="modal" className="animated fadeIn">{modal}</div>
       </div>;
     }
     
     if (!modal && !other_users.length) {
       modal = <div id="modal-wrapper">
-        <ChannelInfo path={channel.path} />
       </div>;
     }
 

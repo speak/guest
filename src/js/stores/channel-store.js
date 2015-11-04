@@ -8,7 +8,7 @@ var ChannelStore = new Store({
   },
 
   destroy: function(data){
-    this.state = null;
+    this.state = {};
     this.emit('change');
   },
 
