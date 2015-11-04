@@ -43,6 +43,14 @@ var Calls = {
     CallActions.connect(data);
   },
 
+  channelFound: function(data){
+    //This handles the rare situation that the http response comes back after
+    //the socks connection and configuration
+    if(AppStore.socks){
+      CallActions.connect(data);
+    }
+  },
+
   reconnect_to: null,
 
   getLocalStream: function() {

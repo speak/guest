@@ -17,6 +17,8 @@ var AppStore = new Store({
     online:                 true,
     stream:                 null,
     level:                  null,
+    has_configuration:      false,
+    socks:                  false
   },
 
   actions: {
@@ -25,7 +27,8 @@ var AppStore = new Store({
     'webrtc.stream.remote':     'webrtcConnected',
     'webrtc.permissions':       'webrtcPermissions',
     'webrtc.disconnected':      'webrtcDisconnected',
-    'channel.left':             'checkCallCompleted'
+    'channel.left':             'checkCallCompleted',
+    'socks.connected':          'socksConnected'
   },
 
   reset: function(data) {
@@ -33,7 +36,14 @@ var AppStore = new Store({
       ice_servers: data.ice_servers,
       ice_servers_expire_at: data.ice_servers_expire_at,
       user_id: data.user.id,
+      has_configuration: true,
       level: data.user.level
+    })
+  },
+
+  socksConnected: function(){
+    this.set({
+      socks: true
     })
   },
 
@@ -66,5 +76,3 @@ var AppStore = new Store({
 });
 
 module.exports = AppStore;
-
-

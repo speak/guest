@@ -58,9 +58,6 @@ var ChannelStore = new Store({
         name:this.state.name
       });
     }
-    if(this.state.id){
-      CallActions.connect(this.state)
-    }
   },
 
   channelToggleHighlight: function(data){
