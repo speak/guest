@@ -6,6 +6,7 @@ var ChannelStore = new Store({
   actions: {
     'channel.found':              'reset',
     'channel.created':            'reset',
+    'channel.not_found':          'channelNotFound',
     'session.destroy':            'destroy',
     'channel.highlighted':        'channelToggleHighlight',
     'user.signedin':              'userSignedin',
@@ -23,11 +24,20 @@ var ChannelStore = new Store({
     users: [],
     video_session_id: null,
     path: null,
+    not_found: false,
     requested_path: {
       calculate: function () {
         return window.location.pathname.split('/')[1];
       }
     }
+  },
+
+  channelNotFound: function(){
+    console.log("CHANNEL STORE: not found")
+    this.set({
+      not_found: true
+    })
+    console.log(this.state)
   },
 
   destroy: function(data){
@@ -53,10 +63,21 @@ var ChannelStore = new Store({
 
   socksConnected: function(){
     var AppActions =  require('../actions/app-actions');
-    if(!this.state.id && !this.state.requested_path) {
-      AppActions.createChannel({
-        name:this.state.name
-      });
+    if(this.state.not_found || (!this.state.id && !this.state.requested_path)) {
+      var opts = {
+        temporary: true,
+        public: true
+      }
+      console.log("channel store socks connected ")
+      console.log(this.state)
+      if(this.state.name){
+        opts.name = this.state.name;
+      }
+      if(this.state.requested_path){
+        opts.path = this.state.requested_path;
+      }
+      console.log(this.opts)
+      AppActions.createChannel(opts);
     }
     if(this.state.id){
       CallActions.connect(this.state)

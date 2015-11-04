@@ -16,7 +16,16 @@ if (AuthStore.get('token')) {
 }
 
 if (channelId) {
-  Api.getChannel(channelId);
+  Api.getChannel(channelId, {
+    error: function(xhr){
+      if(xhr.status == 404) {
+        AppDispatcher.dispatch("channel.not_found")
+      }
+      if(xhr.status == 401) {
+        AppDispatcher.dispatch("channel.not_authorized")
+      }
+    }
+  });
 }
 
 // forward events into webrtc and socks libs
