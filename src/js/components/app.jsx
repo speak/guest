@@ -55,7 +55,7 @@ var App = React.createClass({
     var other_users = UsersStore.otherUsers();
     var user = UsersStore.getCurrentUser();
     var modal = this.getModal();
-    var sessionLink;
+    var sessionLink, video;
 
     if(auth.token) {
       sessionLink = <a onClick={this.signOut}>Logout</a>;
@@ -72,10 +72,14 @@ var App = React.createClass({
         <ChannelInfo path={channel.path} />
       </div>;
     }
+    
+    if (user && channel) {
+      video = <Video users={users} user={user} channel={channel} />;
+    }
 
     return <div id="app">
       <AudioOutput streamId={app.stream} />
-      <Video users={users} user={user} channel={channel} />
+      {video}
       {modal}
       <a href="https://speak.io" target="_blank" className="logo"></a>
       {sessionLink}

@@ -8,6 +8,8 @@ var UsersStore = new Store({
     'user.configuration':     'userConfiguration',
     'user.started_speaking':  'userStartedSpeaking',
     'user.stopped_speaking':  'userStoppedSpeaking',
+    'user.muted':             'muted',
+    'user.unmuted':           'unmuted',
     'channel.found':          'channelUpdated',
     'channel.created':        'channelUpdated',
     'channel.joined':         'channelJoined',
@@ -31,6 +33,14 @@ var UsersStore = new Store({
   
   userStoppedSpeaking: function(data) {
     this.update(data.id, {speaking: false});
+  },
+  
+  muted: function(data) {
+    this.update(data.id, {muted: true});
+  },
+  
+  unmuted: function(data) {
+    this.update(data.id, {muted: false});
   },
 
   sessionDestroyed: function(data) {
