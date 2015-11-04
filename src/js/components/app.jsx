@@ -3,14 +3,13 @@ var Flux = require('delorean').Flux;
 
 var UsersStore = require('../stores/users-store');
 var UserActions = require('../actions/user-actions');
-var CallCompleted = require('./call-completed');
 var PermissionError = require('./permission-error');
 var PermissionDialog = require('./permission-dialog');
 var Loading = require('./loading');
 var ChannelInfo = require('./channel-info');
 var AudioOutput = require('./audio-output');
 var Signin = require('./signin');
-var Users = require('./users');
+var Video = require('./video');
 var _ = require('underscore');
 
 var App = React.createClass({
@@ -39,10 +38,6 @@ var App = React.createClass({
       return <Loading />;
     }
 
-    if (app.call_completed && !UsersStore.otherUsers().length) {
-      return <CallCompleted />;
-    }
-
     return null;
   },
 
@@ -51,16 +46,16 @@ var App = React.createClass({
     var users = this.getStore('usersStore');
     var channel = this.getStore('channelStore');
     var other_users = UsersStore.otherUsers();
+    var user = UsersStore.getCurrentUser();
     var modal = this.getModal();
     
     if (modal) {
       modal = <div id="modal-wrapper">
-        <ChannelInfo path={channel.path} />
         <div id="modal" className="animated fadeIn">{modal}</div>
       </div>;
     }
     
-    if (!modal && !other_users.length) {
+    if (!modal && !other_users.length && !channel.highlighted_user_id) {
       modal = <div id="modal-wrapper">
         <ChannelInfo path={channel.path} />
       </div>;
@@ -68,8 +63,9 @@ var App = React.createClass({
 
     return <div id="app">
       <AudioOutput streamId={app.stream} />
-      <Users users={users} />
+      <Video users={users} user={user} channel={channel} />
       {modal}
+      <a href="https://speak.io" target="_blank" className="logo"></a>
     </div>
   }
 });

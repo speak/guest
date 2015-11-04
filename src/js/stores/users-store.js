@@ -32,6 +32,10 @@ var UsersStore = new Store({
     delete this.state[data.user_id];
     this.emit('change');
   },
+  
+  getCurrentUser: function() {
+    return _.find(this.state, function(user){ return user.me; });
+  },
 
   otherUsers: function(){
     return _.filter(this.state, function(user){ return user.me != true });
