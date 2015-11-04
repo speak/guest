@@ -154,11 +154,7 @@ var AppActions = {
   },
 
   createChannel: function(opts){
-    AppDispatcher.dispatch('channel.create', {
-      name: opts.name,
-      public:true,
-      temporary:false
-    })
+    AppDispatcher.dispatch('channel.create', opts);
   }
 };
 
