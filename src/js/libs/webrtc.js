@@ -35,7 +35,8 @@ var WebRTC = {
   actions: {
     'signaling.audio_answer':           'handleAnswer',
     'webrtc.connect':                   'connect',
-    'webrtc.disconnect':                'cancel'
+    'webrtc.disconnect':                'cancel',
+    'session.destroyed':                'cancel'
   },
   
   initialize: function() {
