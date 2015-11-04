@@ -39,7 +39,7 @@
     "attachmediastream": "^1.3.5",
     "classnames": "^2.2.0",
     "clipboard": "^1.5.3",
-    "delorean": "^0.9.7",
+    "delorean": "tommoor/capacitor",
     "formsy-react": "^0.17.0",
     "getusermedia": "^1.3.5",
     "hark": "^1.1.1",

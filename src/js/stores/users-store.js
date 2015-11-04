@@ -13,6 +13,10 @@ var UsersStore = new Store({
     'channel.joined':         'channelJoined',
     'channel.left':           'channelLeft',
     'channel.kicked':         'channelLeft',
+    'video.published':        'videoPublished',
+    'video.unpublished':      'videoUnpublished',
+    'screen.published':       'screenPublished',
+    'screen.unpublished':     'screenUnpublished',
     'session.destroy':        'sessionDestroyed'
   },
   
@@ -47,6 +51,22 @@ var UsersStore = new Store({
   channelLeft: function(data){
     delete this.state[data.user_id];
     this.emit('change');
+  },
+
+  videoPublished: function(data) {
+    this.update(data.user_id, {publishing_video: true});
+  },
+
+  videoUnpublished: function(data) {
+    this.update(data.user_id, {publishing_video: false});
+  },
+  
+  screenPublished: function(data) {
+    this.update(data.user_id, {publishing_screen: true});
+  },
+
+  screenUnpublished: function(data) {
+    this.update(data.user_id, {publishing_screen: false});
   },
   
   getCurrentUser: function() {
