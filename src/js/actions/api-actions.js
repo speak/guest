@@ -14,13 +14,6 @@ var ApiActions = {
     AppDispatcher.dispatch('channel.found', data);
   },
 
-  channelCreated: function(data) {
-    window.history.pushState(data.id, "Speak", "/" + data.path);
-    
-    data.guest = true;
-    AppDispatcher.dispatch('channel.created', data);
-  },
-
   error: function(){
     //TODO
   }

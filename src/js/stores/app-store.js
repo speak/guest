@@ -16,7 +16,7 @@ var AppStore = new Store({
     muted:                  false,
     online:                 true,
     stream:                 null,
-    level:                  null
+    level:                  null,
   },
 
   actions: {

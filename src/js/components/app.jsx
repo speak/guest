@@ -56,14 +56,9 @@ var App = React.createClass({
     var user = UsersStore.getCurrentUser();
     var modal = this.getModal();
     var sessionLink;
-    var channelInfo;
 
     if(auth.token) {
       sessionLink = <a onClick={this.signOut}>Logout</a>;
-    }
-
-    if(channel.id) {
-      channelInfo = <ChannelInfo path={channel.path} />;
     }
     
     if (modal) {
@@ -72,8 +67,9 @@ var App = React.createClass({
       </div>;
     }
     
-    if (!modal && !other_users.length && !channel.highlighted_user_id) {
+    if (channel.id && !modal && !other_users.length && !channel.highlighted_user_id) {
       modal = <div id="modal-wrapper">
+        <ChannelInfo path={channel.path} />
       </div>;
     }
 

@@ -68,12 +68,8 @@ var Signin = React.createClass({
       data.guest = true;
       AuthActions.create(data, {
         success: function(response){
+          response.channel_name = data.channel_name,
           BulldogActions.signedIn(response);
-          if(!this.props.channel.id){
-            Api.createChannel({
-              name:data.channel_name
-            });
-          }
         }.bind(this),
         error: function(xhr, data){
           this.handleError(xhr, data, invalidate);

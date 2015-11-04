@@ -7,19 +7,41 @@ var ChannelStore = new Store({
     'channel.found':              'reset',
     'channel.created':            'reset',
     'session.destroy':            'destroy',
-    'channel.highlighted':        'channelToggleHighlight'
+    'channel.highlighted':        'channelToggleHighlight',
+    'user.signedin':              'userSignedin',
+    'socks.connected':            'socksConnected',
   },
 
   destroy: function(data){
+    window.history.pushState({}, "Speak", "/");
     this.state = {};
     this.emit('change');
   },
 
   reset: function(data){
+    if(data.path) {
+      window.history.pushState(data.id, "Speak", "/" + data.path);
+    }
     this.state = data;
     this.emit('change');
   },
+
+  userSignedin: function(data){
+    if(data.channel_name) {
+      this.state.name = data.channel_name;
+      this.emit('change');
+    }
+  }, 
   
+  socksConnected: function(){
+    var AppActions =  require('../actions/app-actions');
+    if(!this.state.id) {
+      AppActions.createChannel({
+        name:this.state.name
+      });
+    }
+  },
+
   channelToggleHighlight: function(data){
     this.state.highlighted_user_id = data.user_id ? data.user_id : null;
     this.state.highlighted_type = data.type;

@@ -31,6 +31,7 @@ var Socks = {
     'user.update':                        'send',
     'user.delete':                        'send',
     'channel.auth':                       'send',
+    'channel.create':                     'send',
     'channel.update':                     'send',
     'channel.join':                       'send',
     'channel.kick':                       'send',
