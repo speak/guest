@@ -1,6 +1,8 @@
 var React = require('react');
 var DocumentTitle = require('react-document-title');
+var Api = require('../libs/api');
 var AuthActions = require('../actions/auth-actions');
+var BulldogActions = require('../actions/bulldog-actions');
 var Config = require('config');
 var Formsy = require('formsy-react');
 var Input = require('./input');
@@ -65,6 +67,14 @@ var Signin = React.createClass({
       data.server = this.state.preferred_server;
       data.guest = true;
       AuthActions.create(data, {
+        success: function(response){
+          BulldogActions.signedIn(response);
+          if(!this.props.channel.id){
+            Api.createChannel({
+              name:data.channel_name
+            });
+          }
+        }.bind(this),
         error: function(xhr, data){
           this.handleError(xhr, data, invalidate);
         }.bind(this)
@@ -90,7 +100,7 @@ var Signin = React.createClass({
     var heading = this.getHeading();
     var name, password;
     
-    if (this.props.channel.guest) {
+    if (!this.props.channel.id) {
       name = <Input type="text" name="channel_name" placeholder="Meeting Name" className="u-full-width" />;
     }
     
