@@ -68,7 +68,7 @@ var CallActions = {
     
     // we don't get our own started/stopped events so need to trigger manually
     AppDispatcher.dispatch('user.started_speaking', {id: user.id});
-    AppDispatcher.dispatch('me.user.started_speaking');
+    AppDispatcher.dispatch('me.user.started_speaking', {id: user.id});
   },
   
   stopSpeaking: function() {
@@ -80,7 +80,7 @@ var CallActions = {
     
     // we don't get our own started/stopped events so need to trigger manually
     AppDispatcher.dispatch('user.stopped_speaking', {id: user.id});
-    AppDispatcher.dispatch('me.user.stopped_speaking');
+    AppDispatcher.dispatch('me.user.stopped_speaking', {id: user.id});
   },
   
   localStream: function(data) {

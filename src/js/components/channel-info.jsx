@@ -18,8 +18,8 @@ var ChannelInfo = React.createClass({
     var display = url.replace(/^https?:\/\//gi, "");
     
     return <div id="channel-info">
-      <h2>Your Meeting URL</h2>
-      <h3 data-clipboard-text={url} ref="copyable">{display}</h3>
+      <h2 data-clipboard-text={url} ref="copyable">{display}</h2>
+      <p>This is your unique link, share it to invite other people into this call!</p>
     </div>;
   }
 });

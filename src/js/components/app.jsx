@@ -7,7 +7,7 @@ var AppActions = require('../actions/app-actions');
 var CallCompleted = require('./call-completed');
 var PermissionError = require('./permission-error');
 var PermissionDialog = require('./permission-dialog');
-var Loading = require('./loading');
+var Connecting = require('./connecting');
 var ChannelInfo = require('./channel-info');
 var AudioOutput = require('./audio-output');
 var Signin = require('./signin');
@@ -19,13 +19,16 @@ var App = React.createClass({
 
   watchStores: ['authStore', 'appStore', 'channelStore', 'usersStore'],
 
-  getModal: function() {
+  getMessage: function() {
     var app = this.getStore('appStore');
     var auth = this.getStore('authStore');
     var channel = this.getStore('channelStore');
+    var other_users = UsersStore.otherUsers();
     
     if (!auth.token) {
-      return <Signin channel={channel} />;
+      return <div id="modal" className="animated fadeIn">
+        <Signin channel={channel} />
+      </div>;
     }
     
     if (app.permission_denied) {
@@ -37,12 +40,17 @@ var App = React.createClass({
     }
     
     if (!app.permission_granted) {
-      return <Loading />;
+      return <Connecting />;
+    }
+
+    if (channel.id && !other_users.length && !channel.highlighted_user_id) {
+      return <ChannelInfo path={channel.path} />;
     }
 
     return null;
   },
 
+  
   signOut: function(){
     AppActions.signOut();
   },
@@ -52,25 +60,12 @@ var App = React.createClass({
     var users = this.getStore('usersStore');
     var channel = this.getStore('channelStore');
     var auth = this.getStore('authStore');
-    var other_users = UsersStore.otherUsers();
     var user = UsersStore.getCurrentUser();
-    var modal = this.getModal();
+    var message = this.getMessage();
     var sessionLink, video;
 
-    if(auth.token) {
+    if (auth.token) {
       sessionLink = <a onClick={this.signOut}>Logout</a>;
-    }
-    
-    if (modal) {
-      modal = <div id="modal-wrapper">
-        <div id="modal" className="animated fadeIn">{modal}</div>
-      </div>;
-    }
-    
-    if (channel.id && !modal && !other_users.length && !channel.highlighted_user_id) {
-      modal = <div id="modal-wrapper">
-        <ChannelInfo path={channel.path} />
-      </div>;
     }
     
     if (user && channel) {
@@ -80,7 +75,7 @@ var App = React.createClass({
     return <div id="app">
       <AudioOutput streamId={app.stream} />
       {video}
-      {modal}
+      <div id="modal-wrapper">{message}</div>
       <a href="https://speak.io" target="_blank" className="logo"></a>
       {sessionLink}
     </div>
