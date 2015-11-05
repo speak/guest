@@ -25,9 +25,13 @@ var CallActions = {
       });
     }
   },
-  
+
   permissionsDialog: function(value) {
     AppDispatcher.dispatch('webrtc.permissions', value);
+  },
+  
+  permissionsGranted: function() {
+    AppDispatcher.dispatch('webrtc.permissions_granted', true);
   },
   
   disconnect: function(reconnect_okay) {

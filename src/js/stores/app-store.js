@@ -22,13 +22,14 @@ var AppStore = new Store({
   },
 
   actions: {
-    'user.configuration':       'reset',
-    'webrtc.stream.local':      'webrtcGotStream',
-    'webrtc.stream.remote':     'webrtcConnected',
-    'webrtc.permissions':       'webrtcPermissions',
-    'webrtc.disconnected':      'webrtcDisconnected',
-    'channel.left':             'checkCallCompleted',
-    'socks.connected':          'socksConnected'
+    'user.configuration':         'reset',
+    'webrtc.stream.local':        'webrtcPermissionsGranted',
+    'webrtc.stream.remote':       'webrtcConnected',
+    'webrtc.permissions':         'webrtcPermissions',
+    'webrtc.permissions_granted': 'webrtcPermissionsGranted',
+    'webrtc.disconnected':        'webrtcDisconnected',
+    'channel.left':               'checkCallCompleted',
+    'socks.connected':            'socksConnected'
   },
 
   reset: function(data) {
@@ -52,7 +53,7 @@ var AppStore = new Store({
     if (!value) this.set({permission_denied: true});
   },
   
-  webrtcGotStream: function() {
+  webrtcPermissionsGranted: function() {
     this.set({
       permission_granted: true,
       permission_dialog: false, 

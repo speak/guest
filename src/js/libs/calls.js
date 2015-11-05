@@ -14,7 +14,7 @@ var ringTimeout = 30000;
 
 var Calls = {
   actions: {
-    'user.configuration':        'userConfiguration',
+    'user.configuration':        'connectOrRequestPermissions',
     'user.mute':                 'muteLocalStream',
     'user.unmute':               'unmuteLocalStream',
     'session.destroy':           'disconnect',
@@ -24,34 +24,41 @@ var Calls = {
     'me.channel.joined':         'meChannelJoined',
     'channel.leave':             'disconnect',
     'channel.join':              'channelJoin',
-    'channel.created':           'channelCreated',
+    'channel.found':             'connectOrRequestPermissions', 
+    'channel.created':           'connectOrRequestPermissions',
     'channel.deleted':           'channelDeleted',
     'channel.defunct':           'channelDeleted',
     'channel.cancelled':         'channelCancelled',
-    'webrtc.disconnected':       'webrtcDisconnected'
+    'webrtc.disconnected':       'webrtcDisconnected',
+    'webrtc.permissions_granted':'webrtcPermissionsGranted',
   },
-
-  userConfiguration: function(){
-    console.log('user configured calls lib');
-    //TODO only temporarily firing from here
-    if(ChannelStore.state.id) {
-      CallActions.connect(ChannelStore.state);
-    }
-  },
-
-  channelCreated: function(data){
-    CallActions.connect(data);
-  },
-
-  channelFound: function(data){
-    //This handles the rare situation that the http response comes back after
-    //the socks connection and configuration
-    if(AppStore.socks){
-      CallActions.connect(data);
-    }
-  },
-
+  
   reconnect_to: null,
+  requesting_media: false,
+  
+  webrtcPermissionsGranted: function() {
+    CallActions.connect(ChannelStore.state);
+  },
+
+  connectOrRequestPermissions: function(data) {
+    if (AppStore.get('socks') && AppStore.get('permission_granted')) {
+      CallActions.connect(data);
+    } else if (!this.requesting_media) {
+      this.permissions_timeout = setTimeout(this.showPermissionsDialog, 500);
+      this.requesting_media = true;
+      
+      // we request userMedia here just to get the permission dialog
+      // and then throw away the resulting stream
+      getUserMedia({audio: true, video: true}, function(err, stream) {
+        clearTimeout(this.permissions_timeout);
+        this.requesting_media = false;
+        
+        if (err) CallActions.permissionsDialog(false);
+        if (stream) stream.stop();
+        CallActions.permissionsGranted(false);
+      }.bind(this));
+    }
+  },
 
   getLocalStream: function() {
     return this.local_stream;
@@ -117,11 +124,7 @@ var Calls = {
     console.log("Calls:activateMedia");
 
     if (!this.local_stream || force) {
-      this.permissions_timeout = setTimeout(this.showPermissionsDialog, 500);
-      
       getUserMedia(MediaManager.getAudioConstraints(), function(err, stream) {
-        clearTimeout(this.permissions_timeout);
-        
         if (err) {
           CallActions.permissionsDialog(false);
         } else {
