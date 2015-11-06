@@ -4,13 +4,13 @@ var _ = require('underscore');
 
 var ChannelStore = new Store({
   actions: {
-    'channel.found':              'reset',
-    'channel.created':            'reset',
-    'channel.not_found':          'channelNotFound',
-    'session.destroy':            'destroy',
-    'channel.highlighted':        'channelToggleHighlight',
-    'user.signedin':              'userSignedin',
-    'socks.connected':            'socksConnected',
+    'channel.found':                    'reset',
+    'channel.created':                  'reset',
+    'channel.not_found':                'channelNotFound',
+    'session.destroy':                  'destroy',
+    'channel.highlighted':              'channelToggleHighlight',
+    'user.signedin':                    'userSignedin',
+    'user.configuration':               'userConfiguration',
     'signaling.video_session_started':  'videoSessionStarted',
     'signaling.video_token_generated':  'videoTokenGenerated'
   },
@@ -61,7 +61,7 @@ var ChannelStore = new Store({
     }
   }, 
 
-  socksConnected: function(){
+  userConfiguration: function(){
     var AppActions =  require('../actions/app-actions');
     if(this.state.not_found || (!this.state.id && !this.state.requested_path)) {
       var opts = {

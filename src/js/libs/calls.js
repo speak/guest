@@ -23,7 +23,7 @@ var Calls = {
     'app.request_audio_stream':  'requestStream',
     'me.channel.joined':         'meChannelJoined',
     'channel.leave':             'disconnect',
-    'channel.join':              'channelJoin',
+    //'channel.join':              'channelJoin',
     'channel.found':             'connectOrRequestPermissions', 
     'channel.created':           'connectOrRequestPermissions',
     'channel.deleted':           'channelDeleted',
@@ -37,12 +37,16 @@ var Calls = {
   requesting_media: false,
   
   webrtcPermissionsGranted: function() {
-    CallActions.connect(ChannelStore.state);
+    if (AppStore.get('socks')) {
+      CallActions.connect(ChannelStore.state);
+    }
   },
 
-  connectOrRequestPermissions: function(data) {
+  connectOrRequestPermissions: function() {
     if (AppStore.get('socks') && AppStore.get('permission_granted')) {
-      CallActions.connect(data);
+      
+      CallActions.connect(ChannelStore.state);
+      
     } else if (!this.requesting_media) {
       this.permissions_timeout = setTimeout(this.showPermissionsDialog, 500);
       this.requesting_media = true;
