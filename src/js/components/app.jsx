@@ -25,6 +25,8 @@ var App = React.createClass({
     var channel = this.getStore('channelStore');
     var other_users = UsersStore.otherUsers();
     
+    if (channel.highlighted_user_id) return null;
+    
     if (!auth.token) {
       return <div id="modal" className="animated fadeIn">
         <Signin channel={channel} />
@@ -43,7 +45,10 @@ var App = React.createClass({
       return <Connecting />;
     }
 
-    if (channel.id && !other_users.length && !channel.highlighted_user_id) {
+    if (channel.id && !other_users.length) {
+      if (app.call_completed) {
+        return <CallCompleted />;
+      }
       return <ChannelInfo path={channel.path} />;
     }
 
@@ -68,7 +73,7 @@ var App = React.createClass({
       sessionLink = <a onClick={this.signOut}>Logout</a>;
     }
     
-    if (user && channel) {
+    if (user && channel && app.permission_granted) {
       video = <Video users={users} user={user} channel={channel} />;
     }
 
