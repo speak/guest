@@ -43,7 +43,7 @@ var Calls = {
   },
 
   connectOrRequestPermissions: function() {
-    if (AppStore.get('socks') && AppStore.get('permission_granted')) {
+    if (AppStore.get('has_configuration') && ChannelStore.get('id') && AppStore.get('permission_granted')) {
       
       CallActions.connect(ChannelStore.state);
       
