@@ -4,6 +4,7 @@ var CallControls = require('./call-controls');
 var ChannelStore = require('../stores/channel-store');
 var UserVideo = require('./user-video');
 var UserScreen = require('./user-screen');
+var ChannelName = require('./channel-name');
 var _ = require('underscore');
 
 var Video = React.createClass({
@@ -67,6 +68,7 @@ var Video = React.createClass({
     return <div id="video" className={classes} onMouseMove={this.handleMouseMove}>
       <ul className="users">{list}</ul>
       <CallControls user={me} channel={channel} />
+      <ChannelName {...channel} />
     </div>;
   }
 });

@@ -9,7 +9,6 @@ var PermissionError = require('./permission-error');
 var PermissionDialog = require('./permission-dialog');
 var Connecting = require('./connecting');
 var ChannelShare = require('./channel-share');
-var ChannelName = require('./channel-name');
 var AudioOutput = require('./audio-output');
 var Signin = require('./signin');
 var Video = require('./video');
@@ -74,7 +73,6 @@ var App = React.createClass({
       {video}
       <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true} transitionAppearTimeout={250} transitionEnterTimeout={250} transitionLeaveTimeout={250} id="modal-wrapper">{message}</ReactCSSTransitionGroup>
       <a href="https://speak.io" target="_blank" className="logo"></a>
-      <ChannelName {...channel} />
     </div>
   }
 });
