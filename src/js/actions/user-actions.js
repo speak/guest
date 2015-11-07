@@ -46,7 +46,6 @@ var UserActions = {
     
     // convert to node-style callback
     chrome.webstore.install(extension, function(){
-      this.publishScreen();
       callback(null);
     }.bind(this), function(err){
       console.error(err);
