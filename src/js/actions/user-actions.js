@@ -1,7 +1,7 @@
 var AppDispatcher = require('../dispatcher/app-dispatcher');
 var ChannelStore = require('../stores/channel-store');
 var AppStore = require('../stores/app-store');
-var $ = require('jquery-browserify');
+var utils = require('../libs/utilities');
 
 var UserActions = {
   mute: function(shortcut) {
@@ -42,10 +42,10 @@ var UserActions = {
   },
   
   installScreenshareExtension: function(callback) {
-    var link = $('link[rel=chrome-webstore-item]');
+    var extension = utils.getScreenshareExtensionUrl();
     
     // convert to node-style callback
-    chrome.webstore.install(link.attr('href'), function(){
+    chrome.webstore.install(extension, function(){
       this.publishScreen();
       callback(null);
     }.bind(this), function(err){
