@@ -1,7 +1,7 @@
 var React = require('react');
 var classNames = require('classnames');
 var UserActions = require('../actions/user-actions');
-//var OpenTok = require('../libs/opentok');
+var OpenTok = require('../libs/opentok');
 var $ = require('jquery-browserify');
 
 var UserScreen = React.createClass({
@@ -50,7 +50,7 @@ var UserScreen = React.createClass({
       <span className="initial">{user.me ? "Me" : this.getInitials()}</span>
     </li>;
   },
-/*
+
   updateScreenElement: function() {
     var screen = this.refs.screen;
     var user = this.props.item;
@@ -75,7 +75,6 @@ var UserScreen = React.createClass({
     var element = OpenTok.getDOMElement(user.id, 'screen');
     if (element) $(element).trigger('resize');
   }
-  */
 });
 
 module.exports = UserScreen;
