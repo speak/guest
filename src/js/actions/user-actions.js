@@ -1,6 +1,7 @@
 var AppDispatcher = require('../dispatcher/app-dispatcher');
 var ChannelStore = require('../stores/channel-store');
 var AppStore = require('../stores/app-store');
+var $ = require('jquery-browserify');
 
 var UserActions = {
   mute: function(shortcut) {
@@ -37,6 +38,19 @@ var UserActions = {
     AppDispatcher.dispatch('video.publish', {
       user_id: AppStore.get('user_id'),
       channel_id: ChannelStore.get('id')
+    });
+  },
+  
+  installScreenshareExtension: function(callback) {
+    var link = $('link[rel=chrome-webstore-item]');
+    
+    // convert to node-style callback
+    chrome.webstore.install(link.attr('href'), function(){
+      this.publishScreen();
+      callback(null);
+    }.bind(this), function(err){
+      console.error(err);
+      callback(err);
     });
   },
 

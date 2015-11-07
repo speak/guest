@@ -192,7 +192,12 @@ var Opentok = {
         },
         frameRate: 7,
         showControls: false,
-        videoSource: "screen"
+        name: 'Screen',
+        mirror: false,
+        audioSource: null,
+        videoSource: 'screen',
+      }, function(err){
+        if (err) console.error(err);
       });
       this.session.publish(this.screenPublisher);
       this.setDOMElement(userId, 'screen', domElement);
@@ -264,5 +269,7 @@ var Opentok = {
     }
   }
 };
+
+OT.registerScreenSharingExtension('chrome', 'kejgjfgcblcdakmblmecpljgiocdgkha');
 
 module.exports = Opentok;
