@@ -45,6 +45,7 @@
     "hark": "^1.1.1",
     "jquery-browserify": "^1.8.1",
     "react": "^0.14.2",
+    "react-addons-css-transition-group": "^0.14.2",
     "react-document-title": "^2.0.1",
     "react-dom": "^0.14.2",
     "rtcpeerconnection": "speak/RTCPeerConnection",

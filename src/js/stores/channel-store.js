@@ -7,6 +7,8 @@ var ChannelStore = new Store({
     'channel.found':                    'reset',
     'channel.created':                  'reset',
     'channel.not_found':                'channelNotFound',
+    'channel.joined':                   'channelJoined',
+    'channel.updated':                  'set',
     'session.destroy':                  'destroy',
     'channel.highlighted':              'channelToggleHighlight',
     'user.signedin':                    'userSignedin',
@@ -23,10 +25,12 @@ var ChannelStore = new Store({
     server: null,
     temporary: null,
     token: null,
-    users: [],
+    video_token: null,
     video_session_id: null,
+    highlighted_user_id: null,
+    highlighted_type: 'video',
+    started_at: null,
     path: null,
-    not_found: false,
     requested_path: {
       calculate: function () {
         return window.location.pathname.split('/')[1];
@@ -50,14 +54,12 @@ var ChannelStore = new Store({
     if(data.path) {
       window.history.pushState(data.id, "Speak", "/" + data.path);
     }
-    this.state = data;
-    this.emit('change');
+    this.set(data);
   },
 
   userSignedin: function(data){
     if(data.channel_name) {
-      this.state.name = data.channel_name;
-      this.emit('change');
+      this.set({name: data.channel_name});
     }
   }, 
 
@@ -79,9 +81,16 @@ var ChannelStore = new Store({
   },
 
   channelToggleHighlight: function(data){
-    this.state.highlighted_user_id = data.user_id ? data.user_id : null;
-    this.state.highlighted_type = data.type;
-    this.emit('change');
+    this.set({
+      highlighted_user_id: data.user_id ? data.user_id : null,
+      highlighted_type: data.type
+    });
+  },
+  
+  channelJoined: function() {
+    if (!this.get('started_at')) {
+      this.set({started_at: (new Date()).getTime()});
+    }
   },
   
   getActiveSpeaker: function() {
@@ -115,13 +124,11 @@ var ChannelStore = new Store({
   },
 
   videoSessionStarted: function(data) {
-    this.state.video_session_id = data.video_session_id;
-    this.emit('change');
+    this.set({video_session_id: data.video_session_id});
   },
   
   videoTokenGenerated: function(data) {
-    this.state.video_token = data.video_token;
-    this.emit('change');
+    this.set({video_token: data.video_token});
   }
 });
 

@@ -10,7 +10,7 @@ var Video = React.createClass({
   
   getDefaultProps: function() {
     return {
-      stopHoveringAfter: 1000
+      stopHoveringAfter: 3000
     }
   },
 

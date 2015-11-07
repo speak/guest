@@ -66,6 +66,10 @@ var UserActions = {
       user_id: user_id,
       type: type
     });
+  },
+  
+  channelUpdate: function(data) {
+    AppDispatcher.dispatch('channel.update', data);
   }
 };
 

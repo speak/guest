@@ -2,7 +2,7 @@ var React = require('react');
 var Config = require('config');
 var Clipboard = require('clipboard');
 
-var ChannelInfo = React.createClass({
+var ChannelShare = React.createClass({
   
   componentDidMount: function() {
     this.setState({clipboard: new Clipboard(this.refs.copyable) });
@@ -19,9 +19,9 @@ var ChannelInfo = React.createClass({
     
     return <div id="channel-info">
       <h2 data-clipboard-text={url} ref="copyable">{display}</h2>
-      <p>This is your unique link, share it to invite other people into this call!</p>
+      <p>This is your unique link, share it to invite <br/> other people into this call!</p>
     </div>;
   }
 });
 
-module.exports = ChannelInfo;
+module.exports = ChannelShare;

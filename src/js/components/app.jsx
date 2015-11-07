@@ -1,14 +1,15 @@
 var React = require('react');
 var Flux = require('delorean').Flux;
+var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
 var UsersStore = require('../stores/users-store');
 var UserActions = require('../actions/user-actions');
-var AppActions = require('../actions/app-actions');
 var CallCompleted = require('./call-completed');
 var PermissionError = require('./permission-error');
 var PermissionDialog = require('./permission-dialog');
 var Connecting = require('./connecting');
-var ChannelInfo = require('./channel-info');
+var ChannelShare = require('./channel-share');
+var ChannelName = require('./channel-name');
 var AudioOutput = require('./audio-output');
 var Signin = require('./signin');
 var Video = require('./video');
@@ -28,7 +29,7 @@ var App = React.createClass({
     if (channel.highlighted_user_id) return null;
     
     if (!auth.token) {
-      return <div id="modal" className="animated fadeIn">
+      return <div id="modal">
         <Signin channel={channel} />
       </div>;
     }
@@ -38,7 +39,7 @@ var App = React.createClass({
     }
 
     if (app.permission_dialog) {
-      return <PermissionDialog />;
+      return <PermissionDialog key="dialog" />;
     }
     
     if (!app.permission_granted) {
@@ -47,32 +48,23 @@ var App = React.createClass({
 
     if (channel.id && !other_users.length) {
       if (app.call_completed) {
-        return <CallCompleted />;
+        return <CallCompleted key="completed" />;
       }
-      return <ChannelInfo path={channel.path} />;
+      return <ChannelShare path={channel.path} key="share" />;
     }
 
     return null;
   },
 
-  
-  signOut: function(){
-    AppActions.signOut();
-  },
-
   render: function() {
     var app = this.getStore('appStore');
     var users = this.getStore('usersStore');
-    var channel = this.getStore('channelStore');
     var auth = this.getStore('authStore');
+    var channel = this.getStore('channelStore');
     var user = UsersStore.getCurrentUser();
     var message = this.getMessage();
-    var sessionLink, video;
+    var video;
 
-    if (auth.token) {
-      sessionLink = <a onClick={this.signOut}>Logout</a>;
-    }
-    
     if (user && channel && app.permission_granted) {
       video = <Video users={users} user={user} channel={channel} />;
     }
@@ -80,9 +72,9 @@ var App = React.createClass({
     return <div id="app">
       <AudioOutput streamId={app.stream} />
       {video}
-      <div id="modal-wrapper">{message}</div>
+      <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true} transitionAppearTimeout={250} transitionEnterTimeout={250} transitionLeaveTimeout={250} id="modal-wrapper">{message}</ReactCSSTransitionGroup>
       <a href="https://speak.io" target="_blank" className="logo"></a>
-      {sessionLink}
+      <ChannelName {...channel} />
     </div>
   }
 });

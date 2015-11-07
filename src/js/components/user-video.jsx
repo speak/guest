@@ -1,6 +1,6 @@
 var React = require('react');
 var classNames = require('classnames');
-//var MuteButton = require('./mute-button');
+var MuteButton = require('speak-widgets').MuteButton;
 var Avatar = require('speak-widgets').Avatar;
 var UserActions = require('../actions/user-actions');
 var OpenTok = require('../libs/opentok');
@@ -41,9 +41,9 @@ var UserVideo = React.createClass({
     var audioOnly = !this.props.video || !this.state.playing;
     var mute;
 
-   // if(user.muted) {
-   //   mute = <MuteButton muted={user.muted} speaking={user.speaking} />
-   // }
+    if(user.muted) {
+      mute = <MuteButton enabled={user.muted} speaking={user.speaking} hasTooltip={false} />;
+    }
     
     var classes = classNames({
       'user': true,
