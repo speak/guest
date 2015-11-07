@@ -30,18 +30,12 @@ var Calls = {
     'channel.defunct':           'channelDeleted',
     'channel.cancelled':         'channelCancelled',
     'webrtc.disconnected':       'webrtcDisconnected',
-    'webrtc.permissions_granted':'webrtcPermissionsGranted',
+    'webrtc.permissions_granted':'connectOrRequestPermissions'
   },
   
   reconnect_to: null,
   requesting_media: false,
   
-  webrtcPermissionsGranted: function() {
-    if (AppStore.get('socks')) {
-      CallActions.connect(ChannelStore.state);
-    }
-  },
-
   connectOrRequestPermissions: function() {
     if (AppStore.get('has_configuration') && ChannelStore.get('id') && AppStore.get('permission_granted')) {
       
