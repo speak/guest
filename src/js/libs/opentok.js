@@ -265,4 +265,6 @@ var Opentok = {
   }
 };
 
+OT.registerScreenSharingExtension('chrome', 'kejgjfgcblcdakmblmecpljgiocdgkha');
+
 module.exports = Opentok;
