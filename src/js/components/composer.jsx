@@ -10,18 +10,18 @@ var Composer = React.createClass({
     UserActions.sendMessage(val, ChannelStore.get('id'));
   },
 
+  handleKeyDown: function(ev) {
+    console.log(ev.metaKey);
+    if (ev.keyCode === 13) { // ENTER
+      this.sendMessage(ev);
+    }
+  },
+
   render: function(){
-    return(
-      <div id="composer">
-      <textarea ref="input">
-      </textarea>
-      <a onClick={this.sendMessage}>Submit</a>
-      </div>
-    )
+    return <div id="composer">
+      <textarea className="composer" ref="input" onKeyDown={this.handleKeyDown}></textarea>
+    </div>;
   }
 });
 
 module.exports = Composer;
-
-
-

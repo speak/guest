@@ -1,9 +1,46 @@
+@import "elements.css.less";
+
 #chat{
-  color: black;
-  li {
-    color: #888;
-    &.persisted{
-      color: black;
+  position: absolute;
+  bottom: 0;
+  padding: 10px;
+  
+  textarea {
+    border-color: transparent;
+    color: #333;
+    margin: 10px;
+    height: 40px;
+    width: 200px;
+    font-size: 14px;
+    padding: 10px;
+    min-height: 0;
+    box-sizing: border-box;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    
+    li {
+      .user-select(none);
+
+      .text {
+        display: inline-block;
+        font-size: 14px;
+        color: #888;
+        background: rgba(255,255,255,0.9);
+        padding: 10px;
+        margin: 10px 10px 0 10px;
+        .user-select(initial);
+        .rounded(4px);
+      }
+
+      &.persisted {
+        .text {
+          color: #333;
+        }
+      }
     }
   }
 }

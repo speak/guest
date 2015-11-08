@@ -63,18 +63,19 @@ var App = React.createClass({
     var channel = this.getStore('channelStore');
     var user = UsersStore.getCurrentUser();
     var message = this.getMessage();
-    var video;
+    var video, chat;
 
     if (user && channel && app.permission_granted) {
       video = <Video users={users} user={user} channel={channel} />;
+      chat = <Chat />;
     }
 
     return <div id="app">
       <AudioOutput streamId={app.stream} />
       {video}
+      {chat}
       <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true} transitionAppearTimeout={250} transitionEnterTimeout={250} transitionLeaveTimeout={250} id="modal-wrapper">{message}</ReactCSSTransitionGroup>
       <a href="https://speak.io" target="_blank" className="logo"></a>
-      <Chat />
     </div>
   }
 });
