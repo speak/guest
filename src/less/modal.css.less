@@ -7,22 +7,23 @@
   width: 100%;
   text-align: center;
   
-  > div {
-    position: absolute;
-    top: 0;
-    transform: translateY(-50%);
-    width: 100%;
-  }
-  
-  #modal {
+  form {
     width: 350px;
     margin: auto;
-    padding: 20px;
     min-height: 350px;
     text-align: center;
-    background: #fff;
-    color: #333;
-    .rounded(2px);
+    
+    input {
+      background: rgba(0,0,0,0.5);
+      border: 0;
+      color: #fff;
+    }
+
+    .button.primary {
+      border: 0;
+      background: #fff;
+      color: #333;
+    }
   }
   
   a {
