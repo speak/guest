@@ -4,6 +4,7 @@ var AppStore = require('../stores/app-store');
 var utilities = require('../libs/utilities');
 var UsersStore = require('../stores/users-store');
 var ChannelStore = require('../stores/channel-store');
+var ChatStore = require('../stores/chat-store');
 var Config = require('config');
 var transactions = {};
 
@@ -13,6 +14,7 @@ var AppDispatcher = Flux.createDispatcher({
       authStore: AuthStore,
       appStore: AppStore,
       usersStore: UsersStore,
+      chatStore: ChatStore,
       channelStore: ChannelStore
     }
   }

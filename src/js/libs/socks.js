@@ -45,6 +45,7 @@ var Socks = {
     'invite.delete':                      'send',
     'invite.resend':                      'send',
     'invite.accept':                      'send',
+    'message.create':                     'send',
     'analytics.track':                    'send',
     'video.publish':                      'send',
     'video.unpublish':                    'send',
