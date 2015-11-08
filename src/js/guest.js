@@ -8,6 +8,7 @@ var Socks = require('./libs/socks');
 var WebRTC = require('./libs/webrtc');
 var OpenTok = require('./libs/opentok');
 var AppDispatcher = require('./dispatcher/app-dispatcher');
+var AppActions = require('./actions/app-actions');
 var App = require('./components/app');
 var AuthStore = require('./stores/auth-store');
 var channelId = window.location.pathname.split('/')[1];
@@ -22,8 +23,7 @@ if (channelId) {
       if(xhr.status == 404) {
         AppDispatcher.dispatch("channel.not_found");
       } else {
-        AppDispatcher.dispatch("session.destroy");
-        window.location.assign("/");
+        AppActions.signOut();
       }
     }
   });
@@ -40,3 +40,5 @@ AppDispatcher.register(function(action, payload, options) {
 
 // React Router does all the fancy stuff for us
 ReactDOM.render(<App dispatcher={AppDispatcher} />, document.getElementById('guest'));
+
+window.addEventListener('beforeunload', AppActions.quitting);
