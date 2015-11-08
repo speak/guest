@@ -1,4 +1,5 @@
 var md5 = require('MD5');
+var $ = require('jquery-browserify');
 var requestCount = 0;
 
 module.exports = {
@@ -14,6 +15,10 @@ module.exports = {
   
   generateTransactionId: function() {
     return md5(localStorage.getItem('device_id') + (new Date()).getTime() + (requestCount++));
+  },
+  
+  getScreenshareExtensionUrl: function() {
+    return $('link[rel=chrome-webstore-item]').attr('href');
   }
 }
 

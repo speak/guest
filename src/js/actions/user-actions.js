@@ -43,11 +43,9 @@ var UserActions = {
   },
 
   installScreenshareExtension: function(callback) {
-    var link = $('link[rel=chrome-webstore-item]');
-
+    var extension = Utilities.getScreenshareExtensionUrl();
     // convert to node-style callback
-    chrome.webstore.install(link.attr('href'), function(){
-      this.publishScreen();
+    chrome.webstore.install(extension, function(){
       callback(null);
     }.bind(this), function(err){
       console.error(err);

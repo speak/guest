@@ -20,6 +20,7 @@ var Calls = {
     'session.destroy':           'disconnect',
     'session.error':             'disconnect',
     'socks.disconnected':        'disconnect',
+    'app.quitting':              'disconnect',
     'app.request_audio_stream':  'requestStream',
     'me.channel.joined':         'meChannelJoined',
     'channel.leave':             'disconnect',

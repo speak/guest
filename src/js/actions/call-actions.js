@@ -1,4 +1,5 @@
 var AppDispatcher = require('../dispatcher/app-dispatcher');
+var UsersStore = require('../stores/users-store');
 var AppActions = require('../actions/app-actions');
 var _ = require('underscore');
 
@@ -64,27 +65,33 @@ var CallActions = {
   },
 
   startSpeaking: function() {
-    var user = _.findWhere(AppDispatcher.getStore('usersStore'), {me: true});
+    var user = UsersStore.getCurrentUser();
+    var other = UsersStore.otherUsers();
     
-    if (!user.muted) {
-      AppDispatcher.dispatch('user.start_speaking');
+    if (other.length) {
+      if (!user.muted) {
+        AppDispatcher.dispatch('user.start_speaking');
+      }
+    
+      // we don't get our own started/stopped events so need to trigger manually
+      AppDispatcher.dispatch('user.started_speaking', {id: user.id});
+      AppDispatcher.dispatch('me.user.started_speaking', {id: user.id});
     }
-    
-    // we don't get our own started/stopped events so need to trigger manually
-    AppDispatcher.dispatch('user.started_speaking', {id: user.id});
-    AppDispatcher.dispatch('me.user.started_speaking', {id: user.id});
   },
   
   stopSpeaking: function() {
-    var user = _.findWhere(AppDispatcher.getStore('usersStore'), {me: true});
+    var user = UsersStore.getCurrentUser();
+    var other = UsersStore.otherUsers();
     
-    if (!user.muted) {
-      AppDispatcher.dispatch('user.stop_speaking');
+    if (other.length) {
+      if (!user.muted) {
+        AppDispatcher.dispatch('user.stop_speaking');
+      }
+    
+      // we don't get our own started/stopped events so need to trigger manually
+      AppDispatcher.dispatch('user.stopped_speaking', {id: user.id});
+      AppDispatcher.dispatch('me.user.stopped_speaking', {id: user.id});
     }
-    
-    // we don't get our own started/stopped events so need to trigger manually
-    AppDispatcher.dispatch('user.stopped_speaking', {id: user.id});
-    AppDispatcher.dispatch('me.user.stopped_speaking', {id: user.id});
   },
   
   localStream: function(data) {

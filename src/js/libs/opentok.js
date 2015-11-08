@@ -1,9 +1,10 @@
-var AppStore = require("../stores/app-store");
-var UsersStore = require("../stores/users-store");
-var OpentokActions = require("../actions/opentok-actions");
-var ChannelStore = require("../stores/channel-store");
-var Config = require("config");
-var _ = require("underscore");
+var AppStore = require('../stores/app-store');
+var UsersStore = require('../stores/users-store');
+var OpentokActions = require('../actions/opentok-actions');
+var ChannelStore = require('../stores/channel-store');
+var Config = require('config');
+var utils = require('./utilities');
+var _ = require('underscore');
 
 var Opentok = {
 
@@ -270,6 +271,6 @@ var Opentok = {
   }
 };
 
-OT.registerScreenSharingExtension('chrome', 'kejgjfgcblcdakmblmecpljgiocdgkha');
+OT.registerScreenSharingExtension('chrome', utils.getScreenshareExtensionUrl());
 
 module.exports = Opentok;

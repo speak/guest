@@ -1,7 +1,7 @@
 var Flux = require('delorean').Flux;
 var AuthStore = require('../stores/auth-store');
 var AppStore = require('../stores/app-store');
-var utilities = require('../libs/utilities');
+var utils = require('../libs/utilities');
 var UsersStore = require('../stores/users-store');
 var ChannelStore = require('../stores/channel-store');
 var ChatStore = require('../stores/chat-store');
@@ -53,7 +53,7 @@ AppDispatcher.dispatch = function(action, payload) {
 
     // translate callbacks into transaction_id
     } else if (typeof options == 'object') {
-      var transaction_id = utilities.generateTransactionId();
+      var transaction_id = utils.generateTransactionId();
       transactions[transaction_id] = options;
       args[2] = transaction_id;
     }
