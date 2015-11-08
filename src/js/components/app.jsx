@@ -29,9 +29,7 @@ var App = React.createClass({
     if (channel.highlighted_user_id) return null;
     
     if (!auth.token) {
-      return <div id="modal">
-        <Signin channel={channel} />
-      </div>;
+      return <Signin channel={channel} />;
     }
     
     if (app.permission_denied) {
