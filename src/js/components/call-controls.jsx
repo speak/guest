@@ -14,13 +14,15 @@ var CallControls = React.createClass({
       tooltip_timeout: null,
       tooltip_hide_after: 750,
       screenshare_supported: true,
+      screenshare_extension_installing: false,
       screenshare_extension_installed: false
     }
   },
   
-  componentWillMount: function() {
+  componentDidMount: function() {
     OT.checkScreenSharingCapability(function(response) {
       if (!this.isMounted()) return;
+      
       if (!response.supported || response.extensionRegistered === false) {
         this.setState({screenshare_supported: false});
       } else if (response.extensionInstalled === false) {
@@ -83,7 +85,11 @@ var CallControls = React.createClass({
   
   toggleScreen: function() {
     if (!this.state.screenshare_extension_installed) {
+      this.setState({screenshare_extension_installing: true});
+      
       UserActions.installScreenshareExtension(function(err){
+        this.setState({screenshare_extension_installing: false});
+
         if (!err) {
           this.setState({screenshare_extension_installed: true});
         }
@@ -108,7 +114,7 @@ var CallControls = React.createClass({
       <ul onMouseLeave={this.hideTooltip} className="controls">
         <MuteButton onClick={this.toggleMute} enabled={this.props.user.muted} speaking={this.props.user.speaking} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
         <VideoButton onClick={this.toggleVideo} enabled={this.props.user.publishing_video} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
-        <ScreenButton onClick={this.toggleScreen} disabled={!this.state.screenshare_supported} enabled={this.props.user.publishing_screen} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
+        <ScreenButton onClick={this.toggleScreen} disabled={!this.state.screenshare_supported} enabled={this.props.user.publishing_screen} working={this.state.screenshare_extension_installing} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
         <AddPeopleButton onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
         <LeaveButton onClick={this.leave} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
       </ul>
