@@ -71,17 +71,18 @@ var App = React.createClass({
     }
 
     if (channel && channel.name) {
-      title = <DocumentTitle title={channel.name} />
+      title = channel.name;
     }
 
-    return <div id="app">
-      {title}
-      <AudioOutput streamId={app.stream} />
-      {video}
-      {chat}
-      <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true} transitionAppearTimeout={250} transitionEnterTimeout={250} transitionLeaveTimeout={250} id="modal-wrapper">{message}</ReactCSSTransitionGroup>
-      <a href="https://speak.io" target="_blank" className="logo"></a>
-    </div>
+    return <DocumentTitle title={title}>
+      <div id="app">
+        <AudioOutput streamId={app.stream} />
+        {video}
+        {chat}
+        <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true} transitionAppearTimeout={250} transitionEnterTimeout={250} transitionLeaveTimeout={250} id="modal-wrapper">{message}</ReactCSSTransitionGroup>
+        <a href="https://speak.io" target="_blank" className="logo"></a>
+      </div>
+    </DocumentTitle>
   }
 });
 
