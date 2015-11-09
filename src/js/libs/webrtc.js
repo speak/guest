@@ -262,7 +262,7 @@ var WebRTC = {
       this.connect();
     } else {
       if(this.reconnect_attempts >= 2) {
-        AppActions.bannerError("Whoops, we couldn't get a connection");
+        AppActions.error("Whoops, we couldn't get a connection");
       }
       
       var channel_id = this.channel_id;

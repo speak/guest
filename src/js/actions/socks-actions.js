@@ -43,14 +43,14 @@ var SocksActions = {
     AppDispatcher.dispatch('session.destroy');
 
     if(ev.code == 1006) {
-      AppActions.bannerError("Whoops, an unknown error occured", {fallback: true});
+      AppActions.error("Whoops, an unknown error occured", {fallback: true});
     } else if (ev.code == 4000) {
-      AppActions.bannerError("Something took too long, try again?", {fallback: true});
+      AppActions.error("Something took too long, try again?", {fallback: true});
     } else if (ev.code == 4001) {
       AppDispatcher.dispatch('app.update');
       AppDispatcher.dispatch('app.show', 'update');
     } else if(ev.code == 1001 || ev.code == 4002) {
-      AppActions.bannerError("Logged in elsewhere");
+      AppActions.error("Logged in elsewhere");
     }
   }
 };

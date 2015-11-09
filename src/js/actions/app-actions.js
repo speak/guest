@@ -10,6 +10,10 @@ var AppActions = {
   offline: function() {
     AppDispatcher.dispatch('app.offline');    
   },
+  
+  error: function(message) {
+    AppDispatcher.dispatch('app.error', message);
+  },
 
   signOut: function() {
     AppDispatcher.dispatch('session.destroy');
@@ -28,8 +32,8 @@ var AppActions = {
     AppDispatcher.dispatch('user.configure');
   },
 
-  createChannel: function(opts){
-    AppDispatcher.dispatch('channel.create', opts);
+  createChannel: function(data) {
+    AppDispatcher.dispatch('channel.create', data);
   }
 };
 

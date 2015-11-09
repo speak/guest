@@ -31,7 +31,8 @@ var AppStore = new Store({
     'webrtc.permissions_granted': 'webrtcPermissionsGranted',
     'webrtc.disconnected':        'webrtcDisconnected',
     'channel.left':               'checkCallCompleted',
-    'socks.connected':            'socksConnected'
+    'socks.connected':            'socksConnected',
+    'socks.disconnected':         'socksDisconnected'
   },
 
   reset: function(data) {
@@ -50,6 +51,10 @@ var AppStore = new Store({
 
   socksConnected: function(){
     this.set({socks: true});
+  },
+  
+  socksDisconnected: function() {
+    this.set({socks: false});
   },
 
   webrtcPermissions: function(value) {
