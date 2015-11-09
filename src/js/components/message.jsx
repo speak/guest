@@ -1,16 +1,45 @@
 var React = require('react');
 var classNames = require('classnames');
+var UserActions = require('../actions/user-actions');
+var Composer = require('./composer');
+var emojione = require('emojione');
 
 var Message = React.createClass({
+
+  getTextAsHTML: function() {
+    // convert shorttags to emoji img tags
+    emojione.ascii = true;
+    var html = emojione.shortnameToImage(this.props.message.text);
+    
+    // creating proper newlines in html
+    return html.split("\n").map(function(item, index) {
+      return <span key={index} dangerouslySetInnerHTML={{__html: item + "<br/>"}} />;
+    });
+  },
+  
+  cancelEditing: function() {
+    UserActions.cancelEditing(this.props.message.id);
+  },
+  
+  getContent: function() {
+    if (this.props.message.editing) {
+      return <div className="text">
+        <Composer text={this.props.message.text} id={this.props.message.id} />
+        <span className="note">esc to <a onClick={this.cancelEditing}>cancel</a></span>
+      </div>;
+    } else {
+      return <div className="text">{this.getTextAsHTML()}</div>;
+    }
+  },
+  
   render: function(){
     var classes = classNames({
       'message': true,
+      'editing': this.props.message.editing,
       'persisted': this.props.message.persisted
     });
     
-    return <li className={classes}>
-      <div className="text">{this.props.message.text}</div>
-    </li>;
+    return <li className={classes}>{this.getContent()}</li>;
   }
 });
 

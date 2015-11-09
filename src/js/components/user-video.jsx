@@ -4,7 +4,7 @@ var MuteButton = require('speak-widgets').MuteButton;
 var Avatar = require('speak-widgets').Avatar;
 var UserActions = require('../actions/user-actions');
 var OpenTok = require('../libs/opentok');
-var $ = require('jquery-browserify');
+var $ = require('jquery');
 
 var UserVideo = React.createClass({
   

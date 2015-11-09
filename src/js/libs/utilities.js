@@ -1,5 +1,5 @@
 var md5 = require('MD5');
-var $ = require('jquery-browserify');
+var $ = require('jquery');
 var requestCount = 0;
 
 module.exports = {

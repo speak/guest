@@ -65,7 +65,7 @@ var App = React.createClass({
 
     if (user && channel && app.permission_granted) {
       video = <Video users={users} user={user} channel={channel} />;
-      chat = <Chat />;
+      chat = <Chat typing={app.typing} />;
     }
 
     return <div id="app">

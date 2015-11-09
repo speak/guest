@@ -2,7 +2,7 @@ var AppDispatcher = require('../dispatcher/app-dispatcher');
 var ChannelStore = require('../stores/channel-store');
 var AppStore = require('../stores/app-store');
 var Utilities = require('../libs/utilities');
-var $ = require('jquery-browserify');
+var $ = require('jquery');
 
 var UserActions = {
   mute: function(shortcut) {
@@ -83,6 +83,25 @@ var UserActions = {
 
   channelUpdate: function(data) {
     AppDispatcher.dispatch('channel.update', data);
+  },
+  
+  editLastMessage: function() {
+    AppDispatcher.dispatch('message.edit_last');
+  },
+
+  updateMessage: function(data) {
+    AppDispatcher.dispatch('message.update', data);
+  },
+  
+  typing: function(value) {
+    AppDispatcher.dispatch('user.typing', value);
+  },
+  
+  cancelEditing: function(id) {
+    AppDispatcher.dispatch('message.updated', {
+      id: id,
+      editing: false
+    });
   },
 
   sendMessage: function(text, channel_id) {

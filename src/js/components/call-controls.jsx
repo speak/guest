@@ -4,7 +4,7 @@ var VideoButton = require('speak-widgets').VideoButton;
 var ScreenButton = require('speak-widgets').ScreenButton;
 var AddPeopleButton = require('speak-widgets').AddPeopleButton;
 var LeaveButton = require('speak-widgets').LeaveButton;
-var $ = require('jquery-browserify');
+var $ = require('jquery');
 
 var CallControls = React.createClass({
   

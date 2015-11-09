@@ -18,7 +18,7 @@ var Chat = React.createClass({
     
     return <div id="chat">
       <ul>{list}</ul>
-      <Composer />
+      <Composer typing={this.props.typing} />
     </div>;
   }
 });

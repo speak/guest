@@ -18,11 +18,13 @@ var AppStore = new Store({
     stream:                 null,
     level:                  null,
     has_configuration:      false,
-    socks:                  false
+    socks:                  false,
+    typing:                 false
   },
 
   actions: {
     'user.configuration':         'reset',
+    'user.typing':                'typing',
     'webrtc.stream.local':        'webrtcPermissionsGranted',
     'webrtc.stream.remote':       'webrtcConnected',
     'webrtc.permissions':         'webrtcPermissions',
@@ -41,11 +43,13 @@ var AppStore = new Store({
       level: data.user.level
     })
   },
+  
+  typing: function() {
+    this.set({typing: true});
+  },
 
   socksConnected: function(){
-    this.set({
-      socks: true
-    })
+    this.set({socks: true});
   },
 
   webrtcPermissions: function(value) {

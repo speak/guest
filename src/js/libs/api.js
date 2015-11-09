@@ -1,6 +1,6 @@
 var AuthStore = require('../stores/auth-store');
 var ApiActions = require('../actions/api-actions');
-var $ = require('jquery-browserify');
+var $ = require('jquery');
 var _ = require('underscore');
 var Config = require('config');
 

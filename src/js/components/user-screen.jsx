@@ -2,7 +2,7 @@ var React = require('react');
 var classNames = require('classnames');
 var UserActions = require('../actions/user-actions');
 var OpenTok = require('../libs/opentok');
-var $ = require('jquery-browserify');
+var $ = require('jquery');
 
 var UserScreen = React.createClass({
   

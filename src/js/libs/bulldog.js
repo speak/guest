@@ -1,6 +1,6 @@
 var BulldogActions = require('../actions/bulldog-actions');
 var utils = require('./utilities');
-var $ = require('jquery-browserify');
+var $ = require('jquery');
 var _ = require('underscore');
 var Config = require('config');
 

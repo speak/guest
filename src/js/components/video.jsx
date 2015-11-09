@@ -2,6 +2,7 @@ var React = require('react');
 var classNames = require('classnames');
 var CallControls = require('./call-controls');
 var ChannelStore = require('../stores/channel-store');
+var UserActions = require('../actions/user-actions');
 var UserVideo = require('./user-video');
 var UserScreen = require('./user-screen');
 var ChannelName = require('./channel-name');
@@ -20,6 +21,10 @@ var Video = React.createClass({
       hovering: false,
       timeout_hide: null,
     }
+  },
+  
+  handleKeyDown: function() {
+    UserActions.typing(true);
   },
 
   handleMouseMove: function() {
@@ -65,7 +70,7 @@ var Video = React.createClass({
       'screen-centered': active_speaker && active_speaker.type == 'screen'
     });
 
-    return <div id="video" className={classes} onMouseMove={this.handleMouseMove}>
+    return <div id="video" className={classes} onMouseMove={this.handleMouseMove} onKeyDown={this.handleKeyDown}>
       <ul className="users">{list}</ul>
       <CallControls user={me} channel={channel} />
       <ChannelName {...channel} />

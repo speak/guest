@@ -6,7 +6,8 @@
   padding: 10px;
   
   textarea {
-    border-color: transparent;
+    border-color: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.9);
     color: #333;
     margin: 10px;
     height: 40px;
@@ -15,6 +16,10 @@
     padding: 10px;
     min-height: 0;
     box-sizing: border-box;
+    
+    &:active {
+      background: #fff;
+    }
   }
 
   ul {
@@ -24,22 +29,35 @@
     
     li {
       .user-select(none);
+      .opacity(0.2);
+      .transition();
 
       .text {
         display: inline-block;
         font-size: 14px;
-        color: #888;
+        color: #333;
         background: rgba(255,255,255,0.9);
         padding: 10px;
         margin: 10px 10px 0 10px;
+        line-height: 1.4;
         .user-select(initial);
         .rounded(4px);
+        
+        textarea {
+          margin: -10px -10px 5px -10px;
+          border-color: transparent;
+        }
+        
+        .note {
+          color: #888;
+          font-size: 13px;
+          line-height: 1;
+          display: block;
+        }
       }
 
       &.persisted {
-        .text {
-          color: #333;
-        }
+        .opacity(1);
       }
     }
   }

@@ -6,7 +6,7 @@ var BulldogActions = require('../actions/bulldog-actions');
 var Config = require('config');
 var Formsy = require('formsy-react');
 var Input = require('./input');
-var $ = require('jquery-browserify');
+var $ = require('jquery');
 var _ = require('underscore');
 
 var Signin = React.createClass({
