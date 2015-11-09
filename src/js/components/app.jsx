@@ -1,6 +1,7 @@
 var React = require('react');
 var Flux = require('delorean').Flux;
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+var DocumentTitle = require('react-document-title');
 
 var UsersStore = require('../stores/users-store');
 var UserActions = require('../actions/user-actions');
@@ -61,6 +62,7 @@ var App = React.createClass({
     var channel = this.getStore('channelStore');
     var user = UsersStore.getCurrentUser();
     var message = this.getMessage();
+    var title = "Speak";
     var video, chat;
 
     if (user && channel && app.permission_granted) {
@@ -68,7 +70,12 @@ var App = React.createClass({
       chat = <Chat typing={app.typing} />;
     }
 
+    if (channel && channel.name) {
+      title = <DocumentTitle title={channel.name} />
+    }
+
     return <div id="app">
+      {title}
       <AudioOutput streamId={app.stream} />
       {video}
       {chat}
