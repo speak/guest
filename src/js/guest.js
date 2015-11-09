@@ -1,6 +1,12 @@
-var React = require('react');
-var ReactDOM = require('react-dom')
+var Config = require('config');
 
+// error reporting before anything else
+if (Config.report_errors) {
+  Raven.config(Config.tokens.sentry).install();
+}
+
+var React = require('react');
+var ReactDOM = require('react-dom');
 var Api = require('./libs/api');
 var Bulldog = require('./libs/bulldog');
 var Calls = require('./libs/calls');

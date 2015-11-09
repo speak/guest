@@ -42,7 +42,7 @@ var AppStore = new Store({
       user_id: data.user.id,
       has_configuration: true,
       level: data.user.level
-    })
+    });
   },
   
   typing: function() {
