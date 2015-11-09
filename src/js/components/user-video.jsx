@@ -11,8 +11,8 @@ var UserVideo = React.createClass({
   handleClick: function(ev) {
     ev.preventDefault();
     
-    var user_id = (this.props.channel.highlighted_user_id == this.props.item.id && this.props.channel.highlighted_type == 'video') ? null : this.props.item.id;
-    UserActions.channelToggleHighlight(user_id, 'video');
+    var user_id = (this.props.item.highlighted && this.props.item.highlighted_type == 'video') ? null : this.props.item.id;
+    UserActions.userHighlight(user_id, 'video');
   },
   
   getInitialState: function() {
@@ -53,7 +53,7 @@ var UserVideo = React.createClass({
       'speaking': user.speaking,
       'mini': !this.props.centered,
       'centered': this.props.centered,
-      'selected': this.props.channel.highlighted_user_id == this.props.item.id && this.props.channel.highlighted_type == 'video'
+      'selected': user.highlighted && user.highlighted_type == 'video'
     });
     
     return <li className={classes} onClick={this.handleClick}>

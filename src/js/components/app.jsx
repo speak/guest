@@ -26,8 +26,9 @@ var App = React.createClass({
     var auth = this.getStore('authStore');
     var channel = this.getStore('channelStore');
     var other_users = UsersStore.otherUsers();
+    var highlighted_user = UsersStore.getHighlightedUser();
     
-    if (channel.highlighted_user_id) return null;
+    if (highlighted_user) return null;
     
     if (!auth.token) {
       return <Signin channel={channel} />;

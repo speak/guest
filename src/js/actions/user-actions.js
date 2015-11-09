@@ -74,9 +74,9 @@ var UserActions = {
     });
   },
 
-  channelToggleHighlight: function(user_id, type) {
-    AppDispatcher.dispatch('channel.highlighted', {
-      user_id: user_id,
+  userHighlight: function(id, type) {
+    AppDispatcher.dispatch('user.highlighted', {
+      id: id,
       type: type
     });
   },

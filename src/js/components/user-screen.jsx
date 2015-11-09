@@ -11,9 +11,9 @@ var UserScreen = React.createClass({
 
     // if the screen is ours and we're fullscreen, ignore.
     //if (this.props.item.me && AppStore.get('fullscreen')) return;
-
-    var user_id = (this.props.channel.highlighted_user_id == this.props.item.id && this.props.channel.highlighted_type == 'screen') ? null : this.props.item.id;
-    UserActions.channelToggleHighlight(user_id, 'screen');
+    
+    var user_id = (this.props.item.highlighted && this.props.item.highlighted_type == 'screen') ? null : this.props.item.id;
+    UserActions.userHighlight(user_id, 'screen');
   },
   
   getInitials: function(){
@@ -40,7 +40,7 @@ var UserScreen = React.createClass({
       'me': user.me,
       'mini': !this.props.centered,
       'centered': this.props.centered,
-      'selected': this.props.channel.highlighted_user_id == this.props.item.id && this.props.channel.highlighted_type == 'screen'
+      'selected': user.highlighted && user.highlighted_type == 'screen'
     });
     
     return <li className={classes} onClick={this.handleClick}>

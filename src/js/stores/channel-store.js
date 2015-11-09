@@ -10,7 +10,6 @@ var ChannelStore = new Store({
     'channel.joined':                   'channelJoined',
     'channel.updated':                  'set',
     'session.destroy':                  'destroy',
-    'channel.highlighted':              'channelToggleHighlight',
     'user.signedin':                    'userSignedin',
     'user.configuration':               'userConfiguration',
     'signaling.video_session_started':  'videoSessionStarted',
@@ -27,8 +26,6 @@ var ChannelStore = new Store({
     token: null,
     video_token: null,
     video_session_id: null,
-    highlighted_user_id: null,
-    highlighted_type: 'video',
     started_at: null,
     path: null,
     requested_path: {
@@ -79,13 +76,6 @@ var ChannelStore = new Store({
       AppActions.createChannel(opts);
     }
   },
-
-  channelToggleHighlight: function(data){
-    this.set({
-      highlighted_user_id: data.user_id ? data.user_id : null,
-      highlighted_type: data.type
-    });
-  },
   
   channelJoined: function() {
     if (!this.get('started_at')) {
@@ -95,14 +85,13 @@ var ChannelStore = new Store({
   
   getActiveSpeaker: function() {
     var channel_id = this.get('id');
-    
+
     // user set a highlight - return that.
-    if(this.get('highlighted_user_id')) return {id: this.get('highlighted_user_id'), type: this.get('highlighted_type')};
+    var highlighted = UsersStore.getHighlightedUser();    
+    if(highlighted) return {id: highlighted.id, type: highlighted.highlighted_type};
 
     // someone's screensharing - they're the winner.
-    var screensharing = _.find(UsersStore.state, function(u){
-      return u && !u.me && u.channel_id == channel_id && u.publishing_screen;
-    });
+    var screensharing = UsersStore.getScreensharingUser();
     if(screensharing) return {id: screensharing.id, type: 'screen'};
 
     // Somebody's talking - now they win.

@@ -10,6 +10,7 @@ var UsersStore = new Store({
     'user.stopped_speaking':  'userStoppedSpeaking',
     'user.muted':             'muted',
     'user.unmuted':           'unmuted',
+    'user.highlighted':       'userHighlighted',
     'channel.found':          'channelUpdated',
     'channel.created':        'channelUpdated',
     'channel.joined':         'channelJoined',
@@ -33,6 +34,20 @@ var UsersStore = new Store({
   
   userStoppedSpeaking: function(data) {
     this.update(data.id, {speaking: false});
+  },
+  
+  userHighlighted: function(data) {
+    var user = this.getHighlightedUser();
+    if (user) {
+      this.update(user.id, {highlighted: false});
+    }
+    
+    if (data.id) {
+      this.update(data.id, {
+        highlighted: true,
+        highlighted_type: data.type
+      });
+    }
   },
   
   muted: function(data) {
@@ -85,6 +100,16 @@ var UsersStore = new Store({
   
   getOnlineUsers: function() {
     return _.filter(this.state, function(user){ return user.online; });
+  },
+  
+  getScreensharingUser: function() {
+    return _.find(this.state, function(user){
+      return !user.me && user.publishing_screen;
+    });
+  },
+  
+  getHighlightedUser: function() {
+    return _.find(this.state, function(user){ return user.highlighted; });
   },
 
   otherUsers: function(){
