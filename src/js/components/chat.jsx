@@ -11,8 +11,9 @@ var Chat = React.createClass({
   
   render: function(){
     var list = [];
+    var messages = this.getStore('chatStore');
 
-    _.each(this.getStore('chatStore'), function(message){
+    _.each(messages, function(message){
       list.push(<Message key={message.id} message={message} />);
     });
     

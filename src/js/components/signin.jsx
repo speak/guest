@@ -105,14 +105,16 @@ var Signin = React.createClass({
     }
 
     return <DocumentTitle title={heading}>
-      <Formsy.Form onValidSubmit={this.handleSubmit} onValid={this.enableButton} onInvalid={this.disableButton}>
-        <h2>{heading}</h2>
-        <Input type="text" name="first_name" placeholder="Your name" className="u-full-width" />
-        <Input type="email" name="email" placeholder="Email" className="u-full-width" />
-        {password}
-        {name}
-        <input type="submit" value={this.getButtonText()} disabled={!this.state.can_submit} className="u-full-width button primary" />
-      </Formsy.Form>
+      <div>
+        <Formsy.Form onValidSubmit={this.handleSubmit} onValid={this.enableButton} onInvalid={this.disableButton}>
+          <h2>{heading}</h2>
+          <Input type="text" name="first_name" placeholder="Your name" className="u-full-width" />
+          <Input type="email" name="email" placeholder="Email" className="u-full-width" />
+          {password}
+          {name}
+          <input type="submit" value={this.getButtonText()} disabled={!this.state.can_submit} className="u-full-width button primary" />
+        </Formsy.Form>
+      </div>
     </DocumentTitle>;
   }
 });
