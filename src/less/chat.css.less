@@ -17,7 +17,8 @@
     min-height: 0;
     box-sizing: border-box;
     
-    &:active {
+    &:active,
+    &:focus {
       background: #fff;
     }
   }
@@ -53,6 +54,11 @@
           font-size: 13px;
           line-height: 1;
           display: block;
+        }
+        
+        a {
+          cursor: pointer;
+          text-decoration: underline;
         }
       }
 

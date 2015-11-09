@@ -56,7 +56,7 @@ var App = React.createClass({
 
   render: function() {
     var app = this.getStore('appStore');
-    var users = this.getStore('usersStore');
+    var users = UsersStore.getOnlineUsers();
     var auth = this.getStore('authStore');
     var channel = this.getStore('channelStore');
     var user = UsersStore.getCurrentUser();
@@ -72,7 +72,7 @@ var App = React.createClass({
       <AudioOutput streamId={app.stream} />
       {video}
       {chat}
-      <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true} transitionAppearTimeout={250} transitionEnterTimeout={250} transitionLeaveTimeout={250} id="modal-wrapper">{message}</ReactCSSTransitionGroup>
+      <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true} transitionAppearTimeout={250} id="modal-wrapper">{message}</ReactCSSTransitionGroup>
       <a href="https://speak.io" target="_blank" className="logo"></a>
     </div>
   }

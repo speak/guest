@@ -1,5 +1,6 @@
 var React = require('react');
 var UserActions = require('../actions/user-actions');
+var emojione = require('emojione');
 
 var ChannelName = React.createClass({
 

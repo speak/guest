@@ -55,12 +55,12 @@ var UsersStore = new Store({
   },
 
   channelJoined: function(data){
+    data.user.online = true;
     this.update(data.user);
   },
 
   channelLeft: function(data){
-    delete this.state[data.user_id];
-    this.emit('change');
+    this.update(data.user_id, {online: false});
   },
 
   videoPublished: function(data) {
@@ -82,9 +82,13 @@ var UsersStore = new Store({
   getCurrentUser: function() {
     return _.find(this.state, function(user){ return user.me; });
   },
+  
+  getOnlineUsers: function() {
+    return _.filter(this.state, function(user){ return user.online; });
+  },
 
   otherUsers: function(){
-    return _.filter(this.state, function(user){ return user.me != true });
+    return _.filter(this.state, function(user){ return user.me != true && user.online; });
   }
 });
 
