@@ -11,7 +11,7 @@ var Message = React.createClass({
     // convert shorttags to emoji img tags
     emojione.ascii = true;
     var html = emojione.shortnameToImage(this.props.message.text);
-    var html = twitter.autoLink(html, {targetBlank: true})
+    html = twitter.autoLink(html, {targetBlank: true});
     
     // creating proper newlines in html
     return html.split("\n").map(function(item, index) {
