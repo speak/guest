@@ -62,14 +62,15 @@ var App = React.createClass({
     var channel = this.getStore('channelStore');
     var user = UsersStore.getCurrentUser();
     var message = this.getMessage();
-    var video, chat, title;
+    var title = "Speak";
+    var video, chat;
 
     if (user && channel && app.permission_granted) {
       video = <Video users={users} user={user} channel={channel} />;
       chat = <Chat typing={app.typing} />;
     }
 
-    if (channel) {
+    if (channel && channel.name) {
       title = <DocumentTitle title={channel.name} />
     }
 
