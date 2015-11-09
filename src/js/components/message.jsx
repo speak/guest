@@ -8,11 +8,14 @@ var twitter = require('twitter-text');
 var Message = React.createClass({
 
   getTextAsHTML: function() {
+    var escaped = twitter.htmlEscape(this.props.message.text);
+    var entities = twitter.extractEntitiesWithIndices(escaped, {extractUrlsWithoutProtocol: true});
+    var html = twitter.autoLinkEntities(escaped, entities, {targetBlank: true});
+
     // convert shorttags to emoji img tags
     emojione.ascii = true;
-    var html = emojione.shortnameToImage(this.props.message.text);
-    html = twitter.autoLink(html, {targetBlank: true});
-    
+    html = emojione.shortnameToImage(html);
+
     // creating proper newlines in html
     return html.split("\n").map(function(item, index) {
       return <span key={index} dangerouslySetInnerHTML={{__html: item + "<br/>"}} />;
