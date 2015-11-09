@@ -52,6 +52,7 @@
     "react-dom": "^0.14.2",
     "rtcpeerconnection": "speak/RTCPeerConnection",
     "speak-widgets": "git+https://github.com/speak/speak-widgets",
+    "twitter-text": "1.13.2",
     "underscore": "^1.8.3"
   }
 }

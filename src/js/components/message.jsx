@@ -3,6 +3,7 @@ var classNames = require('classnames');
 var UserActions = require('../actions/user-actions');
 var Composer = require('./composer');
 var emojione = require('emojione');
+var twitter = require('twitter-text');
 
 var Message = React.createClass({
 
@@ -10,6 +11,7 @@ var Message = React.createClass({
     // convert shorttags to emoji img tags
     emojione.ascii = true;
     var html = emojione.shortnameToImage(this.props.message.text);
+    html = twitter.autoLink(html, {targetBlank: true});
     
     // creating proper newlines in html
     return html.split("\n").map(function(item, index) {
