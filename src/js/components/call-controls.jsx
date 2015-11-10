@@ -4,6 +4,7 @@ var VideoButton = require('speak-widgets').VideoButton;
 var ScreenButton = require('speak-widgets').ScreenButton;
 var AddPeopleButton = require('speak-widgets').AddPeopleButton;
 var LeaveButton = require('speak-widgets').LeaveButton;
+var RecordButton = require('./record-button');
 var $ = require('jquery');
 
 var CallControls = React.createClass({
@@ -103,9 +104,12 @@ var CallControls = React.createClass({
   
   toggleAddPerson: function() {
     UserActions.showModal('add-people');
-    this.hideTooltip();
   },
   
+  toggleRecording: function() {
+    UserActions.showModal('recording');
+  },
+
   leave: function() {
     window.close();
   },
@@ -116,6 +120,7 @@ var CallControls = React.createClass({
         <MuteButton onClick={this.toggleMute} enabled={this.props.user.muted} speaking={this.props.user.speaking} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
         <VideoButton onClick={this.toggleVideo} enabled={this.props.user.publishing_video} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
         <ScreenButton onClick={this.toggleScreen} disabled={!this.state.screenshare_supported} enabled={this.props.user.publishing_screen} working={this.state.screenshare_extension_installing} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
+        <RecordButton onClick={this.toggleRecording} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
         <AddPeopleButton onClick={this.toggleAddPerson} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
         <LeaveButton onClick={this.leave} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
       </ul>

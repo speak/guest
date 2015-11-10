@@ -84,6 +84,7 @@ var App = React.createClass({
     
     if (app.modal) {
       modal = <Modal user={user} channel={channel} name={app.modal} />;
+      message = null;
     }
 
     return <DocumentTitle title={title}>
