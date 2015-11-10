@@ -12,9 +12,9 @@ var AuthStore = new Store({
   },
   
   actions: {
-    'user.signedin':   'updateAuth',
-    'session.error':   'removeAuth',
-    'session.destroy': 'removeAuth'
+    'user.signedin':       'updateAuth',
+    'session.error':       'removeAuth',
+    'session.destroy':     'removeAuth'
   },
 
   updateAuth: function(data) {
