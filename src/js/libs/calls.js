@@ -52,7 +52,11 @@ var Calls = {
         clearTimeout(this.permissions_timeout);
         this.requesting_media = false;
         
-        if (err) CallActions.permissionsDialog(false);
+        if (err) {
+          console.log(err);
+          CallActions.permissionsDialog(false);
+        }
+        
         if (stream) stream.stop();
         CallActions.permissionsGranted(false);
       }.bind(this));

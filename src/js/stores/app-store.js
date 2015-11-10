@@ -1,10 +1,16 @@
 var Store =  require('./store');
 var UsersStore = require('./users-store');
+var MediaManager = require('../libs/media-manager');
 var _ = require('underscore');
 
 var AppStore = new Store({
-  
+
   scheme: {
+    incompatible: {
+      calculate: function () {
+        return !MediaManager.browserHasSupport();
+      }
+    },
     permission_granted:     false,
     permission_dialog:      false,
     permission_denied:      false,

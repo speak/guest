@@ -1,3 +1,5 @@
+// getUserMedia helper by @HenrikJoreteg used for navigator.getUserMedia shim
+var adapter = require('webrtc-adapter-test');
 var _ = require('underscore'); 
 
 // you can only have a max of these per application so we create
@@ -5,6 +7,10 @@ var _ = require('underscore');
 if (window.AudioContext) var context = new AudioContext();
 
 module.exports = {
+  
+  browserHasSupport: function() {
+    return this.getAudioContext() && typeof navigator !== 'undefined' && navigator.getUserMedia;
+  },
   
   getDefaultMicrophoneInput: function(callback) {
     this.getAudioSources(function(sources){

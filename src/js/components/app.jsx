@@ -8,6 +8,7 @@ var UserActions = require('../actions/user-actions');
 var CallCompleted = require('./call-completed');
 var PermissionError = require('./permission-error');
 var PermissionDialog = require('./permission-dialog');
+var Incompatible = require('./incompatible');
 var Connecting = require('./connecting');
 var Chat = require('./chat');
 var ChannelShare = require('./channel-share');
@@ -30,6 +31,10 @@ var App = React.createClass({
     
     if (highlighted_user) return null;
     
+    if (app.incompatible) {
+      return <Incompatible />
+    }
+
     if (!auth.token) {
       return <Signin channel={channel} />;
     }

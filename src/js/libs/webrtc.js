@@ -11,8 +11,10 @@ var connectionsCount = 0;
 // create a fake audio source so that we can turn the microphone
 // on and off independent of the webrtc stream
 var context = MediaManager.getAudioContext();
-var proxy_destination = context.createMediaStreamDestination();
-var proxy_stream = proxy_destination.stream;
+if (context) {
+  var proxy_destination = context.createMediaStreamDestination();
+  var proxy_stream = proxy_destination.stream;
+}
 
 var WebRTC = {
   
