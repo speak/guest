@@ -56,7 +56,7 @@ var Message = React.createClass({
       var user = this.getUser();
       var author;
       
-      if (!this.props.author_hidden) {
+      if (!this.props.author_hidden && !this.props.message.type) {
         author = <span className="author">{user.first_name} {user.last_name}</span>;
       }
       

@@ -85,7 +85,7 @@ var App = React.createClass({
         <AudioOutput streamId={app.stream} />
         {video}
         {chat}
-        <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true} transitionAppearTimeout={250} transitionEnterTimeout={250} transitionLeaveTimeout={250} id="modal-wrapper">{message}</ReactCSSTransitionGroup>
+        <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true} transitionAppearTimeout={250} transitionEnterTimeout={250} transitionLeaveTimeout={250} id="message-wrapper">{message}</ReactCSSTransitionGroup>
         <a href="https://speak.io" target="_blank" className="logo"></a>
       </div>
     </DocumentTitle>

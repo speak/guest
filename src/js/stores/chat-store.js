@@ -1,5 +1,6 @@
 var Store = require('./store');
 var AppStore = require('./app-store');
+var UsersStore = require('./users-store');
 
 var ChatStore = new Store({
   storeName: 'chat',
@@ -10,7 +11,9 @@ var ChatStore = new Store({
     'message.created':     'messageCreated',
     'message.updated':     'messageUpdated',
     'message.persisted':   'messagePersisted',
-    'message.edit_last':   'messageEditLast'
+    'message.edit_last':   'messageEditLast',
+    'channel.joined':      'channelJoined',
+    'channel.left':        'channelLeft'
   },
 
   messageCreate: function(data){
@@ -45,6 +48,27 @@ var ChatStore = new Store({
     if (this.lastMessageId) {
       this.update(this.lastMessageId, {editing: true});
     }
+  },
+  
+  channelJoined: function(data) {
+    if (data.user.id != AppStore.get('user_id')) {
+      var id = (new Date()).getTime();
+      this.update(id, {
+        type: 'event',
+        event: 'channel.joined',
+        author_id: data.user.id
+      });
+    }
+  },
+  
+  channelLeft: function(data) {
+    var id = (new Date()).getTime();
+    
+    this.update(id, {
+      type: 'event',
+      event: 'channel.left',
+      author_id: data.user_id
+    });
   }
 });
 

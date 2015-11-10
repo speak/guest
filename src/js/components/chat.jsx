@@ -1,6 +1,7 @@
 var React = require('react');
 var Flux = require('delorean').Flux;
 var Message = require('./message');
+var Event = require('./event');
 var Composer = require('./composer');
 var _ = require('underscore');
 
@@ -15,8 +16,12 @@ var Chat = React.createClass({
     var previous_author_id;
     
     _.each(messages, function(message){
-      list.push(<Message key={message.id} message={message} author_hidden={previous_author_id == message.author_id} />);
-      previous_author_id = message.author_id;
+      if (message.event) {
+        list.push(<Event key={message.id} message={message} />);        
+      } else {
+        list.push(<Message key={message.id} message={message} author_hidden={previous_author_id == message.author_id} />);
+        previous_author_id = message.author_id;
+      }
     });
     
     return <div id="chat">
