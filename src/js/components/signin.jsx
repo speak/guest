@@ -35,6 +35,12 @@ var Signin = React.createClass({
     $.get(Config.hosts.twoface + '/status', this.gotPreferredIp);
   },
   
+  componentDidUpdate: function(prevProps, prevState) {
+    if (this.state.authentication_required && !prevState.authentication_required) {
+      $('input[name=password').focus();
+    }
+  },
+  
   gotPreferredIp: function(data) {
     this.setState({preferred_server: data.ip});
   },
