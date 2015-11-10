@@ -19,8 +19,14 @@ module.exports = {
   
   getScreenshareExtensionUrl: function() {
     return $('link[rel=chrome-webstore-item]').attr('href');
+  },
+  
+  getScreenshareExtensionId: function() {
+    var url = this.getScreenshareExtensionUrl();
+    var parts = url.split("/");
+    return parts[parts.length-1];
   }
-}
+};
 
 String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);

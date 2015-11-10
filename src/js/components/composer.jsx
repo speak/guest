@@ -76,7 +76,7 @@ var Composer = React.createClass({
   
   componentWillUnmount: function() {
     // clean up our shadow dom element
-    $('.autogrow-shadow').remove();
+    $('.autogrow-shadow').last().remove();
   },
   
   componentWillReceiveProps: function(nextProps) {
