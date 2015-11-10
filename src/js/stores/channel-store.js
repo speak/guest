@@ -4,11 +4,17 @@ var _ = require('underscore');
 
 var ChannelStore = new Store({
   actions: {
+    'user.started_speaking':            'userStartedSpeaking',
+    'user.stopped_speaking':            'userStoppedSpeaking',
     'channel.found':                    'reset',
     'channel.created':                  'reset',
     'channel.not_found':                'channelNotFound',
     'channel.joined':                   'channelJoined',
     'channel.updated':                  'set',
+    'channel.left':                     'clearActiveSpeaker',
+    'channel.kicked':                   'clearActiveSpeaker',
+    'video.unpublished':                'clearActiveSpeaker',
+    'screen.unpublished':               'clearActiveSpeaker',
     'session.destroy':                  'destroy',
     'user.signedin':                    'userSignedin',
     'user.configuration':               'userConfiguration',
@@ -26,6 +32,8 @@ var ChannelStore = new Store({
     token: null,
     video_token: null,
     video_session_id: null,
+    active_speaker_id: null,
+    last_active_speaker_id: null,
     started_at: null,
     path: null,
     requested_path: {
@@ -81,6 +89,34 @@ var ChannelStore = new Store({
     if (!this.get('started_at')) {
       this.set({started_at: (new Date()).getTime()});
     }
+  },
+
+  userStartedSpeaking: function(data){
+    var user = UsersStore.get(data.id);
+    if (user && !user.me && !this.get('active_speaker_id')) {
+      this.set({active_speaker_id: user.id});
+    }
+  },
+
+  userStoppedSpeaking: function(data){
+    var user = UsersStore.get(data.id);
+    if (user && !user.me && data.id == this.get('active_speaker_id')) {
+      this.set({
+        active_speaker_id: null,
+        last_active_speaker_id: user.id,
+      });
+    }
+  },
+
+  clearActiveSpeaker: function(data) {
+    var props = {};
+    if (data.user_id == this.get('active_speaker_id')) {
+      props.active_speaker_id = null;
+    }
+    if (data.user_id == this.get('last_active_speaker_id')) {
+      props.last_active_speaker_id = null;
+    }
+    this.set(props);
   },
   
   getActiveSpeaker: function() {

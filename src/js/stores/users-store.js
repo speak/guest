@@ -75,7 +75,12 @@ var UsersStore = new Store({
   },
 
   channelLeft: function(data){
-    this.update(data.user_id, {online: false});
+    this.update(data.user_id, {
+      online: false,
+      speaking: false,
+      highlighted: false,
+      highlighted_type: null
+    });
   },
 
   videoPublished: function(data) {
