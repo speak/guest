@@ -18,7 +18,7 @@ var Video = React.createClass({
 
   getInitialState: function() {
     return {
-      hovering: false,
+      hovering: true,
       timeout_hide: null,
     }
   },
