@@ -25,10 +25,12 @@ var AppStore = new Store({
     level:                  null,
     has_configuration:      false,
     socks:                  false,
-    typing:                 false
+    typing:                 false,
+    modal:                  false
   },
 
   actions: {
+    'app.modal':                  'showModal',
     'user.configuration':         'reset',
     'user.typing':                'typing',
     'webrtc.stream.local':        'webrtcPermissionsGranted',
@@ -49,6 +51,10 @@ var AppStore = new Store({
       has_configuration: true,
       level: data.user.level
     });
+  },
+  
+  showModal: function(name) {
+    this.set({modal: name});
   },
   
   typing: function() {

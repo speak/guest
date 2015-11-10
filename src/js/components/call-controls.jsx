@@ -102,7 +102,8 @@ var CallControls = React.createClass({
   },
   
   toggleAddPerson: function() {
-    
+    UserActions.showModal('add-people');
+    this.hideTooltip();
   },
   
   leave: function() {
@@ -115,7 +116,7 @@ var CallControls = React.createClass({
         <MuteButton onClick={this.toggleMute} enabled={this.props.user.muted} speaking={this.props.user.speaking} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
         <VideoButton onClick={this.toggleVideo} enabled={this.props.user.publishing_video} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
         <ScreenButton onClick={this.toggleScreen} disabled={!this.state.screenshare_supported} enabled={this.props.user.publishing_screen} working={this.state.screenshare_extension_installing} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
-        <AddPeopleButton onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
+        <AddPeopleButton onClick={this.toggleAddPerson} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
         <LeaveButton onClick={this.leave} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
       </ul>
     </nav>;

@@ -10,6 +10,7 @@ var PermissionError = require('./permission-error');
 var PermissionDialog = require('./permission-dialog');
 var Incompatible = require('./incompatible');
 var Connecting = require('./connecting');
+var Modal = require('./modal');
 var Chat = require('./chat');
 var ChannelShare = require('./channel-share');
 var AudioOutput = require('./audio-output');
@@ -69,7 +70,7 @@ var App = React.createClass({
     var user = UsersStore.getCurrentUser();
     var message = this.getMessage();
     var title = "Speak";
-    var video, chat;
+    var video, chat, modal;
 
     if (user && channel && app.permission_granted) {
       video = <Video users={users} user={user} channel={channel} />;
@@ -79,6 +80,10 @@ var App = React.createClass({
     if (channel && channel.name) {
       title = channel.name;
     }
+    
+    if (app.modal) {
+      modal = <Modal user={user} channel={channel} name={app.modal} />;
+    }
 
     return <DocumentTitle title={title}>
       <div id="app">
@@ -87,6 +92,7 @@ var App = React.createClass({
         {chat}
         <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true} transitionAppearTimeout={250} transitionEnterTimeout={250} transitionLeaveTimeout={250} id="message-wrapper">{message}</ReactCSSTransitionGroup>
         <a href="https://speak.io" target="_blank" className="logo"></a>
+        {modal}
       </div>
     </DocumentTitle>
   }

@@ -103,6 +103,14 @@ var UserActions = {
       editing: false
     });
   },
+  
+  showModal: function(name) {
+    AppDispatcher.dispatch('app.modal', name);
+  },
+  
+  closeModal: function() {
+    AppDispatcher.dispatch('app.modal');
+  },
 
   sendMessage: function(text, channel_id) {
     var id = Utilities.guid();
