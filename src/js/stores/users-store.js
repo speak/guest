@@ -96,6 +96,13 @@ var UsersStore = new Store({
   },
 
   screenUnpublished: function(data) {
+    var user = this.get(data.user_id);
+    
+    // if screen is highlighted and we unpublish then unselect
+    if (user.highlighted && user.highlighted_type === 'screen') {
+      this.update(data.user_id, {highlighted: false});
+    }
+    
     this.update(data.user_id, {publishing_screen: false});
   },
   

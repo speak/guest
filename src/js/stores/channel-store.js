@@ -34,6 +34,7 @@ var ChannelStore = new Store({
     video_session_id: null,
     active_speaker_id: null,
     last_active_speaker_id: null,
+    created_by_id: null,
     started_at: null,
     path: null,
     requested_path: {

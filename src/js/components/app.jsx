@@ -56,7 +56,8 @@ var App = React.createClass({
       if (app.call_completed) {
         return <CallCompleted key="completed" />;
       }
-      return <ChannelShare path={channel.path} key="share" />;
+      var waiting = channel.created_by_id && channel.created_by_id != app.user_id;
+      return <ChannelShare path={channel.path} waiting={waiting} key="share" />;
     }
 
     return null;
