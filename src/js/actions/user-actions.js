@@ -109,7 +109,8 @@ var UserActions = {
     AppDispatcher.dispatch('message.create', {
       id: id,
       text: text,
-      channel_id: channel_id
+      channel_id: channel_id,
+      author_id: AppStore.get('user_id')
     }, {
       success: function(data){
         AppDispatcher.dispatch('message.persisted', {

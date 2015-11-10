@@ -19,7 +19,7 @@ var Composer = React.createClass({
       return "Editing message...";
     }
     
-    return "Type a message";
+    return "Type a message...";
   },
 
   sendMessage: function(ev){
