@@ -1,11 +1,19 @@
 var React = require('react');
 var classNames = require('classnames');
 var UserActions = require('../actions/user-actions');
+var UsersStore = require('../stores/users-store');
+var AppStore = require('../stores/app-store');
 var Composer = require('./composer');
 var emojione = require('emojione');
 var twitter = require('twitter-text');
 
 var Message = React.createClass({
+
+  getDefaultProps: function() {
+    return {
+      author_hidden: false
+    }
+  },
 
   getTextAsHTML: function() {
     var escaped = twitter.htmlEscape(this.props.message.text);
@@ -22,18 +30,40 @@ var Message = React.createClass({
     });
   },
   
+  getUser: function() {
+    var author_id = this.props.message.author_id;
+    
+    if (author_id && author_id != AppStore.get('user_id')) {
+      return UsersStore.get(author_id);
+    }
+    
+    return {
+      first_name: "Me"
+    }
+  },
+  
   cancelEditing: function() {
     UserActions.cancelEditing(this.props.message.id);
   },
   
   getContent: function() {
     if (this.props.message.editing) {
-      return <div className="text">
+      return <div className="bubble">
         <Composer text={this.props.message.text} id={this.props.message.id} />
         <span className="note">esc to <a onClick={this.cancelEditing}>cancel</a></span>
       </div>;
     } else {
-      return <div className="text">{this.getTextAsHTML()}</div>;
+      var user = this.getUser();
+      var author;
+      
+      if (!this.props.author_hidden) {
+        author = <span className="author">{user.first_name} {user.last_name}</span>;
+      }
+      
+      return <div className="bubble">
+        {author}
+        {this.getTextAsHTML()}
+      </div>;
     }
   },
   

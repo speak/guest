@@ -12,9 +12,11 @@ var Chat = React.createClass({
   render: function(){
     var list = [];
     var messages = this.getStore('chatStore');
-
+    var previous_author_id;
+    
     _.each(messages, function(message){
-      list.push(<Message key={message.id} message={message} />);
+      list.push(<Message key={message.id} message={message} author_hidden={previous_author_id == message.author_id} />);
+      previous_author_id = message.author_id;
     });
     
     return <div id="chat">
