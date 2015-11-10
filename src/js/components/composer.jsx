@@ -86,7 +86,16 @@ var Composer = React.createClass({
   },
   
   render: function(){
-    return <textarea placeholder={this.getPlaceholder()} defaultValue={this.props.text} className="composer" ref="input" onKeyDown={this.handleKeyDown} onBlur={this.handleBlur}></textarea>
+    var save;
+    
+    if (this.props.id) {
+      save = <span className="note save">↵ to <a onClick={this.sendMessage}>save</a></span>;
+    }
+
+    return <div>
+      <textarea placeholder={this.getPlaceholder()} defaultValue={this.props.text} className="composer" ref="input" onKeyDown={this.handleKeyDown} onBlur={this.handleBlur}></textarea>
+      {save}
+    </div>;
   }
 });
 
