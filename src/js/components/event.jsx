@@ -19,6 +19,7 @@ var Event = React.createClass({
   
   render: function(){
     var user = this.getUser();
+    if (!user) return null;
     
     return <li className="message event">
       <div className="bubble">
