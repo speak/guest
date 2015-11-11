@@ -103,7 +103,7 @@ var Signin = React.createClass({
     var name, password;
     
     if (!this.props.channel.id) {
-      name = <Input type="text" name="channel_name" placeholder="Meeting Name" className="u-full-width" />;
+      name = <Input type="text" name="channel_name" placeholder="Meeting Name (optional)" className="u-full-width" />;
     }
     
     if (this.state.authentication_required) {
@@ -115,7 +115,7 @@ var Signin = React.createClass({
         <Formsy.Form onValidSubmit={this.handleSubmit} onValid={this.enableButton} onInvalid={this.disableButton}>
           <h2>{heading}</h2>
           <Input type="text" name="first_name" placeholder="Your name" className="u-full-width" />
-          <Input type="email" name="email" placeholder="Email" className="u-full-width" />
+          <Input type="email" name="email" placeholder="Email (optional)" className="u-full-width" />
           {password}
           {name}
           <input type="submit" value={this.getButtonText()} disabled={!this.state.can_submit} className="u-full-width button primary" />
