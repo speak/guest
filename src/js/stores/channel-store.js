@@ -15,6 +15,7 @@ var ChannelStore = new Store({
     'channel.kicked':                   'clearActiveSpeaker',
     'video.unpublished':                'clearActiveSpeaker',
     'screen.unpublished':               'clearActiveSpeaker',
+    'session.error':                    'destroy',
     'session.destroy':                  'destroy',
     'user.signedin':                    'userSignedin',
     'user.configuration':               'userConfiguration',
@@ -53,8 +54,11 @@ var ChannelStore = new Store({
 
   destroy: function(data){
     window.history.pushState({}, "Speak", "/");
-    this.state = {};
-    this.emit('change');
+    this.set({
+      token: null,
+      video_token: null,
+      video_session_id: null
+    });
   },
 
   reset: function(data){

@@ -11,6 +11,12 @@ var AppStore = new Store({
         return !MediaManager.browserHasSupport();
       }
     },
+    app: {
+      deps: ['socks', 'has_configuration'],
+      calculate: function() {
+        return this.state.socks && this.state.has_configuration;
+      }
+    },
     permission_granted:     false,
     permission_dialog:      false,
     permission_denied:      false,
