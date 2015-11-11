@@ -36,6 +36,7 @@ var ChannelStore = new Store({
     last_active_speaker_id: null,
     created_by_id: null,
     started_at: null,
+    not_found: false,
     path: null,
     requested_path: {
       calculate: function () {
