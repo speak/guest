@@ -78,10 +78,6 @@ var App = React.createClass({
       chat = <Chat typing={app.typing} />;
     }
 
-    if (channel && channel.name) {
-      title = channel.name;
-    }
-    
     if (app.modal) {
       modal = <Modal user={user} channel={channel} name={app.modal} />;
       message = null;
@@ -109,13 +105,13 @@ var App = React.createClass({
   render: function() {
     var app = this.getStore('appStore');
     var channel = this.getStore('channelStore');
-    var title;
+    var title = "Speak";
     
     if (channel && channel.name) {
       title = channel.name;
     }
     
-    return <DocumentTitle title={title || "Speak"}>
+    return <DocumentTitle title={title}>
       <div id="app">{this.getContent()}</div>
     </DocumentTitle>;
   }
