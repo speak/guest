@@ -3,6 +3,7 @@ var DocumentTitle = require('react-document-title');
 var Api = require('../libs/api');
 var AuthActions = require('../actions/auth-actions');
 var BulldogActions = require('../actions/bulldog-actions');
+var Utilities = require('../libs/utilities');
 var Config = require('config');
 var Formsy = require('formsy-react');
 var Input = require('./input');
@@ -15,7 +16,8 @@ var Signin = React.createClass({
     return {
       can_submit: false,
       authentication_required: false,
-      preferred_server: null
+      preferred_server: null,
+      defaults: {}
     }
   },
 
@@ -29,6 +31,12 @@ var Signin = React.createClass({
     this.setState({
       can_submit: false
     });
+  },
+  
+  componentWillMount: function() {
+    var params = Utilities.getQueryParams();
+    
+    this.setState({defaults: params});
   },
 
   componentDidMount: function() {
@@ -103,7 +111,7 @@ var Signin = React.createClass({
     var name, password;
     
     if (!this.props.channel.id) {
-      name = <Input type="text" name="channel_name" placeholder="Meeting Name" className="u-full-width" />;
+      name = <Input value={this.state.defaults.channel_name} type="text" name="channel_name" placeholder="Meeting Name" className="u-full-width" />;
     }
     
     if (this.state.authentication_required) {
@@ -114,8 +122,8 @@ var Signin = React.createClass({
       <div>
         <Formsy.Form onValidSubmit={this.handleSubmit} onValid={this.enableButton} onInvalid={this.disableButton}>
           <h2>{heading}</h2>
-          <Input type="text" name="first_name" placeholder="Your name" className="u-full-width" />
-          <Input type="email" name="email" placeholder="Email" className="u-full-width" />
+          <Input value={this.state.defaults.name} type="text" name="first_name" placeholder="Your name" className="u-full-width" />
+          <Input value={this.state.defaults.email} type="email" name="email" placeholder="Email" className="u-full-width" />
           {password}
           {name}
           <input type="submit" value={this.getButtonText()} disabled={!this.state.can_submit} className="u-full-width button primary" />
