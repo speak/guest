@@ -20,10 +20,6 @@ var WebRTCActions = {
     AppDispatcher.dispatch('webrtc.stream.remote', stream ? stream.id : null);
   },
   
-  stats: function(data) {
-    AppDispatcher.dispatch('webrtc.stats', data);
-  },
-  
   handleOffer: function(offer, server) {
     AppDispatcher.dispatch(appendServerToEvent('signaling.audio_offer', server), offer);
   },
