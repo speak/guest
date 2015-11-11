@@ -27,6 +27,12 @@ var AppActions = {
   quitting: function() {
     AppDispatcher.dispatch('app.quitting');
   },
+  
+  registeredWithGCM: function(id) {
+    AppDispatcher.dispatch('user.update', {
+      gcm_registration_id: id
+    });    
+  },
 
   requestConfiguration: function() {
     AppDispatcher.dispatch('user.configure');

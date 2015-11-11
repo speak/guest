@@ -18,6 +18,7 @@ var AppActions = require('./actions/app-actions');
 var App = require('./components/app');
 var AuthStore = require('./stores/auth-store');
 var channelId = window.location.pathname.split('/')[1];
+var registrationRequested = false;
 
 if (AuthStore.get('token')) {
   Bulldog.createSessionFromToken(AuthStore.get('token'));
@@ -48,3 +49,19 @@ AppDispatcher.register(function(action, payload, options) {
 ReactDOM.render(<App dispatcher={AppDispatcher} />, document.getElementById('guest'));
 
 window.addEventListener('beforeunload', AppActions.quitting);
+
+// register the client with gcm
+window.addEventListener('message', function(event){
+  if (event.data && typeof event.data == 'object' && event.data.from == 'extension') {
+    
+    // waits for extensionLoaded message before attempting
+    if (!registrationRequested) {
+      registrationRequested = true;
+      window.postMessage({method: 'registerWithGCM'}, '*');
+    }
+    
+    if (event.data.method == 'registrationId') {
+      AppActions.registeredWithGCM(event.data.payload);
+    }
+  }
+});
