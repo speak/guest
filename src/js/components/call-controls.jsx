@@ -117,12 +117,12 @@ var CallControls = React.createClass({
   render: function(){
     return <nav id="call-controls">
       <ul onMouseLeave={this.hideTooltip} className="controls">
-        <MuteButton onClick={this.toggleMute} enabled={this.props.user.muted} speaking={this.props.user.speaking} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
-        <VideoButton onClick={this.toggleVideo} enabled={this.props.user.publishing_video} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
-        <ScreenButton onClick={this.toggleScreen} disabled={!this.state.screenshare_supported} enabled={this.props.user.publishing_screen} working={this.state.screenshare_extension_installing} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
-        <RecordButton onClick={this.toggleRecording} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
-        <AddPeopleButton onClick={this.toggleAddPerson} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
-        <LeaveButton onClick={this.leave} onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout} />
+        <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><MuteButton onClick={this.toggleMute} speaking={this.props.user.speaking} enabled={this.props.user.muted} /></li>
+        <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><VideoButton onClick={this.toggleVideo} enabled={this.props.user.publishing_video} /></li>
+        <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><ScreenButton onClick={this.toggleScreen} disabled={!this.state.screenshare_supported} enabled={this.props.user.publishing_screen} working={this.state.screenshare_extension_installing} /></li>
+        <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><RecordButton onClick={this.toggleRecording} /></li>
+        <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><AddPeopleButton onClick={this.toggleAddPerson} /></li>
+        <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><LeaveButton onClick={this.leave} /></li>
       </ul>
     </nav>;
   }

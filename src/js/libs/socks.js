@@ -30,6 +30,8 @@ var Socks = {
     'user.start_speaking':                'send',
     'user.update':                        'send',
     'user.delete':                        'send',
+    'user.mute':                          'send',
+    'user.unmute':                        'send',
     'channel.auth':                       'send',
     'channel.create':                     'send',
     'channel.update':                     'send',

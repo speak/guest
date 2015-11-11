@@ -1,6 +1,7 @@
 var Store = require('./store');
 var AppStore = require('./app-store');
 var UsersStore = require('./users-store');
+var Utilities = require('../libs/utilities');
 
 var ChatStore = new Store({
   storeName: 'chat',
@@ -52,8 +53,9 @@ var ChatStore = new Store({
   
   channelJoined: function(data) {
     if (data.user.id != AppStore.get('user_id')) {
-      var id = (new Date()).getTime();
+      var id = Utilities.guid();
       this.update(id, {
+        id: id,
         type: 'event',
         event: 'channel.joined',
         author_id: data.user.id
@@ -63,11 +65,12 @@ var ChatStore = new Store({
   
   channelLeft: function(data) {
     if (data.user_id != AppStore.get('user_id')) {
-      var id = (new Date()).getTime();
+      var id = Utilities.guid();
       var user = UsersStore.get(data.user_id);
     
       if (user.online) {
         this.update(id, {
+          id: id,
           type: 'event',
           event: 'channel.left',
           author_id: data.user_id

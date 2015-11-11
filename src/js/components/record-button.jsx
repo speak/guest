@@ -21,10 +21,10 @@ var RecordButton = React.createClass({
       tooltip = <span className="tooltip">Record Call<i className="triangle"></i></span>;
     }
 
-    return <li {...this.props} className="call-control">
+    return <span>
       <a className={classes}></a>
       {tooltip}
-    </li>;
+    </span>;
   }
 });
 
