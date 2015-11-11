@@ -62,13 +62,18 @@ var ChatStore = new Store({
   },
   
   channelLeft: function(data) {
-    var id = (new Date()).getTime();
+    if (data.user_id != AppStore.get('user_id')) {
+      var id = (new Date()).getTime();
+      var user = UsersStore.get(data.user_id);
     
-    this.update(id, {
-      type: 'event',
-      event: 'channel.left',
-      author_id: data.user_id
-    });
+      if (user.online) {
+        this.update(id, {
+          type: 'event',
+          event: 'channel.left',
+          author_id: data.user_id
+        });
+      }
+    }
   }
 });
 

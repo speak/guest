@@ -13,8 +13,8 @@ var AppDispatcher = Flux.createDispatcher({
     return {
       authStore: AuthStore,
       appStore: AppStore,
-      usersStore: UsersStore,
       chatStore: ChatStore,
+      usersStore: UsersStore,
       channelStore: ChannelStore
     }
   }
