@@ -22,6 +22,7 @@ var Socks = {
     'session.created':                    'connect',
     'session.error':                      'disconnect',
     'session.destroy':                    'disconnect',
+    'user.configuration':                 'sendQueuedMessages',
     'organization.create':                'send',
     'signaling.audio_offer':              'send',
     'signaling.audio_ice':                'send',
@@ -32,6 +33,7 @@ var Socks = {
     'user.delete':                        'send',
     'user.mute':                          'send',
     'user.unmute':                        'send',
+    'user.extension_registered':          'send',
     'channel.auth':                       'send',
     'channel.create':                     'send',
     'channel.update':                     'send',
@@ -58,6 +60,7 @@ var Socks = {
   
   queueable: [
     'user.update',
+    'user.extension_registered',
     'analytics.track',
   ],
   
@@ -91,7 +94,7 @@ var Socks = {
   },
   
   send: function(action, params, options) {
-    if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+    if (this.ws && this.ws.readyState === WebSocket.OPEN && this.configReceived) {
       var data = {key: action};
       
       if (params) data.params = params;
@@ -119,17 +122,18 @@ var Socks = {
     }
   },
   
+  sendQueuedMessages: function() {
+    while(this.queue.length > 0) {
+      this.send.apply(this, this.queue.shift());
+    }
+  },
+  
   onopen: function() {
     this.connected = true;
     this.connecting = false;
     this.reconnectAttempts = 0;
     
     SocksActions.connected();
-    
-    // process queue
-    while(this.queue.length > 0) {
-      this.send.apply(this, this.queue.shift())
-    }
   },
   
   onclose: function(ev) {

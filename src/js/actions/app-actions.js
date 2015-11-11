@@ -33,7 +33,9 @@ var AppActions = {
   },
   
   extensionRegistered: function(id) {
-    AppDispatcher.dispatch('extension.registered', id);    
+    AppDispatcher.dispatch('user.extension_registered', {
+      registration_id: id
+    });
   },
 
   requestConfiguration: function() {

@@ -34,7 +34,7 @@ var AppStore = new Store({
   actions: {
     'app.modal':                  'showModal',
     'extension.loaded':           'extensionLoaded',
-    'extension.registered':       'extensionRegistered',
+    'user.extension_registered':  'extensionRegistered',
     'user.configuration':         'reset',
     'user.typing':                'typing',
     'webrtc.stream.local':        'webrtcPermissionsGranted',
@@ -61,8 +61,8 @@ var AppStore = new Store({
     this.set({extension_loaded: true});
   },
   
-  extensionRegistered: function(id) {
-    this.set({gcm_registration_id: id});
+  extensionRegistered: function(data) {
+    this.set({gcm_registration_id: data.registration_id});
   },
   
   showModal: function(name) {
