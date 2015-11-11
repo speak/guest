@@ -111,7 +111,7 @@ var Signin = React.createClass({
     }
 
     return <DocumentTitle title={heading}>
-      <div>
+      <div id="floating-modal">
         <Formsy.Form onValidSubmit={this.handleSubmit} onValid={this.enableButton} onInvalid={this.disableButton}>
           <h2>{heading}</h2>
           <Input type="text" name="first_name" placeholder="Your name" className="u-full-width" />

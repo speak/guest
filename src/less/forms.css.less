@@ -1,3 +1,5 @@
+@import "variables.css.less";
+
 input[type="email"],
 input[type="search"],
 input[type="text"],
@@ -6,12 +8,12 @@ input[type="url"],
 input[type="password"],
 textarea,
 select {
-  height: 44px;
+  height: 50px;
   padding: 7px 14px 8px 14px; /* The 6px vertically centers text on FF, ignored by Webkit */
   background-color: #fff;
   color: #323232;
   font-size: 15px;
-  border: 1px solid #D7D7D7;
+  border: 2px solid #D7D7D7;
   border-radius: 4px;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
@@ -49,7 +51,7 @@ input[type="password"]:focus,
 textarea:focus,
 select:focus {
   -webkit-app-region: no-drag;
-  border: 1px solid #4A90E2;
+  border: px solid @blue;
   outline: 0; }
 label {
   -webkit-app-region: no-drag;
@@ -79,4 +81,8 @@ label > .label-body {
 .input-wrapper {
   position: relative;
   padding-bottom: 10px;
+}
+
+input[type=submit] {
+  margin-top: 16px;
 }
