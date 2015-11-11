@@ -55,6 +55,7 @@ var Opentok = {
     this.session.on({
       streamCreated: this.streamCreated.bind(this),
       streamDestroyed: this.streamDestroyed.bind(this),
+      mediaStopped: this.mediaStopped.bind(this),
       sessionConnected: this.sessionConnected.bind(this),
       exception: this.opentokException.bind(this),
     });
@@ -97,6 +98,11 @@ var Opentok = {
     
     var channelId = UsersStore.getCurrentUser().channel_id;
     OpentokActions[action](userId, channelId);
+  },
+  
+  mediaStopped: function(event) {
+    console.log('mediaStopped', event);
+    this.streamDestroyed(event);
   },
 
   streamDestroyed: function(event) {

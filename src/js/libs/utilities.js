@@ -1,4 +1,5 @@
 var md5 = require('MD5');
+var Config = require('config');
 var $ = require('jquery');
 var requestCount = 0;
 
@@ -22,6 +23,10 @@ module.exports = {
   },
   
   getScreenshareExtensionId: function() {
+    if (Config.environment == 'development') {
+      return 'kejgjfgcblcdakmblmecpljgiocdgkha';
+    }
+    
     var url = this.getScreenshareExtensionUrl();
     var parts = url.split("/");
     return parts[parts.length-1];
