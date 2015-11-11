@@ -62,6 +62,13 @@ module.exports = function(grunt) {
         cwd: 'src/images',
         src: ['**/*'],
         dest: 'build/images/'
+      },
+      sounds: {
+        expand: true,
+        flatten: false,
+        cwd: 'src/sounds',
+        src: ['**/*'],
+        dest: 'build/sounds/'
       }
     }
   });
