@@ -53,6 +53,7 @@ window.addEventListener('beforeunload', AppActions.quitting);
 // register the client with gcm
 window.addEventListener('message', function(event){
   if (event.data && typeof event.data == 'object' && event.data.from == 'extension') {
+    AppActions.extensionLoaded();
     
     // waits for extensionLoaded message before attempting
     if (!registrationRequested) {
@@ -61,7 +62,7 @@ window.addEventListener('message', function(event){
     }
     
     if (event.data.method == 'registrationId') {
-      AppActions.registeredWithGCM(event.data.payload);
+      AppActions.extensionRegistered(event.data.payload);
     }
   }
 });

@@ -28,10 +28,12 @@ var AppActions = {
     AppDispatcher.dispatch('app.quitting');
   },
   
-  registeredWithGCM: function(id) {
-    AppDispatcher.dispatch('user.update', {
-      gcm_registration_id: id
-    });    
+  extensionLoaded: function() {
+    AppDispatcher.dispatch('extension.loaded');
+  },
+  
+  extensionRegistered: function(id) {
+    AppDispatcher.dispatch('extension.registered', id);    
   },
 
   requestConfiguration: function() {
