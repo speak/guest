@@ -35,7 +35,7 @@ var Input = React.createClass({
     }
 
     return (
-      <div className={classes}>
+      <div className={classes + " " + this.props.wrapperClass}>
         <input {...this.props} onChange={this.changeValue} value={this.getValue()}/>
         {error}
       </div>
