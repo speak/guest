@@ -7,7 +7,6 @@ if (Config.report_errors) {
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Api = require('./libs/api');
 var Bulldog = require('./libs/bulldog');
 var Calls = require('./libs/calls');
 var Socks = require('./libs/socks');
@@ -27,15 +26,7 @@ if (AuthStore.get('token')) {
 }
 
 if (channelId) {
-  Api.getChannel(channelId, {
-    error: function(xhr){
-      if(xhr.status == 404) {
-        AppDispatcher.dispatch("channel.not_found");
-      } else {
-        AppActions.signOut();
-      }
-    }
-  });
+  AppActions.channelLoad(channelId);
 }
 
 // forward events into webrtc and socks libs

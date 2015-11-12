@@ -3,26 +3,6 @@ var UsersStore =  require('./users-store');
 var _ = require('underscore');
 
 var ChannelStore = new Store({
-  actions: {
-    'user.started_speaking':            'userStartedSpeaking',
-    'user.stopped_speaking':            'userStoppedSpeaking',
-    'channel.found':                    'reset',
-    'channel.created':                  'reset',
-    'channel.not_found':                'channelNotFound',
-    'channel.joined':                   'channelJoined',
-    'channel.updated':                  'set',
-    'channel.leave':                    'channelLeave',
-    'channel.left':                     'channelLeft',
-    'channel.kicked':                   'clearActiveSpeaker',
-    'video.unpublished':                'clearActiveSpeaker',
-    'screen.unpublished':               'clearActiveSpeaker',
-    'session.error':                    'destroy',
-    'session.destroy':                  'destroy',
-    'user.signedin':                    'userSignedin',
-    'user.configuration':               'userConfiguration',
-    'signaling.video_session_started':  'videoSessionStarted',
-    'signaling.video_token_generated':  'videoTokenGenerated'
-  },
 
   scheme: {
     id: null,
@@ -30,6 +10,7 @@ var ChannelStore = new Store({
     public: null,
     public_url: null,
     server: null,
+    loading: false,
     temporary: null,
     completed: false,
     token: null,
@@ -47,11 +28,40 @@ var ChannelStore = new Store({
       }
     }
   },
+  
+  actions: {
+    'user.started_speaking':            'userStartedSpeaking',
+    'user.stopped_speaking':            'userStoppedSpeaking',
+    'channel.loading':                  'channelLoading',
+    'channel.found':                    'reset',
+    'channel.created':                  'reset',
+    'channel.not_found':                'channelNotFound',
+    'channel.joined':                   'channelJoined',
+    'channel.updated':                  'set',
+    'channel.leave':                    'channelLeave',
+    'channel.left':                     'channelLeft',
+    'channel.kicked':                   'clearActiveSpeaker',
+    'video.unpublished':                'clearActiveSpeaker',
+    'screen.unpublished':               'clearActiveSpeaker',
+    'session.error':                    'destroy',
+    'session.destroy':                  'destroy',
+    'user.signedin':                    'userSignedin',
+    'user.configuration':               'userConfiguration',
+    'signaling.video_session_started':  'videoSessionStarted',
+    'signaling.video_token_generated':  'videoTokenGenerated'
+  },
+  
+  channelLoading: function() {
+    this.set({
+      loading: true
+    });
+  },
 
   channelNotFound: function(){
     this.set({
+      loading: false,
       not_found: true
-    })
+    });
   },
   
   channelLeft: function(data) {
@@ -72,6 +82,7 @@ var ChannelStore = new Store({
   },
 
   reset: function(data){
+    data.loading = false;
     if(data.path) {
       window.history.pushState(data.id, "Speak", "/" + data.path);
     }
@@ -109,7 +120,7 @@ var ChannelStore = new Store({
   
   channelLeave: function() {
     window.history.pushState({}, "Speak", "/");
-    this.state = {};
+    this.state = {not_found: true};
     this.emit('change');
   },
 

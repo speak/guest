@@ -37,7 +37,7 @@ var App = React.createClass({
       return <Incompatible />
     }
 
-    if (!auth.token || (!channel.id && authenticated)) {
+    if (!auth.token && !channel.loading) {
       return <Signin channel={channel} authenticated={authenticated} />;
     }
     
