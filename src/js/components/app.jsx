@@ -63,40 +63,57 @@ var App = React.createClass({
     return null;
   },
 
-  render: function() {
+  getContent: function() {
     var app = this.getStore('appStore');
     var users = UsersStore.getOnlineUsers();
     var auth = this.getStore('authStore');
     var channel = this.getStore('channelStore');
     var user = UsersStore.getCurrentUser();
     var message = this.getMessage();
-    var title = "Speak";
+    var logo = <a href="https://speak.io" target="_blank" className="logo"></a>;
     var video, chat, modal;
-
+    
     if (user && channel && app.permission_granted) {
       video = <Video users={users} user={user} channel={channel} />;
       chat = <Chat typing={app.typing} />;
     }
 
+    if (app.modal) {
+      modal = <Modal user={user} channel={channel} name={app.modal} />;
+      message = null;
+    } else {
+      message = <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true} transitionAppearTimeout={250} transitionEnterTimeout={250} transitionLeaveTimeout={250} id="message-wrapper">{message}</ReactCSSTransitionGroup>;
+    }
+    
+    if (app.app) {
+      return <div id="app">
+        <AudioOutput streamId={app.stream} />
+        {video}
+        {chat}
+        {message}
+        {logo}
+        {modal}
+      </div>;
+    } else {
+      return <div id="app">
+        {message}
+        {logo}
+      </div>;
+    }
+  },
+  
+  render: function() {
+    var app = this.getStore('appStore');
+    var channel = this.getStore('channelStore');
+    var title = "Speak";
+    
     if (channel && channel.name) {
       title = channel.name;
     }
     
-    if (app.modal) {
-      modal = <Modal user={user} channel={channel} name={app.modal} />;
-      message = null;
-    }
-
     return <DocumentTitle title={title}>
-      <div id="app">
-        <AudioOutput streamId={app.stream} />
-        {video}
-        {chat}
-        <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true} transitionAppearTimeout={250} transitionEnterTimeout={250} transitionLeaveTimeout={250} id="message-wrapper">{message}</ReactCSSTransitionGroup>
-        <a href="https://speak.io" target="_blank" className="logo"></a>
-        {modal}
-      </div>
-    </DocumentTitle>
+      <div id="app">{this.getContent()}</div>
+    </DocumentTitle>;
   }
 });
 

@@ -29,7 +29,6 @@ var WebRTC = {
   connect_failed_timeout: 10000,
   reconnect_timeout: null,
   reconnect_attempts: 0,     // The number of attempted reconnects since success
-  interval_stats: null,
   ice_servers: null,
   server: null,
   channel_id: null,
@@ -211,7 +210,6 @@ var WebRTC = {
     this.remote_stream = null;
     
     clearTimeout(this.connect_failed);
-    clearInterval(this.interval_stats);
     WebRTCActions.remoteStream();
     // Stopwatch.reset();
     
@@ -222,11 +220,6 @@ var WebRTC = {
     } else {
       this.ondisconnected();
     }
-    
-    WebRTCActions.stats({
-      stats: {},
-      state: {}
-    });
   },
   
   onconnected: function() {
@@ -238,9 +231,6 @@ var WebRTC = {
       this.connecting = false;
       this.reconnect_attempts = 0;
 
-      clearInterval(this.interval_stats);
-      this.interval_stats = setInterval(_.bind(this.collectStats, this), 1000);
-      
       // Stopwatch.mark('webrtc connected');
       WebRTCActions.connected();
     }
@@ -275,22 +265,6 @@ var WebRTC = {
       this.server = null;
       this.channel_id = null;
       WebRTCActions.disconnected({channel_id: channel_id});
-    }
-  },
-
-  collectStats: function() {
-    var windows = AppDispatcher.getStore('appStore').windows;
-    var debugging = windows && windows.debugging && windows.debugging.visible;
-
-    if (this.pc && debugging) {
-      var self = this;
-
-      this.pc.getStats(function(err, stats){
-        WebRTCActions.stats({
-          stats: stats,
-          state: _.extend({server: self.server}, _.pick(self.pc, 'hadLocalRelayCandidate', 'hadLocalStunCandidate', 'hadRemoteRelayCandidate', 'hadRemoteStunCandidate', 'iceConnectionState', 'signalingState'))
-        });
-      });
     }
   },
 

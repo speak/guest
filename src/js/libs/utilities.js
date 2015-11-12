@@ -1,5 +1,6 @@
 var md5 = require('MD5');
 var Config = require('config');
+var _ = require('underscore');
 var $ = require('jquery');
 var requestCount = 0;
 
@@ -30,6 +31,26 @@ module.exports = {
     var url = this.getScreenshareExtensionUrl();
     var parts = url.split("/");
     return parts[parts.length-1];
+  },
+
+  /**
+  * Parse query string.
+  * ?a=b&c=d to {a: b, c: d}
+  * @param {String} (option) queryString
+  * @return {Object} query params
+  */
+  getQueryParams: function(queryString) {
+    var query = (queryString || window.location.search).substring(1); // del ?
+    if (!query) return false;
+
+    return _
+    .chain(query.split('&'))
+    .map(function(params) {
+     var p = params.split('=');
+     return [p[0], decodeURIComponent(p[1])];
+    })
+    .object()
+    .value();
   }
 };
 
