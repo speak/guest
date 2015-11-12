@@ -9,6 +9,7 @@ var CallCompleted = require('./call-completed');
 var PermissionError = require('./permission-error');
 var PermissionDialog = require('./permission-dialog');
 var Incompatible = require('./incompatible');
+var CurrentUser = require('./current-user');
 var Connecting = require('./connecting');
 var Modal = require('./modal');
 var Chat = require('./chat');
@@ -71,7 +72,7 @@ var App = React.createClass({
     var user = UsersStore.getCurrentUser();
     var message = this.getMessage();
     var logo = <a href="https://speak.io" target="_blank" className="logo"></a>;
-    var video, chat, modal;
+    var video, chat, modal, current;
     
     if (user && channel && app.permission_granted) {
       video = <Video users={users} user={user} channel={channel} />;
@@ -85,6 +86,10 @@ var App = React.createClass({
       message = <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true} transitionAppearTimeout={250} transitionEnterTimeout={250} transitionLeaveTimeout={250} id="message-wrapper">{message}</ReactCSSTransitionGroup>;
     }
     
+    if (app.user_id) {
+      current = <CurrentUser user={user} />;
+    }
+    
     if (app.app) {
       return <div id="app">
         <AudioOutput streamId={app.stream} />
@@ -92,6 +97,7 @@ var App = React.createClass({
         {chat}
         {message}
         {logo}
+        {current}
         {modal}
       </div>;
     } else {
@@ -112,7 +118,7 @@ var App = React.createClass({
     }
     
     return <DocumentTitle title={title}>
-      <div id="app">{this.getContent()}</div>
+      {this.getContent()}
     </DocumentTitle>;
   }
 });
