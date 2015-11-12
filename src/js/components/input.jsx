@@ -25,11 +25,11 @@ var Input = React.createClass({
 
     // An error message is returned ONLY if the component is invalid
     // or the server has returned an error message
-    var error_message = this.getErrorMessage();
-    if (error_message) {
+    var errorMessage = this.getErrorMessage();
+    if (errorMessage) {
       error = <div className="error-wrapper">
                 <div className="error">
-                  <span className="validation">{error_message}</span>
+                  <span className="validation">{errorMessage}</span>
                 </div>
               </div>
     }
