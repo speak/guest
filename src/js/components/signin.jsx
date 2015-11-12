@@ -57,11 +57,11 @@ var Signin = React.createClass({
     var channel = this.props.channel;
     
     if (!channel.id) {
-      return "Start a Meeting";
+      return <h2>Start a Meeting</h2>;
     }
     
     // TODO: Use participant names here
-    return "Join " + (channel.name || "Meeting");
+    return <div><h2>{channel.name}</h2><p>Just add your name below to join the call.</p></div>;
   },
   
   getButtonText: function() {
@@ -121,7 +121,7 @@ var Signin = React.createClass({
     return <DocumentTitle title={heading}>
       <div id="floating-modal">
         <Formsy.Form onValidSubmit={this.handleSubmit} onValid={this.enableButton} onInvalid={this.disableButton}>
-          <h2>{heading}</h2>
+          {heading}
           <Input value={this.state.defaults.name} type="text" name="first_name" placeholder="Your name" className="u-full-width" />
           <Input value={this.state.defaults.email} type="email" name="email" placeholder="Email (optional)" className="u-full-width" />
           {password}
