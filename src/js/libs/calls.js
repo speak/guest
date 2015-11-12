@@ -24,8 +24,6 @@ var Calls = {
     'app.request_audio_stream':  'requestStream',
     'me.channel.joined':         'meChannelJoined',
     'channel.leave':             'disconnect',
-    //'channel.join':              'channelJoin',
-    //'channel.found':             'connectOrRequestPermissions', 
     'channel.created':           'connectOrRequestPermissions',
     'channel.deleted':           'channelDeleted',
     'channel.defunct':           'channelDeleted',
@@ -38,9 +36,10 @@ var Calls = {
   requesting_media: false,
   
   connectOrRequestPermissions: function() {
-    if (AppStore.get('has_configuration') && ChannelStore.get('id') && AppStore.get('permission_granted')) {
-      
-      CallActions.connect(ChannelStore.state);
+    if (AppStore.get('permission_granted')) {
+      if (AppStore.get('has_configuration') && ChannelStore.get('id')) {
+        CallActions.connect(ChannelStore.state);
+      }
       
     } else if (!this.requesting_media) {
       this.permissions_timeout = setTimeout(this.showPermissionsDialog, 500);
@@ -176,7 +175,7 @@ var Calls = {
     //   });
     // }
 
-    CallActions.connect(data);
+    CallActions.connect(ChannelStore.state);
   },
 
   disconnect: function() {

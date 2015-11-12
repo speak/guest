@@ -11,7 +11,8 @@ var ChannelStore = new Store({
     'channel.not_found':                'channelNotFound',
     'channel.joined':                   'channelJoined',
     'channel.updated':                  'set',
-    'channel.left':                     'clearActiveSpeaker',
+    'channel.leave':                    'channelLeave',
+    'channel.left':                     'channelLeft',
     'channel.kicked':                   'clearActiveSpeaker',
     'video.unpublished':                'clearActiveSpeaker',
     'screen.unpublished':               'clearActiveSpeaker',
@@ -30,6 +31,7 @@ var ChannelStore = new Store({
     public_url: null,
     server: null,
     temporary: null,
+    completed: false,
     token: null,
     video_token: null,
     video_session_id: null,
@@ -50,6 +52,14 @@ var ChannelStore = new Store({
     this.set({
       not_found: true
     })
+  },
+  
+  channelLeft: function(data) {
+    this.clearActiveSpeaker(data);
+    
+    if (data.id == this.get('id') && !UsersStore.otherUsers().length) {
+      this.set({completed: true});
+    }
   },
 
   destroy: function(data){
@@ -87,7 +97,7 @@ var ChannelStore = new Store({
       if(this.state.requested_path){
         opts.path = this.state.requested_path;
       }
-      AppActions.createChannel(opts);
+      AppActions.channelCreate(opts);
     }
   },
   
@@ -95,6 +105,12 @@ var ChannelStore = new Store({
     if (!this.get('started_at')) {
       this.set({started_at: (new Date()).getTime()});
     }
+  },
+  
+  channelLeave: function() {
+    window.history.pushState({}, "Speak", "/");
+    this.state = {};
+    this.emit('change');
   },
 
   userStartedSpeaking: function(data){

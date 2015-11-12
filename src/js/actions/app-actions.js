@@ -32,7 +32,7 @@ var AppActions = {
     AppDispatcher.dispatch('user.configure');
   },
 
-  createChannel: function(data) {
+  channelCreate: function(data) {
     AppDispatcher.dispatch('channel.create', data);
   }
 };
