@@ -28,7 +28,7 @@ var Input = React.createClass({
     var errorMessage = this.getErrorMessage();
     if (errorMessage) {
       error = <div className="error-wrapper">
-                <div className="error">
+                <div className="error slideFadeDown">
                   <span className="validation">{errorMessage}</span>
                 </div>
               </div>
