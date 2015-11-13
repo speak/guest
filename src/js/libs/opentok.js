@@ -16,7 +16,7 @@ var Opentok = {
   actions: {
     "signaling.video_session_started":  "maybeConnect",
     "signaling.video_token_generated":  "maybeConnect",
-    "channel.joined":                   "maybeConnect",
+    "me.channel.joined":                "maybeConnect",
     "video.publish":                    "publishVideo",
     "video.unpublish":                  "unpublishVideo",
     "screen.publish":                   "publishScreen",
@@ -26,6 +26,11 @@ var Opentok = {
     "session.error":                    "destroy",
     "webrtc.disconnected":              "destroy",
     "socks.disconnected":               "destroy"
+  },
+  
+  initialize: function() {
+    _.bindAll(this, 'streamCreated', 'streamDestroyed', 'mediaStopped',
+    'sessionConnected', 'opentokException');
   },
 
   maybeConnect: function() {
@@ -54,11 +59,11 @@ var Opentok = {
 
     this.session = OT.initSession(Config.tokens.tokbox_api_key, sessionId);
     this.session.on({
-      streamCreated: this.streamCreated.bind(this),
-      streamDestroyed: this.streamDestroyed.bind(this),
-      mediaStopped: this.mediaStopped.bind(this),
-      sessionConnected: this.sessionConnected.bind(this),
-      exception: this.opentokException.bind(this),
+      streamCreated: this.streamCreated,
+      streamDestroyed: this.streamDestroyed,
+      mediaStopped: this.mediaStopped,
+      sessionConnected: this.sessionConnected,
+      exception: this.opentokException
     });
     this.session.connect(videoToken);
   },
@@ -151,6 +156,7 @@ var Opentok = {
         }
         
         this.cameraPublisher = OT.initPublisher(domElement, options);
+        this.cameraPublisher.on('streamDestroyed', this.streamDestroyed);
         this.session.publish(this.cameraPublisher);
         this.setDOMElement(userId, 'camera', domElement);
 
@@ -206,6 +212,7 @@ var Opentok = {
       }, function(err){
         if (err) console.error(err);
       });
+      this.screenPublisher.on('streamDestroyed', this.streamDestroyed);
       this.session.publish(this.screenPublisher);
       this.setDOMElement(userId, 'screen', domElement);
       OpentokActions.screenPublished(userId, channelId);
@@ -276,6 +283,8 @@ var Opentok = {
     }
   }
 };
+
+Opentok.initialize();
 
 OT.registerScreenSharingExtension('chrome', Utilities.getScreenshareExtensionId());
 

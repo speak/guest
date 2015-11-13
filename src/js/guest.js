@@ -7,10 +7,10 @@ if (Config.report_errors) {
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Api = require('./libs/api');
 var Bulldog = require('./libs/bulldog');
 var Calls = require('./libs/calls');
 var Socks = require('./libs/socks');
+var Sound = require('./libs/sound');
 var WebRTC = require('./libs/webrtc');
 var OpenTok = require('./libs/opentok');
 var AppDispatcher = require('./dispatcher/app-dispatcher');
@@ -18,21 +18,16 @@ var AppActions = require('./actions/app-actions');
 var App = require('./components/app');
 var AuthStore = require('./stores/auth-store');
 var channelId = window.location.pathname.split('/')[1];
+var _ = require('underscore');
+
+Sound.loadAll();
 
 if (AuthStore.get('token')) {
   Bulldog.createSessionFromToken(AuthStore.get('token'));
 }
 
 if (channelId) {
-  Api.getChannel(channelId, {
-    error: function(xhr){
-      if(xhr.status == 404) {
-        AppDispatcher.dispatch("channel.not_found");
-      } else {
-        AppActions.signOut();
-      }
-    }
-  });
+  AppActions.channelLoad(channelId);
 }
 
 // forward events into webrtc and socks libs
@@ -41,10 +36,19 @@ AppDispatcher.register(function(action, payload, options) {
   WebRTC.dispatchAction(action, payload);
   Calls.dispatchAction(action, payload);
   OpenTok.dispatchAction(action, payload);
-  // Sound.dispatchAction(action, payload);
+  Sound.dispatchAction(action, payload);
 });
 
 // React Router does all the fancy stuff for us
 ReactDOM.render(<App dispatcher={AppDispatcher} />, document.getElementById('guest'));
 
 window.addEventListener('beforeunload', AppActions.quitting);
+
+document.getElementById('guest').style.backgroundImage = "url('" + _.sample([
+  'https://images.unsplash.com/photo-1446080501695-8e929f879f2b?fit=crop&fm=jpg&h=1000&ixlib=rb-0.3.5&q=80&w=1600',
+  'https://images.unsplash.com/photo-1440073961997-d4282536a8e5?dpr=2&fit=crop&fm=jpg&h=1000&ixlib=rb-0.3.5&q=50&w=1600',
+  'https://images.unsplash.com/photo-1441906363162-903afd0d3d52?dpr=2&fit=crop&fm=jpg&h=1000&ixlib=rb-0.3.5&q=50&w=1600',
+  'https://images.unsplash.com/39/wdXqHcTwSTmLuKOGz92L_Landscape.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&w=1080&fit=max&s=68f7fe685547e5f740c71f8ca6985d9a',
+  'https://images.unsplash.com/photo-1444090542259-0af8fa96557e?ixlib=rb-0.3.5&q=80&fm=jpg&w=1080&fit=max&s=6d1a04e483a2ec9389ce14114b45e3cb',
+  'https://images.unsplash.com/photo-1441155472722-d17942a2b76a?ixlib=rb-0.3.5&q=80&fm=jpg&w=1080&fit=max&s=0fdad65d07729dde465aa8bdf62ddbec'
+]) + "')";

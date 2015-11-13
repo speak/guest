@@ -111,7 +111,7 @@ var CallControls = React.createClass({
   },
 
   leave: function() {
-    window.close();
+    UserActions.channelLeave();
   },
 
   render: function(){

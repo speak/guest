@@ -112,6 +112,14 @@ var UserActions = {
     AppDispatcher.dispatch('app.modal');
   },
 
+  channelCreate: function(data) {
+    AppDispatcher.dispatch('channel.create', data);
+  },
+
+  channelLeave: function() {
+    AppDispatcher.dispatch('channel.leave');
+  },
+
   sendMessage: function(text, channel_id) {
     var id = Utilities.guid();
     AppDispatcher.dispatch('message.create', {

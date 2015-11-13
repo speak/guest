@@ -30,6 +30,7 @@ var App = React.createClass({
     var channel = this.getStore('channelStore');
     var other_users = UsersStore.otherUsers();
     var highlighted_user = UsersStore.getHighlightedUser();
+    var authenticated = app.socks && app.has_configuration;
     
     if (highlighted_user) return null;
     
@@ -37,8 +38,8 @@ var App = React.createClass({
       return <Incompatible />
     }
 
-    if (!auth.token) {
-      return <Signin channel={channel} />;
+    if ((!auth.token && !channel.loading) || (auth.token && channel.not_found && !channel.id)) {
+      return <Signin channel={channel} authenticated={authenticated} />;
     }
     
     if (app.permission_denied) {
@@ -54,7 +55,7 @@ var App = React.createClass({
     }
 
     if (channel.id && !other_users.length) {
-      if (app.call_completed) {
+      if (channel.completed) {
         return <CallCompleted key="completed" />;
       }
       var waiting = channel.created_by_id && channel.created_by_id != app.user_id;
@@ -74,7 +75,7 @@ var App = React.createClass({
     var logo = <a href="https://speak.io" target="_blank" className="logo"></a>;
     var video, chat, modal, current;
     
-    if (user && channel && app.permission_granted) {
+    if (user && channel.id && app.permission_granted) {
       video = <Video users={users} user={user} channel={channel} />;
       chat = <Chat typing={app.typing} />;
     }
@@ -83,7 +84,7 @@ var App = React.createClass({
       modal = <Modal user={user} channel={channel} name={app.modal} />;
       message = null;
     } else {
-      message = <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true} transitionAppearTimeout={250} transitionEnterTimeout={250} transitionLeaveTimeout={250} id="message-wrapper">{message}</ReactCSSTransitionGroup>;
+      message = <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={250} transitionLeaveTimeout={250} id="message-wrapper">{message}</ReactCSSTransitionGroup>;
     }
     
     if (app.user_id) {
@@ -98,7 +99,7 @@ var App = React.createClass({
         {message}
         {logo}
         {current}
-        {modal}
+        <ReactCSSTransitionGroup transitionName="zoom" transitionEnterTimeout={150} transitionLeaveTimeout={150}>{modal}</ReactCSSTransitionGroup>
       </div>;
     } else {
       return <div id="app">

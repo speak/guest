@@ -10,7 +10,7 @@ input[type="submit"],
 input[type="reset"],
 input[type="button"] {
   display: inline-block;
-  height: 42px;
+  height: 50px;
   padding: 0 40px;
   color: #555;
   text-align: center;
@@ -60,9 +60,11 @@ button.primary:focus,
 input[type="submit"].primary:focus,
 input[type="reset"].primary:focus,
 input[type="button"].primary:focus {
-  color: #FFF;
-  background-color: darken(#4A90E2, 10%);
-  border-color: darken(#4A90E2, 10%);
+  &:not([disabled]) {
+    color: #FFF;
+    background-color: darken(#4A90E2, 10%);
+    border-color: darken(#4A90E2, 10%);
+  }
 }
 
 .button.with-icon {
@@ -91,4 +93,9 @@ input[type="button"].primary:focus {
 
 .button.negative:hover {
   background: darken(#E32170, 10%);
+}
+
+input[disabled],
+input[disabled]:hover {
+  .opacity(.75);
 }
