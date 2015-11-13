@@ -83,6 +83,8 @@ var ChannelStore = new Store({
 
   reset: function(data){
     data.loading = false;
+    data.not_found = false;
+    
     if(data.path) {
       window.history.pushState(data.id, "Speak", "/" + data.path);
     }
