@@ -15,7 +15,7 @@ var Opentok = {
   actions: {
     "signaling.video_session_started":  "maybeConnect",
     "signaling.video_token_generated":  "maybeConnect",
-    "channel.joined":                   "maybeConnect",
+    "me.channel.joined":                "maybeConnect",
     "video.publish":                    "publishVideo",
     "video.unpublish":                  "unpublishVideo",
     "screen.publish":                   "publishScreen",

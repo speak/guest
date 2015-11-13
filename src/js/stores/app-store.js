@@ -37,6 +37,8 @@ var AppStore = new Store({
     'app.modal':                  'showModal',
     'user.configuration':         'reset',
     'user.typing':                'typing',
+    'user.mute':                  'mute',
+    'user.unnmute':               'unmute',
     'webrtc.stream.local':        'webrtcPermissionsGranted',
     'webrtc.stream.remote':       'webrtcConnected',
     'webrtc.permissions':         'webrtcPermissions',
@@ -62,6 +64,14 @@ var AppStore = new Store({
   
   typing: function() {
     this.set({typing: true});
+  },
+
+  mute: function() {
+    this.set({muted: true});
+  },
+  
+  unmute: function() {
+    this.set({muted: false});
   },
 
   socksConnected: function(){
