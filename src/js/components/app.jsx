@@ -72,7 +72,6 @@ var App = React.createClass({
     var channel = this.getStore('channelStore');
     var user = UsersStore.getCurrentUser();
     var message = this.getMessage();
-    var logo = <a href="https://speak.io" target="_blank" className="logo"></a>;
     var video, chat, modal, current;
     
     if (user && channel.id && app.permission_granted) {
@@ -92,21 +91,17 @@ var App = React.createClass({
     }
     
     if (app.app) {
-      return <div id="app" className={user ? 'authenticated' : ''}>
+      return <div>
         <AudioOutput streamId={app.stream} />
         {video}
         {chat}
         {message}
-        {logo}
         {current}
         <ReactCSSTransitionGroup transitionName="zoom" transitionEnterTimeout={150} transitionLeaveTimeout={150}>{modal}</ReactCSSTransitionGroup>
       </div>;
-    } else {
-      return <div id="app" className={user ? 'authenticated' : ''}>
-        {message}
-        {logo}
-      </div>;
     }
+    
+    return message;
   },
   
   render: function() {
@@ -119,7 +114,10 @@ var App = React.createClass({
     }
     
     return <DocumentTitle title={title}>
-      {this.getContent()}
+      <div id="app" className={app.user_id ? 'authenticated' : ''}>
+        {this.getContent()}
+        <a href="https://speak.io" target="_blank" className="logo"></a>
+      </div>
     </DocumentTitle>;
   }
 });

@@ -25,13 +25,20 @@ var CurrentUser = React.createClass({
   signout: function( ){
     AuthActions.signout();
   },
+  
+  preferences: function() {
+    UserActions.showModal('preferences');
+  },
 
   render: function() {
     var nav;
     
     if (this.state.enabled) {
+      // <li><a onClick={this.preferences}>Preferences</a></li>
+      
       nav = <nav className="dropdown animated slideFadeDown">
         <ul>
+          <li><a href="mailto:howdy@speak.io" target="_blank">Help</a></li>
           <li><a onClick={this.signout}>Sign Out</a></li>
         </ul>
       </nav>;
