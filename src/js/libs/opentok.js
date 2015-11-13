@@ -26,6 +26,11 @@ var Opentok = {
     "webrtc.disconnected":              "destroy",
     "socks.disconnected":               "destroy"
   },
+  
+  initialize: function() {
+    _.bindAll(this, 'streamCreated', 'streamDestroyed', 'mediaStopped'
+    'sessionConnected', 'opentokException');
+  },
 
   maybeConnect: function() {
     var sessionId = ChannelStore.get('video_session_id');
@@ -53,11 +58,11 @@ var Opentok = {
 
     this.session = OT.initSession(Config.tokens.tokbox_api_key, sessionId);
     this.session.on({
-      streamCreated: this.streamCreated.bind(this),
-      streamDestroyed: this.streamDestroyed.bind(this),
-      mediaStopped: this.mediaStopped.bind(this),
-      sessionConnected: this.sessionConnected.bind(this),
-      exception: this.opentokException.bind(this),
+      streamCreated: this.streamCreated,
+      streamDestroyed: this.streamDestroyed,
+      mediaStopped: this.mediaStopped,
+      sessionConnected: this.sessionConnected,
+      exception: this.opentokException
     });
     this.session.connect(videoToken);
   },
@@ -278,6 +283,8 @@ var Opentok = {
     }
   }
 };
+
+Opentok.initialize();
 
 OT.registerScreenSharingExtension('chrome', Utilities.getScreenshareExtensionId());
 
