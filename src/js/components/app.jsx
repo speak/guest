@@ -87,12 +87,12 @@ var App = React.createClass({
       message = <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={250} transitionLeaveTimeout={250} id="message-wrapper">{message}</ReactCSSTransitionGroup>;
     }
     
-    if (app.user_id) {
+    if (user) {
       current = <CurrentUser user={user} />;
     }
     
     if (app.app) {
-      return <div id="app">
+      return <div id="app" className={user ? 'authenticated' : ''}>
         <AudioOutput streamId={app.stream} />
         {video}
         {chat}
@@ -102,7 +102,7 @@ var App = React.createClass({
         <ReactCSSTransitionGroup transitionName="zoom" transitionEnterTimeout={150} transitionLeaveTimeout={150}>{modal}</ReactCSSTransitionGroup>
       </div>;
     } else {
-      return <div id="app">
+      return <div id="app" className={user ? 'authenticated' : ''}>
         {message}
         {logo}
       </div>;

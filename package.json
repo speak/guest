@@ -51,6 +51,7 @@
     "react-addons-css-transition-group": "^0.14.2",
     "react-document-title": "^2.0.1",
     "react-dom": "^0.14.2",
+    "react-onclickoutside": "^4.1.1",
     "rtcpeerconnection": "speak/RTCPeerConnection",
     "speak-widgets": "git+https://github.com/speak/speak-widgets",
     "twitter-text": "1.13.2",
