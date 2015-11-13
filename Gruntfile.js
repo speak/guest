@@ -63,6 +63,10 @@ module.exports = function(grunt) {
       less: {
         files: ['src/less/*'],
         tasks: ['less']
+      },
+      html: {
+        files: ['src/html/*', 'src/images/*','src/sounds/*'],
+        tasks: ['copy']
       }
     },
     copy: {
