@@ -122,6 +122,23 @@ Copyright (c) 2015 Daniel Eden
   -webkit-animation-name: rotateIn;
 }
 
+@-webkit-keyframes messageFadeIn {
+  0% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.message {
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-name: messageFadeIn;
+}
+
+
 @-webkit-keyframes fadeIn {
   0% {
     opacity: 0;

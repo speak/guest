@@ -93,7 +93,7 @@ var App = React.createClass({
         {chat}
         {message}
         {logo}
-        {modal}
+        <ReactCSSTransitionGroup transitionName="zoom" transitionEnterTimeout={150} transitionLeaveTimeout={150}>{modal}</ReactCSSTransitionGroup>
       </div>;
     } else {
       return <div id="app">
