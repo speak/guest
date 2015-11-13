@@ -151,6 +151,7 @@ var Opentok = {
         //}
         
         this.cameraPublisher = OT.initPublisher(domElement, options);
+        this.cameraPublisher.on('streamDestroyed', this.streamDestroyed);
         this.session.publish(this.cameraPublisher);
         this.setDOMElement(userId, 'camera', domElement);
 
@@ -206,6 +207,7 @@ var Opentok = {
       }, function(err){
         if (err) console.error(err);
       });
+      this.screenPublisher.on('streamDestroyed', this.streamDestroyed);
       this.session.publish(this.screenPublisher);
       this.setDOMElement(userId, 'screen', domElement);
       OpentokActions.screenPublished(userId, channelId);
