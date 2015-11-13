@@ -71,8 +71,7 @@ var Message = React.createClass({
     var classes = classNames({
       'message': true,
       'editing': this.props.message.editing,
-      'persisted': this.props.message.persisted,
-      'animated': this.props.message.persisted
+      'persisted': this.props.message.persisted
     });
     
     return <li className={classes}>{this.getContent()}</li>;
