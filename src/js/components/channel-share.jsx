@@ -53,7 +53,7 @@ var ChannelShare = React.createClass({
     } else {
       return <div id="channel-share" className="centered">
         <h2>
-          <span data-clipboard-text={url} ref="copyable">{display}</span>
+          <span data-clipboard-text={url} ref="copyable" className="copyable">{display}</span>
           <span className="tooltip">{this.state.tooltip}</span>
         </h2>
         <p>This is your unique link, share it to invite <br/> other people into this call!</p>

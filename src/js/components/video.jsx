@@ -5,6 +5,7 @@ var ChannelStore = require('../stores/channel-store');
 var UserActions = require('../actions/user-actions');
 var UserVideo = require('./user-video');
 var UserScreen = require('./user-screen');
+var CurrentUser = require('./current-user');
 var ChannelName = require('./channel-name');
 var _ = require('underscore');
 
@@ -74,6 +75,7 @@ var Video = React.createClass({
       <ul className="users">{list}</ul>
       <CallControls user={me} channel={channel} />
       <ChannelName {...channel} />
+      <CurrentUser user={me} />
     </div>;
   }
 });

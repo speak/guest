@@ -2,23 +2,27 @@
 
 #current-user {
   position: absolute;
-  z-index: 10;
-  top: 29px;
+  bottom: 80px;
   right: 20px;
+  z-index: 10;
   
-  .avatar {
-    width: 40px;
-    height: 40px;
-    overflow: hidden;
-    .rounded(20px);
-    .opacity(0.9);
+  a.cog {
+    display: block;
+    width: 16px;
+    height: 16px;
+    padding: 4px;
+    background: url('../images/icons/cog@2x.png') no-repeat center center;
+    background-size: 16px 16px;
+    cursor: pointer;
+    
+    .opacity(0.8);
     .transition();
     
     &:hover {
       .opacity(1);
     }
   }
-
+  
   nav {
     // animations happen on this element
     position: relative;
@@ -30,18 +34,18 @@
       z-index: 10;
       position: absolute;
       right: 0;
-      top: 10px;
+      bottom: 30px;
         
       background: #fff;
       color: #333;
       font-size: 14px;
-      width: 150px;
+      width: 140px;
       .rounded(4px);
     
       &:before {
         position: absolute;
-        top: -12px;
-        right: 15px;
+        bottom: -12px;
+        right: 8px;
       
         content: "";
         display: inline-block;
@@ -51,7 +55,7 @@
         background-size: 8px 17px;
         width: 8px;
         height: 17px;
-        .rotation(90deg);
+        .rotation(-90deg);
       }
       
       li {

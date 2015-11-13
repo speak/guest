@@ -1,7 +1,6 @@
 var React = require('react');
 var AuthActions = require('../actions/auth-actions');
 var UserActions = require('../actions/user-actions');
-var Avatar = require('speak-widgets').Avatar;
 
 var CurrentUser = React.createClass({
   mixins: [require('react-onclickoutside')],
@@ -22,7 +21,7 @@ var CurrentUser = React.createClass({
     this.setState({enabled: !this.state.enabled});
   },
   
-  signout: function( ){
+  signout: function(){
     AuthActions.signout();
   },
   
@@ -35,6 +34,7 @@ var CurrentUser = React.createClass({
     
     if (this.state.enabled) {
       // <li><a onClick={this.preferences}>Preferences</a></li>
+      // <li><a href="https://account.speak.io" target="_blank">Account</a></li>
       
       nav = <nav className="dropdown animated slideFadeDown">
         <ul>
@@ -45,9 +45,7 @@ var CurrentUser = React.createClass({
     }
     
     return <div id="current-user">
-      <a onClick={this.toggleMenu}>
-        <Avatar user={this.props.user} circle={true} simple={true} />
-      </a>
+      <a onClick={this.toggleMenu} className="cog"></a>
       {nav}
     </div>;
   }

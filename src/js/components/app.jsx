@@ -9,7 +9,6 @@ var CallCompleted = require('./call-completed');
 var PermissionError = require('./permission-error');
 var PermissionDialog = require('./permission-dialog');
 var Incompatible = require('./incompatible');
-var CurrentUser = require('./current-user');
 var Connecting = require('./connecting');
 var Modal = require('./modal');
 var Chat = require('./chat');
@@ -17,6 +16,7 @@ var ChannelShare = require('./channel-share');
 var AudioOutput = require('./audio-output');
 var Signin = require('./signin');
 var Video = require('./video');
+var Logo = require('./logo');
 var _ = require('underscore');
 
 var App = React.createClass({
@@ -86,17 +86,12 @@ var App = React.createClass({
       message = <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={250} transitionLeaveTimeout={250} id="message-wrapper">{message}</ReactCSSTransitionGroup>;
     }
     
-    if (user) {
-      current = <CurrentUser user={user} />;
-    }
-    
     if (app.app) {
       return <div>
         <AudioOutput streamId={app.stream} />
         {video}
         {chat}
         {message}
-        {current}
         <ReactCSSTransitionGroup transitionName="zoom" transitionEnterTimeout={150} transitionLeaveTimeout={150}>{modal}</ReactCSSTransitionGroup>
       </div>;
     }
@@ -116,7 +111,7 @@ var App = React.createClass({
     return <DocumentTitle title={title}>
       <div id="app" className={app.user_id ? 'authenticated' : ''}>
         {this.getContent()}
-        <a href="https://speak.io" target="_blank" className="logo"></a>
+        <Logo />
       </div>
     </DocumentTitle>;
   }
