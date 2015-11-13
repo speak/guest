@@ -28,7 +28,7 @@ var Opentok = {
   },
   
   initialize: function() {
-    _.bindAll(this, 'streamCreated', 'streamDestroyed', 'mediaStopped'
+    _.bindAll(this, 'streamCreated', 'streamDestroyed', 'mediaStopped',
     'sessionConnected', 'opentokException');
   },
 
