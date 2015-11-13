@@ -2,6 +2,7 @@ var AppStore = require('../stores/app-store');
 var UsersStore = require('../stores/users-store');
 var OpentokActions = require('../actions/opentok-actions');
 var ChannelStore = require('../stores/channel-store');
+var PreferencesStore = require('../stores/preferences-store');
 var MediaManager = require('../libs/media-manager');
 var Config = require('config');
 var Utilities = require('./utilities');

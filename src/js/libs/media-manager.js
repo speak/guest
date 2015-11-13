@@ -89,6 +89,7 @@ module.exports = {
   },
 
   getCurrentVideoSource: function(cb) {
+    var PreferencesStore = require('../stores/preferences-store');
     var videoInput = PreferencesStore.get('video_input');
     if (!videoInput) return cb(null);
   

@@ -8,11 +8,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-css-url-embed');
 
   if (target == "production") {
-    var tasks = ['copy', 'browserify', 'uglify', 'less']
+    var tasks = ['copy', 'browserify', 'uglify', 'less', 'cssUrlEmbed']
   } else {
-    var tasks = ['copy', 'browserify', 'less']
+    var tasks = ['copy', 'browserify', 'less', 'cssUrlEmbed']
   }
   grunt.registerTask('build', tasks);
   
@@ -44,6 +45,13 @@ module.exports = function(grunt) {
         }
       }
     },
+    cssUrlEmbed: {
+      encodeDirectly: {
+        files: {
+          'build/css/guest.css': ['build/css/guest.css']
+        }
+      }
+    },
     uglify: {
       options: {
         sourceMap: true,
@@ -65,8 +73,12 @@ module.exports = function(grunt) {
         tasks: ['less']
       },
       html: {
-        files: ['src/html/*', 'src/images/*','src/sounds/*'],
+        files: ['src/html/*', 'src/sounds/*'],
         tasks: ['copy']
+      },
+      images: {
+        files: ['src/images/*'],
+        tasks: ['copy', 'less', 'cssUrlEmbed']
       }
     },
     copy: {
