@@ -6,9 +6,15 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-browserify');
 
-  grunt.registerTask('build', ['copy', 'browserify', 'less']);
+  if (target == "production") {
+    var tasks = ['copy', 'browserify', 'uglify', 'less']
+  } else {
+    var tasks = ['copy', 'browserify', 'less']
+  }
+  grunt.registerTask('build', tasks);
   
   grunt.initConfig({
     browserify: {
@@ -38,6 +44,17 @@ module.exports = function(grunt) {
         }
       }
     },
+    uglify: {
+      options: {
+        sourceMap: true,
+        sourceMapIncludeSources: true
+      },
+      all: {
+        files: {
+          "build/js/guest.js": "build/js/guest.js"
+        }
+      }
+    },
     watch: {
       js: {
         files: ['src/**/*.jsx', 'src/**/*.js'],
@@ -62,6 +79,13 @@ module.exports = function(grunt) {
         cwd: 'src/images',
         src: ['**/*'],
         dest: 'build/images/'
+      },
+      sounds: {
+        expand: true,
+        flatten: false,
+        cwd: 'src/sounds',
+        src: ['**/*'],
+        dest: 'build/sounds/'
       }
     }
   });

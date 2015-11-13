@@ -33,8 +33,11 @@ var Modal = React.createClass({
   },
   
   render: function() {
-    return <div id="modal" className="animated fadeIn">
-      <a onClick={this.closeModal} className="close">✕</a>
+    return <div id="modal" className="animated fadeAndZoomIn">
+      <a onClick={this.closeModal} className="close">
+        <span>✕</span>
+        <span className="shortcut">esc</span>
+      </a>
       {this.getContent()}
     </div>;
   }

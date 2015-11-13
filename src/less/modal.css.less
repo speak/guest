@@ -8,7 +8,7 @@
   height: 100%;
   color: #333;
   text-align: center;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.95);
   z-index: 1000;
   
   .close {
@@ -24,6 +24,13 @@
     &:hover {
       .opacity(1);
     }
+    
+    .shortcut {
+      font-size: 14px;
+      display: block;
+      margin: -2px 0 0;
+      color: #666;
+    }
   }
 }
 
@@ -38,6 +45,7 @@
     h1,
     h2 {
       font-weight: normal;
+      position: relative;
     }
   
     p {
