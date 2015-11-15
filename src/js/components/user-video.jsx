@@ -47,6 +47,7 @@ var UserVideo = React.createClass({
     
     var classes = classNames({
       'user': true,
+      'animated': true,
       'me': user.me,
       'video': !audioOnly,
       'audio-only': audioOnly,

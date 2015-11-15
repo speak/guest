@@ -38,6 +38,7 @@ var UserScreen = React.createClass({
       'user': true,
       'screen': true,
       'me': user.me,
+      'animated': true,
       'mini': !this.props.centered,
       'centered': this.props.centered,
       'selected': user.highlighted && user.highlighted_type == 'screen'
