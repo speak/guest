@@ -19,6 +19,7 @@ var AppStore = new Store({
     permission_granted:     false,
     permission_dialog:      false,
     permission_denied:      false,
+    extension_loaded:       false,
     ice_servers:            null,
     ice_servers_expire_at:  null,
     user_id:                null,
@@ -28,6 +29,7 @@ var AppStore = new Store({
     stream:                 null,
     level:                  null,
     has_configuration:      false,
+    gcm_registration_id:    null,
     socks:                  false,
     typing:                 false,
     modal:                  false
@@ -35,6 +37,8 @@ var AppStore = new Store({
 
   actions: {
     'app.modal':                  'showModal',
+    'extension.loaded':           'extensionLoaded',
+    'user.extension_registered':  'extensionRegistered',
     'user.configuration':         'reset',
     'user.typing':                'typing',
     'user.mute':                  'mute',
@@ -56,6 +60,14 @@ var AppStore = new Store({
       has_configuration: true,
       level: data.user.level
     });
+  },
+  
+  extensionLoaded: function() {
+    this.set({extension_loaded: true});
+  },
+  
+  extensionRegistered: function(data) {
+    this.set({gcm_registration_id: data.registration_id});
   },
   
   showModal: function(name) {

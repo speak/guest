@@ -32,6 +32,16 @@ var AppActions = {
   quitting: function() {
     AppDispatcher.dispatch('app.quitting');
   },
+  
+  extensionLoaded: function() {
+    AppDispatcher.dispatch('extension.loaded');
+  },
+  
+  extensionRegistered: function(id) {
+    AppDispatcher.dispatch('user.extension_registered', {
+      registration_id: id
+    });
+  },
 
   requestConfiguration: function() {
     AppDispatcher.dispatch('user.configure');
