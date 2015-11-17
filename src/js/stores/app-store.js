@@ -1,5 +1,4 @@
 var Store =  require('./store');
-var UsersStore = require('./users-store');
 var MediaManager = require('../libs/media-manager');
 var _ = require('underscore');
 
@@ -11,11 +10,16 @@ var AppStore = new Store({
         return !MediaManager.browserHasSupport();
       }
     },
+    app: {
+      deps: ['socks', 'has_configuration'],
+      calculate: function() {
+        return this.state.socks && this.state.has_configuration;
+      }
+    },
     permission_granted:     false,
     permission_dialog:      false,
     permission_denied:      false,
     extension_loaded:       false,
-    call_completed:         false,
     ice_servers:            null,
     ice_servers_expire_at:  null,
     user_id:                null,
@@ -37,12 +41,13 @@ var AppStore = new Store({
     'user.extension_registered':  'extensionRegistered',
     'user.configuration':         'reset',
     'user.typing':                'typing',
+    'user.mute':                  'mute',
+    'user.unnmute':               'unmute',
     'webrtc.stream.local':        'webrtcPermissionsGranted',
     'webrtc.stream.remote':       'webrtcConnected',
     'webrtc.permissions':         'webrtcPermissions',
     'webrtc.permissions_granted': 'webrtcPermissionsGranted',
     'webrtc.disconnected':        'webrtcDisconnected',
-    'channel.left':               'checkCallCompleted',
     'socks.connected':            'socksConnected',
     'socks.disconnected':         'socksDisconnected'
   },
@@ -73,6 +78,14 @@ var AppStore = new Store({
     this.set({typing: true});
   },
 
+  mute: function() {
+    this.set({muted: true});
+  },
+  
+  unmute: function() {
+    this.set({muted: false});
+  },
+
   socksConnected: function(){
     this.set({socks: true});
   },
@@ -100,12 +113,6 @@ var AppStore = new Store({
   
   webrtcDisconnected: function() {
     this.set({stream: null});
-  },
-  
-  checkCallCompleted: function() {
-    if (!UsersStore.otherUsers().length) {
-      this.set({call_completed: true});
-    }
   }
 });
 

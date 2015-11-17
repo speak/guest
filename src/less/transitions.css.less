@@ -24,3 +24,59 @@
   opacity: 0.01;
   transition: opacity 250ms ease-in;
 }
+
+
+
+.zoom-enter {
+  opacity: 0.01;
+  -webkit-transform: scale3d(.98, .98, .98);
+  transform: scale3d(.98, .98, .98);
+}
+
+.zoom-enter.zoom-enter-active {
+  opacity: 1;
+  transition: all 150ms ease-in;
+  -webkit-transform: scale3d(1, 1, 1);
+  transform: scale3d(1, 1, 1);
+}
+
+.zoom-leave {
+  opacity: 1;
+  -webkit-transform: scale3d(1, 1, 1);
+  transform: scale3d(1, 1, 1);
+}
+
+.zoom-leave.zoom-leave-active {
+  opacity: 0.01;
+  transition: all 150ms ease-out;
+  -webkit-transform: scale3d(.98, .98, .98);
+  transform: scale3d(.98, .98, .98);
+}
+
+
+
+.animated.mini.mini-enter {
+  opacity: 0.01;
+  -webkit-transform: scale3d(.98, .98, .98);
+  transform: scale3d(.98, .98, .98);
+}
+
+.animated.mini.mini-enter.mini-enter-active {
+  opacity: 1;
+  transition: all 250ms ease-in;
+  -webkit-transform: scale3d(1, 1, 1);
+  transform: scale3d(1, 1, 1);
+}
+
+.animated.mini.mini-leave {
+  opacity: 1;
+  -webkit-transform: scale3d(1, 1, 1);
+  transform: scale3d(1, 1, 1);
+}
+
+.animated.mini.mini-leave.mini-leave-active {
+  opacity: 0.01;
+  transition: all 250ms ease-out;
+  -webkit-transform: scale3d(.98, .98, .98);
+  transform: scale3d(.98, .98, .98);
+}

@@ -122,6 +122,16 @@ Copyright (c) 2015 Daniel Eden
   -webkit-animation-name: rotateIn;
 }
 
+@-webkit-keyframes messageFadeIn {
+  0% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 @-webkit-keyframes fadeIn {
   0% {
     opacity: 0;
@@ -162,8 +172,23 @@ Copyright (c) 2015 Daniel Eden
   }
 }
 
+@keyframes slideFadeDown {
+  0% {
+    opacity: 0;
+    bottom: 6px;
+  }
+
+  100% {
+    opacity: 1;
+    bottom: 0px;
+  }
+}
+
 .slideFadeDown {
   -webkit-animation-name: slideFadeDown;
+  -webkit-duration: .5s;
+  animation-name: slideFadeDown;
+  animation-duration: .5s;
 }
 
 

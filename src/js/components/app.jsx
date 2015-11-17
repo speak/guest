@@ -16,6 +16,7 @@ var ChannelShare = require('./channel-share');
 var AudioOutput = require('./audio-output');
 var Signin = require('./signin');
 var Video = require('./video');
+var Logo = require('./logo');
 var _ = require('underscore');
 
 var App = React.createClass({
@@ -29,6 +30,7 @@ var App = React.createClass({
     var channel = this.getStore('channelStore');
     var other_users = UsersStore.otherUsers();
     var highlighted_user = UsersStore.getHighlightedUser();
+    var authenticated = app.socks && app.has_configuration;
     
     if (highlighted_user) return null;
     
@@ -36,8 +38,8 @@ var App = React.createClass({
       return <Incompatible />
     }
 
-    if (!auth.token) {
-      return <Signin channel={channel} />;
+    if ((!auth.token && !channel.loading) || (auth.token && channel.not_found && !channel.id && !channel.loading)) {
+      return <Signin channel={channel} authenticated={authenticated} />;
     }
     
     if (app.permission_denied) {
@@ -53,7 +55,7 @@ var App = React.createClass({
     }
 
     if (channel.id && !other_users.length) {
-      if (app.call_completed) {
+      if (channel.completed) {
         return <CallCompleted key="completed" />;
       }
       var waiting = channel.created_by_id && channel.created_by_id != app.user_id;
@@ -63,40 +65,55 @@ var App = React.createClass({
     return null;
   },
 
-  render: function() {
+  getContent: function() {
     var app = this.getStore('appStore');
     var users = UsersStore.getOnlineUsers();
     var auth = this.getStore('authStore');
     var channel = this.getStore('channelStore');
     var user = UsersStore.getCurrentUser();
     var message = this.getMessage();
-    var title = "Speak";
-    var video, chat, modal;
-
-    if (user && channel && app.permission_granted) {
+    var video, chat, modal, current;
+    
+    if (user && channel.id && app.permission_granted) {
       video = <Video users={users} user={user} channel={channel} />;
       chat = <Chat typing={app.typing} />;
     }
 
+    if (app.modal) {
+      modal = <Modal user={user} channel={channel} name={app.modal} />;
+      message = null;
+    } else {
+      message = <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={250} transitionLeaveTimeout={250} id="message-wrapper">{message}</ReactCSSTransitionGroup>;
+    }
+    
+    if (app.app) {
+      return <div>
+        <AudioOutput streamId={app.stream} />
+        {video}
+        {chat}
+        {message}
+        <ReactCSSTransitionGroup transitionName="zoom" transitionEnterTimeout={150} transitionLeaveTimeout={150}>{modal}</ReactCSSTransitionGroup>
+      </div>;
+    }
+    
+    return message;
+  },
+  
+  render: function() {
+    var app = this.getStore('appStore');
+    var channel = this.getStore('channelStore');
+    var title = "Speak";
+    
     if (channel && channel.name) {
       title = channel.name;
     }
     
-    if (app.modal) {
-      modal = <Modal user={user} channel={channel} name={app.modal} />;
-      message = null;
-    }
-
     return <DocumentTitle title={title}>
-      <div id="app">
-        <AudioOutput streamId={app.stream} />
-        {video}
-        {chat}
-        <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true} transitionAppearTimeout={250} transitionEnterTimeout={250} transitionLeaveTimeout={250} id="message-wrapper">{message}</ReactCSSTransitionGroup>
-        <a href="https://speak.io" target="_blank" className="logo"></a>
-        {modal}
+      <div id="app" className={app.user_id ? 'authenticated' : ''}>
+        {this.getContent()}
+        <Logo />
       </div>
-    </DocumentTitle>
+    </DocumentTitle>;
   }
 });
 

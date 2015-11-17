@@ -2,6 +2,8 @@ var AppStore = require('../stores/app-store');
 var UsersStore = require('../stores/users-store');
 var OpentokActions = require('../actions/opentok-actions');
 var ChannelStore = require('../stores/channel-store');
+var PreferencesStore = require('../stores/preferences-store');
+var MediaManager = require('../libs/media-manager');
 var Config = require('config');
 var Utilities = require('./utilities');
 var _ = require('underscore');
@@ -15,7 +17,7 @@ var Opentok = {
   actions: {
     "signaling.video_session_started":  "maybeConnect",
     "signaling.video_token_generated":  "maybeConnect",
-    "channel.joined":                   "maybeConnect",
+    "me.channel.joined":                "maybeConnect",
     "video.publish":                    "publishVideo",
     "video.unpublish":                  "unpublishVideo",
     "screen.publish":                   "publishScreen",
@@ -25,6 +27,11 @@ var Opentok = {
     "session.error":                    "destroy",
     "webrtc.disconnected":              "destroy",
     "socks.disconnected":               "destroy"
+  },
+  
+  initialize: function() {
+    _.bindAll(this, 'streamCreated', 'streamDestroyed', 'mediaStopped',
+    'sessionConnected', 'opentokException');
   },
 
   maybeConnect: function() {
@@ -53,11 +60,11 @@ var Opentok = {
 
     this.session = OT.initSession(Config.tokens.tokbox_api_key, sessionId);
     this.session.on({
-      streamCreated: this.streamCreated.bind(this),
-      streamDestroyed: this.streamDestroyed.bind(this),
-      mediaStopped: this.mediaStopped.bind(this),
-      sessionConnected: this.sessionConnected.bind(this),
-      exception: this.opentokException.bind(this),
+      streamCreated: this.streamCreated,
+      streamDestroyed: this.streamDestroyed,
+      mediaStopped: this.mediaStopped,
+      sessionConnected: this.sessionConnected,
+      exception: this.opentokException
     });
     this.session.connect(videoToken);
   },
@@ -132,7 +139,7 @@ var Opentok = {
     if (this.session && this.session.currentState == "connected") {
       var domElement = document.createElement("div");
       var userId = AppStore.get('user_id');
-      //var videoInput = PreferencesStore.get('video_input');
+      var videoInput = PreferencesStore.get('video_input');
       var options = {
         insertMode: "append",
         publishAudio: false,
@@ -143,20 +150,20 @@ var Opentok = {
         showControls: false
       };
 
-      //MediaManager.getCurrentVideoSource(function(sourceId){
-        
-        //if (sourceId) {
-          // this cannot be set to null, otherwise OT assumes an audio only session
-        //  options.videoSource = sourceId;
-        //}
+      MediaManager.getCurrentVideoSource(function(sourceId){
+        if (sourceId) {
+          // this cannot be set to null, otherwise OT assumes audio only session
+          options.videoSource = sourceId;
+        }
         
         this.cameraPublisher = OT.initPublisher(domElement, options);
+        this.cameraPublisher.on('streamDestroyed', this.streamDestroyed);
         this.session.publish(this.cameraPublisher);
         this.setDOMElement(userId, 'camera', domElement);
 
         OpentokActions.videoPublished(userId, channelId);
         
-        //}.bind(this));
+      }.bind(this));
       
     } else {
       this.publishVideoOnConnect = true;
@@ -206,6 +213,7 @@ var Opentok = {
       }, function(err){
         if (err) console.error(err);
       });
+      this.screenPublisher.on('streamDestroyed', this.streamDestroyed);
       this.session.publish(this.screenPublisher);
       this.setDOMElement(userId, 'screen', domElement);
       OpentokActions.screenPublished(userId, channelId);
@@ -276,6 +284,8 @@ var Opentok = {
     }
   }
 };
+
+Opentok.initialize();
 
 OT.registerScreenSharingExtension('chrome', Utilities.getScreenshareExtensionId());
 

@@ -3,24 +3,6 @@ var UsersStore =  require('./users-store');
 var _ = require('underscore');
 
 var ChannelStore = new Store({
-  actions: {
-    'user.started_speaking':            'userStartedSpeaking',
-    'user.stopped_speaking':            'userStoppedSpeaking',
-    'channel.found':                    'reset',
-    'channel.created':                  'reset',
-    'channel.not_found':                'channelNotFound',
-    'channel.joined':                   'channelJoined',
-    'channel.updated':                  'set',
-    'channel.left':                     'clearActiveSpeaker',
-    'channel.kicked':                   'clearActiveSpeaker',
-    'video.unpublished':                'clearActiveSpeaker',
-    'screen.unpublished':               'clearActiveSpeaker',
-    'session.destroy':                  'destroy',
-    'user.signedin':                    'userSignedin',
-    'user.configuration':               'userConfiguration',
-    'signaling.video_session_started':  'videoSessionStarted',
-    'signaling.video_token_generated':  'videoTokenGenerated'
-  },
 
   scheme: {
     id: null,
@@ -28,7 +10,9 @@ var ChannelStore = new Store({
     public: null,
     public_url: null,
     server: null,
+    loading: false,
     temporary: null,
+    completed: false,
     token: null,
     video_token: null,
     video_session_id: null,
@@ -36,6 +20,7 @@ var ChannelStore = new Store({
     last_active_speaker_id: null,
     created_by_id: null,
     started_at: null,
+    not_found: false,
     path: null,
     requested_path: {
       calculate: function () {
@@ -43,20 +28,58 @@ var ChannelStore = new Store({
       }
     }
   },
+  
+  actions: {
+    'user.started_speaking':            'userStartedSpeaking',
+    'user.stopped_speaking':            'userStoppedSpeaking',
+    'channel.loading':                  'channelLoading',
+    'channel.found':                    'reset',
+    'channel.created':                  'reset',
+    'channel.not_found':                'channelNotFound',
+    'channel.joined':                   'channelJoined',
+    'channel.updated':                  'set',
+    'channel.leave':                    'channelLeave',
+    'channel.left':                     'channelLeft',
+    'channel.kicked':                   'clearActiveSpeaker',
+    'video.unpublished':                'clearActiveSpeaker',
+    'screen.unpublished':               'clearActiveSpeaker',
+    'session.error':                    'destroy',
+    'session.destroy':                  'destroy',
+    'user.signedin':                    'userSignedin',
+    'user.configuration':               'userConfiguration',
+    'signaling.video_session_started':  'videoSessionStarted',
+    'signaling.video_token_generated':  'videoTokenGenerated'
+  },
+  
+  channelLoading: function() {
+    this.set({loading: true});
+  },
 
   channelNotFound: function(){
-    this.set({
-      not_found: true
-    })
+    this.set({not_found: true});
+  },
+  
+  channelLeft: function(data) {
+    this.clearActiveSpeaker(data);
+    
+    if (data.id == this.get('id') && !UsersStore.otherUsers().length) {
+      this.set({completed: true});
+    }
   },
 
   destroy: function(data){
     window.history.pushState({}, "Speak", "/");
-    this.state = {};
-    this.emit('change');
+    this.set({
+      token: null,
+      video_token: null,
+      video_session_id: null
+    });
   },
 
   reset: function(data){
+    data.loading = false;
+    data.not_found = false;
+    
     if(data.path) {
       window.history.pushState(data.id, "Speak", "/" + data.path);
     }
@@ -82,7 +105,7 @@ var ChannelStore = new Store({
       if(this.state.requested_path){
         opts.path = this.state.requested_path;
       }
-      AppActions.createChannel(opts);
+      AppActions.channelCreate(opts);
     }
   },
   
@@ -90,6 +113,12 @@ var ChannelStore = new Store({
     if (!this.get('started_at')) {
       this.set({started_at: (new Date()).getTime()});
     }
+  },
+  
+  channelLeave: function() {
+    window.history.pushState({}, "Speak", "/");
+    this.state = {not_found: true};
+    this.emit('change');
   },
 
   userStartedSpeaking: function(data){

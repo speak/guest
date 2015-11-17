@@ -17,7 +17,94 @@
     </script>
   </head>
   <body>
+    <div id="home">
+      <header class="main-header">
+        <a href="/" class="logo"></a>
+        <nav class="main-nav">
+          <a href="http://blog.speak.io/tag/startup-journal">Startup Journal</a>
+          <a href="https://speak.io/about">About</a>
+        </nav>
+        <div class="header-content">
+          <h1>The Best Meeting Tool You’ve Ever Seen</h1>
+          <p>Speak is the easiest way to have a meeting with audio, video, screenshare and support for up to 20 participants!</p>
+          <form id="homepage-start-meeting">
+            <input type="text" name="first_name" placeholder="Your name..." /><input type="submit" value="Start Meeting" class="button primary">
+            <p>
+              No downloads or installs needed!
+            </p>
+          </form>
+        </div>
+        <img src="/images/app.jpg" class="app" />
+      </header>
+      
+      <div class="features">
+        <div class="container">
+          <div class="sixteen columns">
+            <h2>FEATURES</h2>
+            <h3>Speak is Something you Definitely Need</h3>
+          </div>
+          <div class="one-third column feature">
+            <img src="/images/users@2x.png" width="44" height="35" />
+            <h4>Group Meetings</h4>
+            <p>
+              Whether it's a one on one call or company all-hands, Speak supports your meeting up to 20 participants.
+            </p>
+          </div>
+          <div class="one-third column feature">
+            <img src="/images/screen@2x.png" width="44" height="35" />
+            <h4>Screensharing</h4>
+            <p>
+              Easily share your entire desktop or a specific window. You can also screenshare whilst on video!
+            </p>
+          </div>
+          
+          <div class="one-third column feature">
+            <img src="/images/slack@2x.png" width="44" height="35" />
+            <h4>Tons of Integrations</h4>
+            <p>
+              Speak integrates with the latest messaging platforms, CRMs, support tools and more.
+            </p>
+          </div>
+          <div class="one-third column feature">
+            <img src="/images/camera@2x.png" width="44" height="35" />
+            <h4>Call Recording</h4>
+            <p>
+              Record your meetings so you can review them later or share with
+              those that couldn't attend.
+            </p>
+            <span class="coming-soon">Coming soon!</span>
+          </div>
+          <div class="one-third column feature">
+            <img src="/images/brush@2x.png" width="44" height="35" />
+            <h4>Custom Branding</h4>
+            <p>
+              Give your customers a more personal experience by custom branding your Speak meeting.
+            </p>
+            <span class="coming-soon">Coming soon!</span>
+          </div>
+          <div class="one-third column feature">
+            <img src="/images/plane@2x.png" width="44" height="35" />
+            <h4>File Sharing</h4>
+            <p>
+              Speak includes encrypted p2p file sharing within your web browser, nice!
+            </p>
+            <span class="coming-soon">Coming soon!</span>
+          </div>
+        </div>
+      </div>
+    </div>    
     <div id="guest"></div>
+    <script>
+    // we have this here so that it loads before the main chunk of js
+    var path = window.location.pathname.split('/')[1];
+    var auth = localStorage.getItem('production-auth') || localStorage.getItem('staging-auth') || localStorage.getItem('development-auth');
+
+    if(path || auth) {
+      document.getElementById('guest').style.display='block';
+    } else {
+      document.getElementById('home').style.display='block';
+    }
+    </script>
     <script src="//static.opentok.com/v2/js/opentok.min.js"></script>
     <script src="//cdn.ravenjs.com/1.3.0/jquery,native/raven.min.js"></script>
     <script src="/js/guest.js"></script>

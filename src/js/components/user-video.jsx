@@ -39,14 +39,19 @@ var UserVideo = React.createClass({
   render: function() {
     var user = this.props.item;
     var audioOnly = !this.props.video || !this.state.playing;
-    var mute;
+    var mute, fullName;
 
     if(user.muted) {
       mute = <MuteButton enabled={user.muted} speaking={user.speaking} hasTooltip={false} />;
     }
     
+    if(this.props.centered) {
+      fullName = <span className="full-name">{user.me ? "Me" : user.first_name.capitalize() + ' ' + user.last_name.capitalize()}</span>;
+    }
+    
     var classes = classNames({
       'user': true,
+      'animated': true,
       'me': user.me,
       'video': !audioOnly,
       'audio-only': audioOnly,
@@ -57,6 +62,7 @@ var UserVideo = React.createClass({
     });
     
     return <li className={classes} onClick={this.handleClick}>
+      {fullName}
       <Avatar user={user} circle={audioOnly && this.props.centered} simple={true} initials={false} />
       <div className="video" ref="video"></div>
       <div className="overlay"></div>
@@ -65,6 +71,7 @@ var UserVideo = React.createClass({
       {mute}
     </li>;
   },
+
 
   updateVideoElement: function() {
     var video = this.refs.video;

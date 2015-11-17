@@ -10,6 +10,8 @@ var Input = React.createClass({
   },
   
   render: function () {
+    var error;
+    
     // Set a specific className based on the validation
     // state of this component. showRequired() is true
     // when the value is empty and the required prop is
@@ -24,11 +26,18 @@ var Input = React.createClass({
     // An error message is returned ONLY if the component is invalid
     // or the server has returned an error message
     var errorMessage = this.getErrorMessage();
+    if (errorMessage) {
+      error = <div className="error-wrapper">
+                <div className="error slideFadeDown">
+                  <span className="validation">{errorMessage}</span>
+                </div>
+              </div>
+    }
 
     return (
-      <div className={classes}>
+      <div className={classes + " " + this.props.wrapperClass}>
         <input {...this.props} onChange={this.changeValue} value={this.getValue()}/>
-        <span className="validation">{errorMessage}</span>
+        {error}
       </div>
     );
   }
