@@ -65,7 +65,7 @@ var Signin = React.createClass({
     return <div><h2>{channel.name}</h2><p>Just add your name below to join the call.</p></div>;
   },
   
-  getButtonText: function() {
+  getText: function() {
     return this.props.channel.guest ? "Start Meeting" : "Join Meeting";
   },
 
@@ -130,7 +130,7 @@ var Signin = React.createClass({
       password = <Input type="password" name="password" placeholder="Password" className="u-full-width" />;
     }
 
-    return <DocumentTitle title={heading}>
+    return <DocumentTitle title={this.getText()}>
       <div id="floating-modal">
         <Formsy.Form onValidSubmit={this.handleSubmit} onValid={this.enableButton} onInvalid={this.disableButton}>
           {heading}
@@ -138,7 +138,7 @@ var Signin = React.createClass({
           {email}
           {password}
           {channel_name}
-          <input type="submit" value={this.getButtonText()} disabled={!this.state.can_submit} className="u-full-width button primary" />
+          <input type="submit" value={this.getText()} disabled={!this.state.can_submit} className="u-full-width button primary" />
         </Formsy.Form>
       </div>
     </DocumentTitle>;
