@@ -19,6 +19,7 @@ var App = require('./components/app');
 var AuthStore = require('./stores/auth-store');
 var channelId = window.location.pathname.split('/')[1];
 var _ = require('underscore');
+var $ = require('jquery');
 
 Sound.loadAll();
 
@@ -52,3 +53,15 @@ document.getElementById('guest').style.backgroundImage = "url('" + _.sample([
   'https://images.unsplash.com/photo-1444090542259-0af8fa96557e?ixlib=rb-0.3.5&q=80&fm=jpg&w=1080&fit=max&s=6d1a04e483a2ec9389ce14114b45e3cb',
   'https://images.unsplash.com/photo-1441155472722-d17942a2b76a?ixlib=rb-0.3.5&q=80&fm=jpg&w=1080&fit=max&s=0fdad65d07729dde465aa8bdf62ddbec'
 ]) + "')";
+
+// homepage signin
+$(function() {
+  $('#homepage-start-meeting').submit(function(ev){
+    ev.preventDefault();
+    
+    var name = $(this).find('input[name=first_name]').val();
+    var change = new Event('input', { bubbles: true });
+    $('#floating-modal input[name=first_name]').val(name).get(0).dispatchEvent(change);
+    $('#floating-modal input[type=submit]').click();
+  });
+});
