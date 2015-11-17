@@ -34,6 +34,8 @@ var App = React.createClass({
     
     if (highlighted_user) return null;
     
+    return <CallCompleted key="completed" channel={channel} />;
+    
     if (app.incompatible) {
       return <Incompatible />
     }
@@ -56,7 +58,7 @@ var App = React.createClass({
 
     if (channel.id && !other_users.length) {
       if (channel.completed) {
-        return <CallCompleted key="completed" />;
+        return <CallCompleted key="completed" channel={channel} />;
       }
       var waiting = channel.created_by_id && channel.created_by_id != app.user_id;
       return <ChannelShare path={channel.path} waiting={waiting} key="share" />;
