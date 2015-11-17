@@ -26,11 +26,11 @@
         </nav>
         <div class="header-content">
           <h1>The Best Meeting Tool You’ve Ever Seen</h1>
-          <p>Speak is the ultimate meeting tool for your viewing pleasure, with support for up to 20 participants!</p>
+          <p>Speak is the easiest way to have a meeting with audio, video, screenshare and support for up to 20 participants!</p>
           <form id="homepage-start-meeting">
             <input type="text" name="first_name" placeholder="Your name..." /><input type="submit" value="Start Meeting" class="button primary">
             <p>
-              No downloads / installs needed!
+              No downloads or installs needed!
             </p>
           </form>
         </div>
@@ -47,21 +47,22 @@
             <img src="/images/users@2x.png" width="44" height="35" />
             <h4>Group Meetings</h4>
             <p>
-              Whether it's a daily standup or company all-hands, Speak supports your meeting up to 20 participants.
+              Whether it's a one on one call or company all-hands, Speak supports your meeting up to 20 participants.
             </p>
           </div>
           <div class="one-third column feature">
             <img src="/images/camera@2x.png" width="44" height="35" />
             <h4>Call Recording</h4>
             <p>
-              Record your meetings so you can review them later.
+              Record your meetings so you can review them later or share with
+              those that couldn't attend.
             </p>
           </div>
           <div class="one-third column feature">
             <img src="/images/screen@2x.png" width="44" height="35" />
             <h4>Screensharing</h4>
             <p>
-              Easily share your desktop or even a specific app.
+              Easily share your entire desktop or a specific window. You can also screenshare whilst on video!
             </p>
           </div>
           
@@ -83,7 +84,7 @@
             <img src="/images/plane@2x.png" width="44" height="35" />
             <h4>File Sharing</h4>
             <p>
-              Give your customers a more personal experience by custom branding your Speak meeting.
+              Speak includes encrypted p2p file sharing within your web browser, nice!
             </p>
           </div>
         </div>
@@ -91,8 +92,9 @@
     </div>    
     <div id="guest"></div>
     <script>
+    // we have this here so that it loads before the main chunk of js
     var path = window.location.pathname.split('/')[1];
-    var auth = localStorage.getItem('production-auth');
+    var auth = localStorage.getItem('production-auth') || localStorage.getItem('staging-auth') || localStorage.getItem('development-auth');
 
     if(path || auth) {
       document.getElementById('guest').style.display='block';
