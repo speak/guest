@@ -33,9 +33,7 @@ var App = React.createClass({
     var authenticated = app.socks && app.has_configuration;
     
     if (highlighted_user) return null;
-    
-    return <CallCompleted key="completed" channel={channel} />;
-    
+
     if (app.incompatible) {
       return <Incompatible />
     }
