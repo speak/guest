@@ -1,5 +1,4 @@
 var ChannelStore = require('../stores/channel-store');
-var UsersStore = require('../stores/users-store');
 var AppStore = require('../stores/app-store');
 var _ = require('underscore');
 var cache = {};
@@ -9,6 +8,7 @@ var Sound = {
     'channel.joined':    'channelJoined',
     'channel.left':      'channelLeft',
     'channel.kicked':    'channelLeft',
+    'message.create':    'messageSent',
     'message.created':   'messageCreated'
   },
 
@@ -17,6 +17,7 @@ var Sound = {
     'channel-left',
     'ping',
     'message-sent',
+    'message-persisted',
     'message-received'
   ],
 
@@ -26,8 +27,7 @@ var Sound = {
    * -@data     Hash from channel.joined event including channel and user.
    */
   channelJoined: function(data) {
-    var current_user = UsersStore.getCurrentUser();
-    if(current_user.id != data.user_id) {
+    if(AppStore.get('user_id') != data.user_id) {
       this.play('channel-joined');
     }
   },
@@ -38,17 +38,21 @@ var Sound = {
    * -@data     Hash from channel.left event including id and user_id
    */
   channelLeft: function(data) {
-    this.play('channel-left')
+    if(AppStore.get('user_id') != data.user_id) {
+      this.play('channel-left');
+    }
+  },
+  
+  messageSent: function() {
+    this.play('message-sent');
   },
 
   messageCreated: function(data) {
-    // TODO: uncomment when we have the final sounds for sent/received
-    // var current_user = UsersStore.getCurrentUser();
-    // if(data.user_id == current_user.id) {
-    //   this.play('message-sent');
-    // } else {
-    //   this.play('message-received');
-    // }
+    if(AppStore.get('user_id') == data.author_id) {
+      this.play('message-persisted');
+    } else {
+      this.play('message-received');
+    }
   },
 
   loadAll: function() {

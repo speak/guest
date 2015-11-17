@@ -1,3 +1,6 @@
+@import "elements.css.less";
+@import "variables.css.less";
+
 input[type="email"],
 input[type="search"],
 input[type="text"],
@@ -6,12 +9,12 @@ input[type="url"],
 input[type="password"],
 textarea,
 select {
-  height: 44px;
+  height: 50px;
   padding: 7px 14px 8px 14px; /* The 6px vertically centers text on FF, ignored by Webkit */
   background-color: #fff;
   color: #323232;
   font-size: 15px;
-  border: 1px solid #D7D7D7;
+  border: 2px solid #D7D7D7;
   border-radius: 4px;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
@@ -49,7 +52,7 @@ input[type="password"]:focus,
 textarea:focus,
 select:focus {
   -webkit-app-region: no-drag;
-  border: 1px solid #4A90E2;
+  border: 2px solid @blue;
   outline: 0; }
 label {
   -webkit-app-region: no-drag;
@@ -79,4 +82,67 @@ label > .label-body {
 .input-wrapper {
   position: relative;
   padding-bottom: 10px;
+}
+
+input[type=submit] {
+  margin-top: 16px;
+}
+
+form {
+  // Input errors
+  .error-wrapper {
+    position: absolute;
+    width: 100%;
+    margin: 0;
+    z-index: 1;
+    left: 0;
+    top: -32px;
+    height: 42px;
+    box-sizing: border-box;
+    pointer-events: none;
+
+    .error {
+      pointer-events: all;
+      float: left;
+      position: absolute;
+      bottom: 0;
+      line-height: 1.5;
+      padding: 5px 14px;
+      font-size: 11px;
+      margin: 0;
+      width: 100%;
+      .border-radius(2px, 0px, 0px, 2px);
+
+      .close {
+        display: none;
+      }
+    }
+  }
+
+  .input-wrapper {
+    .error-wrapper {
+      max-width: 205px;
+      top: -50px;
+      left: 5px;
+      cursor: default;
+
+      .error {
+        margin: 0;
+        width: auto;
+        min-width: 100px;
+        background-color: @red;
+        .rounded(2px);
+
+        &:after {
+          position: absolute;
+          bottom: -5px;
+          left: 7px;
+        }
+
+        &:after {
+          .triangle(down, 6px, @red);
+        }
+      }
+    }
+  }
 }

@@ -7,52 +7,19 @@ var _ = require('underscore');
 if (window.AudioContext) var context = new AudioContext();
 
 module.exports = {
-  
+
   browserHasSupport: function() {
     return this.getAudioContext() && typeof navigator !== 'undefined' && navigator.getUserMedia;
   },
-  
-  getDefaultMicrophoneInput: function(callback) {
-    this.getAudioSources(function(sources){
-      var found = false
-      _.each(sources, function(source){
-        if (!found && source.label.match(/microphone/i)) {
-          found=true;
-          callback(source);
-        }
-      })
-    });
-  },
 
-  muteStream: function(stream) {
-    if (!stream) return stream;
-    
-    var trackset = stream.getAudioTracks();
-    for (var i in trackset) {
-      if (trackset[i]) trackset[i].enabled = false;
-    }
-    return stream;
-  },
-  
-  unmuteStream: function(stream) {
-    if (!stream) return stream;
-    
-    var trackset = stream.getAudioTracks();
-    for (var i in trackset) {
-      if (trackset[i]) trackset[i].enabled = true;
-    }
-    return stream;
-  },
-  
   getAudioContext: function() {
     return context;
   },
+
+  getAudioConstraints: function(callback) {
+    var PreferencesStore = require('../stores/preferences-store');
+    var state = PreferencesStore.getState();
   
-  getAudioConstraints: function() {
-    //TODO reinstate camera/audio selection
-    // var PreferencesStore = require('../stores/preferences-store');
-    // var state = PreferencesStore.getState();
-    
     // NOTE: audio constraints below come from Google Hangouts
     // http://webrtchacks.com/hangout-analysis-philipp-hancke/
     var constraints = {
@@ -66,34 +33,33 @@ module.exports = {
         {"googHighpassFilter": true}
       ]
     };
-    
-    // https://code.google.com/p/webrtc/issues/detail?id=2243
-    // Triggers Chrome to send audio output to the same device
-    // that is receiving microphone input
-    // if (state.audio_output == "built-in") {
-    //   constraints.optional.push({"chromeRenderToAssociatedSink": true});
-    // }
-    
-    // TODO: check that this sourceId still exists on the machine 
-    // in the case that a microphone has been unplugged
-    // if (state.audio_input) {
-    //   constraints.optional.push({"sourceId": state.audio_input});
-    // }
-    
-    return {
+  
+    if (state.audio_input) {
+      this.isAudioSourceAvailable(state.audio_input, function(available){
+        if (available) {
+          constraints.optional.push({"sourceId": state.audio_input});
+        }
+      
+        callback({
+          audio: constraints,
+          video: false
+        });
+      });
+    }
+  
+    callback({
       audio: constraints,
       video: false
-    }
+    }); 
   },
+
+  getVideoConstraints: function(callback) {
+    var PreferencesStore = require('../stores/preferences-store');
+    var state = PreferencesStore.getState();
   
-  getVideoConstraints: function() {
-    //TODO reinstate camera/audio selection
-    // var PreferencesStore = require('../stores/preferences-store');
-    // var state = PreferencesStore.getState();
-    
     var constraints = {
       "mandatory": {
-        "maxFrameRate": 15,
+        "maxFrameRate": 20,
         "maxWidth": 400,
         "maxHeight": 300
       },
@@ -103,31 +69,39 @@ module.exports = {
       ]
     };
 
-    // TODO: check that this sourceId still exists on the machine 
-    // in the case that a microphone has been unplugged
-    // if (state.video_input) {
-    //   constraints.optional.push({"sourceId": state.video_input});
-    // }
+    if (state.video_input) {
+      this.isVideoSourceAvailable(state.video_input, function(available){
+        if (available) {
+          constraints.optional.push({"sourceId": state.video_input});
+        }
+      
+        callback({
+          audio: false,
+          video: constraints
+        });
+      });
+    }
 
-    return {
+    callback({
       audio: false,
       video: constraints
-    }
+    }); 
   },
-  
+
   getCurrentVideoSource: function(cb) {
+    var PreferencesStore = require('../stores/preferences-store');
     var videoInput = PreferencesStore.get('video_input');
     if (!videoInput) return cb(null);
-    
+  
     this.isVideoSourceAvailable(videoInput, function(available){
       cb(available ? videoInput : null);
     });
   },
-  
+
   isVideoSourceAvailable: function(sourceId, cb) {
     this.isSourceAvailable(sourceId, 'video', cb);
   },
-  
+
   isAudioSourceAvailable: function(sourceId, cb) {
     this.isSourceAvailable(sourceId, 'audio', cb);
   },
@@ -139,18 +113,23 @@ module.exports = {
   getAudioSources: function(cb) {
     this.getSources('audio', cb);
   },
-  
+
+  getAudioOutputDevices: function(cb) {
+    navigator.mediaDevices.enumerateDevices().then(function(sources){
+      cb(this.filterSourcesFor(sources, 'audiooutput'));
+    }.bind(this));
+  },
+
   isSourceAvailable: function(sourceId, type, cb) {
     this.getSources(type, function(sources){
       cb(!!_.findWhere(sources, {id: sourceId}));
     });
   },
-  
+
   getSources: function(type, cb) {
-    var self = this;
     MediaStreamTrack.getSources(function(sources){
-      cb(self.filterSourcesFor(sources, type));
-    });
+      cb(this.filterSourcesFor(sources, type));
+    }.bind(this));
   },
 
   filterSourcesFor: function(sources, type) {

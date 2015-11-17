@@ -126,15 +126,19 @@ var Calls = {
     console.log("Calls:activateMedia");
 
     if (!this.local_stream || force) {
-      getUserMedia(MediaManager.getAudioConstraints(), function(err, stream) {
-        if (err) {
-          CallActions.permissionsDialog(false);
-        } else {
-          console.log("Calls:gotUserMedia");
-          this.updateLocalStream(stream);
-          CallActions.localStream({stream: stream});
-        }
-      }.bind(this));
+      var self = this;
+      
+      MediaManager.getAudioConstraints(function(constraints){
+        getUserMedia(constraints, function(err, stream) {
+          if (err) {
+            CallActions.permissionsDialog(false);
+          } else {
+            console.log("Calls:gotUserMedia");
+            self.updateLocalStream(stream);
+            CallActions.localStream({stream: stream});
+          }
+        });
+      });
     }
   },
 

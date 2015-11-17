@@ -52,16 +52,11 @@ var ChannelStore = new Store({
   },
   
   channelLoading: function() {
-    this.set({
-      loading: true
-    });
+    this.set({loading: true});
   },
 
   channelNotFound: function(){
-    this.set({
-      loading: false,
-      not_found: true
-    });
+    this.set({not_found: true});
   },
   
   channelLeft: function(data) {

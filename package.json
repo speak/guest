@@ -29,10 +29,11 @@
     "grunt": "^0.4.5",
     "grunt-browserify": "^4.0.1",
     "grunt-cli": "^0.1.13",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-contrib-less": "^1.0.0",
     "grunt-contrib-copy": "^0.8.1",
+    "grunt-contrib-less": "^1.0.0",
     "grunt-contrib-uglify": "^0.10.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-css-url-embed": "^1.6.1",
     "jest-cli": "^0.2.1"
   },
   "dependencies": {
@@ -51,6 +52,7 @@
     "react-addons-css-transition-group": "^0.14.2",
     "react-document-title": "^2.0.1",
     "react-dom": "^0.14.2",
+    "react-onclickoutside": "^4.1.1",
     "rtcpeerconnection": "speak/RTCPeerConnection",
     "speak-widgets": "git+https://github.com/speak/speak-widgets",
     "twitter-text": "1.13.2",

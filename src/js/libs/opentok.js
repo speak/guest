@@ -2,6 +2,8 @@ var AppStore = require('../stores/app-store');
 var UsersStore = require('../stores/users-store');
 var OpentokActions = require('../actions/opentok-actions');
 var ChannelStore = require('../stores/channel-store');
+var PreferencesStore = require('../stores/preferences-store');
+var MediaManager = require('../libs/media-manager');
 var Config = require('config');
 var Utilities = require('./utilities');
 var _ = require('underscore');
@@ -15,7 +17,7 @@ var Opentok = {
   actions: {
     "signaling.video_session_started":  "maybeConnect",
     "signaling.video_token_generated":  "maybeConnect",
-    "channel.joined":                   "maybeConnect",
+    "me.channel.joined":                "maybeConnect",
     "video.publish":                    "publishVideo",
     "video.unpublish":                  "unpublishVideo",
     "screen.publish":                   "publishScreen",
@@ -137,7 +139,7 @@ var Opentok = {
     if (this.session && this.session.currentState == "connected") {
       var domElement = document.createElement("div");
       var userId = AppStore.get('user_id');
-      //var videoInput = PreferencesStore.get('video_input');
+      var videoInput = PreferencesStore.get('video_input');
       var options = {
         insertMode: "append",
         publishAudio: false,
@@ -148,12 +150,11 @@ var Opentok = {
         showControls: false
       };
 
-      //MediaManager.getCurrentVideoSource(function(sourceId){
-        
-        //if (sourceId) {
-          // this cannot be set to null, otherwise OT assumes an audio only session
-        //  options.videoSource = sourceId;
-        //}
+      MediaManager.getCurrentVideoSource(function(sourceId){
+        if (sourceId) {
+          // this cannot be set to null, otherwise OT assumes audio only session
+          options.videoSource = sourceId;
+        }
         
         this.cameraPublisher = OT.initPublisher(domElement, options);
         this.cameraPublisher.on('streamDestroyed', this.streamDestroyed);
@@ -162,7 +163,7 @@ var Opentok = {
 
         OpentokActions.videoPublished(userId, channelId);
         
-        //}.bind(this));
+      }.bind(this));
       
     } else {
       this.publishVideoOnConnect = true;

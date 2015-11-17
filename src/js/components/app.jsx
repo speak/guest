@@ -16,6 +16,7 @@ var ChannelShare = require('./channel-share');
 var AudioOutput = require('./audio-output');
 var Signin = require('./signin');
 var Video = require('./video');
+var Logo = require('./logo');
 var _ = require('underscore');
 
 var App = React.createClass({
@@ -37,7 +38,7 @@ var App = React.createClass({
       return <Incompatible />
     }
 
-    if ((!auth.token && !channel.loading) || (auth.token && channel.not_found && !channel.id)) {
+    if ((!auth.token && !channel.loading) || (auth.token && channel.not_found && !channel.id && !channel.loading)) {
       return <Signin channel={channel} authenticated={authenticated} />;
     }
     
@@ -71,8 +72,7 @@ var App = React.createClass({
     var channel = this.getStore('channelStore');
     var user = UsersStore.getCurrentUser();
     var message = this.getMessage();
-    var logo = <a href="https://speak.io" target="_blank" className="logo"></a>;
-    var video, chat, modal;
+    var video, chat, modal, current;
     
     if (user && channel.id && app.permission_granted) {
       video = <Video users={users} user={user} channel={channel} />;
@@ -87,20 +87,16 @@ var App = React.createClass({
     }
     
     if (app.app) {
-      return <div id="app">
+      return <div>
         <AudioOutput streamId={app.stream} />
         {video}
         {chat}
         {message}
-        {logo}
         <ReactCSSTransitionGroup transitionName="zoom" transitionEnterTimeout={150} transitionLeaveTimeout={150}>{modal}</ReactCSSTransitionGroup>
       </div>;
-    } else {
-      return <div id="app">
-        {message}
-        {logo}
-      </div>;
     }
+    
+    return message;
   },
   
   render: function() {
@@ -113,7 +109,10 @@ var App = React.createClass({
     }
     
     return <DocumentTitle title={title}>
-      <div id="app">{this.getContent()}</div>
+      <div id="app" className={app.user_id ? 'authenticated' : ''}>
+        {this.getContent()}
+        <Logo />
+      </div>
     </DocumentTitle>;
   }
 });

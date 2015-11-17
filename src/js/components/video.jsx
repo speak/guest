@@ -1,10 +1,12 @@
 var React = require('react');
+var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 var classNames = require('classnames');
 var CallControls = require('./call-controls');
 var ChannelStore = require('../stores/channel-store');
 var UserActions = require('../actions/user-actions');
 var UserVideo = require('./user-video');
 var UserScreen = require('./user-screen');
+var CurrentUser = require('./current-user');
 var ChannelName = require('./channel-name');
 var _ = require('underscore');
 
@@ -71,9 +73,10 @@ var Video = React.createClass({
     });
 
     return <div id="video" className={classes} onMouseMove={this.handleMouseMove} onKeyDown={this.handleKeyDown}>
-      <ul className="users">{list}</ul>
+      <ReactCSSTransitionGroup component="ul" transitionName="mini" transitionEnterTimeout={250} transitionLeaveTimeout={250} className="users">{list}</ReactCSSTransitionGroup>
       <CallControls user={me} channel={channel} />
       <ChannelName {...channel} />
+      <CurrentUser user={me} />
     </div>;
   }
 });

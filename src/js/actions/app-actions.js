@@ -16,6 +16,10 @@ var AppActions = {
     AppDispatcher.dispatch('app.error', message);
   },
 
+  preferences: function(data) {
+    AppDispatcher.dispatch('app.preferences', data);
+  },
+  
   signOut: function() {
     AppDispatcher.dispatch('session.destroy');
     window.history.pushState("Speak", "Speak", "/");

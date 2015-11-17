@@ -58,14 +58,14 @@ var Signin = React.createClass({
     var channel = this.props.channel;
     
     if (!channel.id) {
-      return "Start a Meeting";
+      return <h2>Start a Meeting</h2>;
     }
     
     // TODO: Use participant names here
-    return "Join " + (channel.name || "Meeting");
+    return <div><h2>{channel.name || "Join Meeting"}</h2><p>Just add your name below to join the call.</p></div>;
   },
   
-  getButtonText: function() {
+  getText: function() {
     return this.props.channel.guest ? "Start Meeting" : "Join Meeting";
   },
 
@@ -118,27 +118,27 @@ var Signin = React.createClass({
     var channel_name, password, email, name;
     
     if (!this.props.channel.id) {
-      channel_name = <Input value={this.state.defaults.channel_name} type="text" name="channel_name" placeholder="Meeting Name" className="u-full-width" />;
+      channel_name = <Input value={this.state.defaults.channel_name} type="text" name="channel_name" placeholder="Meeting Name" className="u-full-width" wrapperClass="optional" />;
     }
     
     if (!this.props.authenticated) {
       name = <Input value={this.state.defaults.name} type="text" name="first_name" placeholder="Your name" className="u-full-width" />;
-      email = <Input value={this.state.defaults.email} type="email" name="email" placeholder="Email" className="u-full-width" />;
+      email = <Input value={this.state.defaults.email} type="email" name="email" placeholder="Email" className="u-full-width" wrapperClass="optional" />;
     }
     
     if (this.state.password_required) {
       password = <Input type="password" name="password" placeholder="Password" className="u-full-width" />;
     }
 
-    return <DocumentTitle title={heading}>
-      <div>
+    return <DocumentTitle title={this.getText()}>
+      <div id="floating-modal">
         <Formsy.Form onValidSubmit={this.handleSubmit} onValid={this.enableButton} onInvalid={this.disableButton}>
-          <h2>{heading}</h2>
+          {heading}
           {name}
           {email}
           {password}
           {channel_name}
-          <input type="submit" value={this.getButtonText()} disabled={!this.state.can_submit} className="u-full-width button primary" />
+          <input type="submit" value={this.getText()} disabled={!this.state.can_submit} className="u-full-width button primary" />
         </Formsy.Form>
       </div>
     </DocumentTitle>;
