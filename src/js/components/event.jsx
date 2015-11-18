@@ -21,7 +21,7 @@ var Event = React.createClass({
     var user = this.getUser();
     if (!user) return null;
     
-    return <li className="message event">
+    return <li className="message event" style={this.props.style}>
       <div className="bubble">
         <span className="author inline">{user.first_name}</span> {this.getText()}
       </div>
