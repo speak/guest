@@ -1,0 +1,140 @@
+@import "elements.css.less";
+@import "variables.css.less";
+
+#preferences {
+  height: 100%;
+  display: flex;
+  background: #ECECEC;
+  text-align: left;
+
+  section {
+    padding: 30px;
+    padding-right: 85px; // account for close button
+    width: 100%;
+    
+    label {
+      font-weight: normal;
+      font-size: 15px;
+    }
+  }
+
+  .navigation {
+    width: 200px;
+    height: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-top: 20px;
+    background: rgba(255,255,255,0.9);
+    border-right: 1px solid #E5E5E5;
+    text-align: left;
+    flex-shrink: 0;
+    
+    li {
+      &:not(.selected) a:hover {
+        background: #f7f7f7;
+      }
+
+      &.disabled {
+        display: none;
+      }
+
+      a {
+        cursor: default;
+        color: #7D7D7D;
+        display: block;
+        line-height: 50px;
+        position: relative;
+        font-size: 15px;
+        border-bottom: 1px solid #F3F3F3;
+        padding-left: 60px;
+
+        i {
+          display: inline-block;
+          position: absolute;
+          top: 17px;
+          left: 22px;
+          margin-right: 14px;
+          width: 15px;
+          height: 15px;
+          background-size: 15px 15px;
+          .opacity(0.6);
+
+          &.cog { background-image: url('../images/icons/preferences/cog.png'); }
+          &.user { background-image: url('../images/icons/preferences/user.png'); }
+          &.palette { background-image: url('../images/icons/preferences/palette.png'); }
+          &.users { background-image: url('../images/icons/preferences/users.png'); }
+          &.audio { background-image: url('../images/icons/preferences/audio.png'); }
+          &.keyboard { background-image: url('../images/icons/preferences/keyboard.png'); }
+        }
+      }
+
+      &.selected a {
+        background: @blue;
+        color: #fff;
+
+        i {
+          .opacity(1);
+
+          &.cog { background-image: url('../images/icons/preferences/cog-on.png'); }
+          &.user { background-image: url('../images/icons/preferences/user-on.png'); }
+          &.palette { background-image: url('../images/icons/preferences/palette-on.png'); }
+          &.users { background-image: url('../images/icons/preferences/users-on.png'); }
+          &.audio { background-image: url('../images/icons/preferences/audio-on.png'); }
+          &.keyboard { background-image: url('../images/icons/preferences/keyboard-on.png'); }
+        }
+      }
+    }
+  }
+}
+
+#media-preferences {
+  max-width: 400px;
+  
+  .video-placeholder {
+    background: #E2E4E6 url('../images/loading.svg') no-repeat center center;
+    width: 100%;
+    min-height: 210px;
+    margin-top: 10px;
+    .rounded(3px);
+
+    &.disabled {
+      background: #e2e4e6;
+
+      video {
+        display: none;
+      }
+    }
+
+    video {
+      display: block;
+      width: 100%;
+      min-height: 210px;
+      transform: scaleX(-1);
+      .rounded(3px);
+    }
+  }
+
+  .volume-wrapper {
+    position: relative;
+    left: 0;
+    bottom: -6px;
+    overflow: hidden;
+    width: 100%;
+    .border-radius(4px, 4px);
+
+    height: 4px;
+    background: #E2E4E6;
+
+    .volume-meter {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+
+      width: 100%;
+      height: 100%;
+      background: @green;
+      .rounded(4px);
+    }
+  }
+}

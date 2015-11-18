@@ -13,8 +13,9 @@ var Modal = React.createClass({
       case 'recording':
         return <Recording />;
       default:
+      case 'media':
       case 'preferences':
-        return <Preferences user={this.props.user} />;
+        return <Preferences user={this.props.user} selected={this.props.name} />;
     }
   },
   

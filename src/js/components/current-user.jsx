@@ -38,7 +38,8 @@ var CurrentUser = React.createClass({
       
       nav = <nav className="dropdown animated slideFadeDown">
         <ul>
-          <li><a href="mailto:howdy@speak.io" target="_blank">Help</a></li>
+          <li><a href="mailto:howdy@speak.io" target="_blank">Help &amp; Support</a></li>
+          <li><a onClick={this.preferences}>Preferences</a></li>
           <li><a onClick={this.signout}>Sign Out</a></li>
         </ul>
       </nav>;

@@ -15,7 +15,7 @@ var Media = React.createClass({
     var prefs = this.getStore('preferencesStore');
     
     return (
-      <div id="audio-preferences" className="panel">
+      <div id="media-preferences">
         <form onSubmit={this.submitForm}>
           <div className="row">
             <div className="column">
