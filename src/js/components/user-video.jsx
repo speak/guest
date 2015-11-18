@@ -60,7 +60,7 @@ var UserVideo = React.createClass({
       'centered': this.props.centered,
       'selected': user.highlighted && user.highlighted_type == 'video'
     });
-    
+
     return <li className={classes} onClick={this.handleClick}>
       {fullName}
       <Avatar user={user} circle={audioOnly && this.props.centered} simple={true} initials={false} />

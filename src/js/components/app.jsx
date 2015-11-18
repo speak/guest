@@ -18,6 +18,7 @@ var AudioOutput = require('./audio-output');
 var Signin = require('./signin');
 var Video = require('./video');
 var Logo = require('./logo');
+var fullscreen = require('screenfull');
 var _ = require('underscore');
 
 var App = React.createClass({
@@ -69,6 +70,12 @@ var App = React.createClass({
     return null;
   },
 
+  handleDoubleClick: function(ev) {
+    if (fullscreen.enabled) {
+      fullscreen.toggle(window.document.body);
+    }
+  },
+
   getContent: function() {
     var app = this.getStore('appStore');
     var users = UsersStore.getOnlineUsers();
@@ -91,7 +98,7 @@ var App = React.createClass({
     }
     
     if (app.app) {
-      return <div>
+      return <div onDoubleClick={this.handleDoubleClick}>
         <AudioOutput streamId={app.stream} />
         {video}
         {chat}
