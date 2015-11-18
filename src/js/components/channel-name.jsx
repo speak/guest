@@ -1,6 +1,8 @@
 var React = require('react');
 var UserActions = require('../actions/user-actions');
 var emojione = require('emojione');
+var $ = require('jquery'); 
+var g = require('jquery.autogrow-textarea'); 
 
 var ChannelName = React.createClass({
 
@@ -56,13 +58,22 @@ var ChannelName = React.createClass({
              title={this.state.name} 
              value={this.state.name} 
              type="text" 
-             placeholder="Subject" 
+             placeholder="Name call" 
              ref="input" 
              onKeyDown={this.handleKeyDown} 
              onBlur={this.saveChanges} 
              onChange={this.handleChange} 
              disabled={this.props.disabled} />
     </div>
+  },
+  
+  componentDidMount: function() {
+    $(this.refs.input).autogrow({vertical: false, horizontal: true});
+  },
+  
+  componentWillUnmount: function() {
+    // clean up our shadow dom element
+    $('.autogrow-shadow').first().remove();
   },
 
   componentWillReceiveProps: function(nextProps) {

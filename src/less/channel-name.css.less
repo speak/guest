@@ -5,22 +5,39 @@
     position: absolute;
     top: 23px;
     left: 10px;
-    padding: 10px;
-    font-size: 20px;
+    padding: 10px 30px 10px 10px;
+    font-size: 18px;
     background: transparent;
     color: rgba(255,255,255,0.8);
     border: 0;
     width: auto;
-    min-width: 0;
+    min-width: 40px;
+    max-width: 300px;
+    height: 30px;
+    box-sizing: content-box;
     letter-spacing: -0.5px;
-    .transition();
+    text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+
+    -webkit-transition: opacity 250ms ease-in-out;
+    -moz-transition: opacity 250ms ease-in-out;
+    transition: opacity 250ms ease-in-out;
+    
+    background-size: 18px 18px;
+    background-repeat: no-repeat;
+    background-position: center right;
   }
   
   input::-webkit-input-placeholder {
-    color: rgba(255,255,255,0.6);
+    color: rgba(255,255,255,0.3);
   }
   
-  input:hover {
-    background: rgba(0,0,0,0.2);
+  input:hover,
+  input:focus {
+    background-image: url('../images/icons/pencil@2x.png');
+  }
+  
+  input:hover::-webkit-input-placeholder,
+  input:focus::-webkit-input-placeholder {
+    color: rgba(255,255,255,0.6);
   }
 }

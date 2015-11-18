@@ -8,17 +8,17 @@ var Sound = {
     'channel.joined':    'channelJoined',
     'channel.left':      'channelLeft',
     'channel.kicked':    'channelLeft',
-    'message.create':    'messageSent',
-    'message.created':   'messageCreated'
+    //'message.create':    'messageSent',
+    //'message.created':   'messageCreated'
   },
 
   sounds: [
     'channel-joined',
     'channel-left',
     'ping',
-    'message-sent',
-    'message-persisted',
-    'message-received'
+    //'message-sent',
+    //'message-persisted',
+    //'message-received'
   ],
 
   /**

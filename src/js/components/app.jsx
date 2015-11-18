@@ -10,6 +10,7 @@ var PermissionError = require('./permission-error');
 var PermissionDialog = require('./permission-dialog');
 var Incompatible = require('./incompatible');
 var Connecting = require('./connecting');
+var Participants = require('./participants');
 var Modal = require('./modal');
 var Chat = require('./chat');
 var ChannelShare = require('./channel-share');
@@ -17,6 +18,7 @@ var AudioOutput = require('./audio-output');
 var Signin = require('./signin');
 var Video = require('./video');
 var Logo = require('./logo');
+var fullscreen = require('screenfull');
 var _ = require('underscore');
 
 var App = React.createClass({
@@ -33,13 +35,16 @@ var App = React.createClass({
     var authenticated = app.socks && app.has_configuration;
     
     if (highlighted_user) return null;
-    
+
     if (app.incompatible) {
       return <Incompatible />
     }
 
     if ((!auth.token && !channel.loading) || (auth.token && channel.not_found && !channel.id && !channel.loading)) {
-      return <Signin channel={channel} authenticated={authenticated} />;
+      return <div>
+        <Signin channel={channel} authenticated={authenticated} />
+        <Participants users={other_users} />
+      </div>;
     }
     
     if (app.permission_denied) {
@@ -56,13 +61,19 @@ var App = React.createClass({
 
     if (channel.id && !other_users.length) {
       if (channel.completed) {
-        return <CallCompleted key="completed" />;
+        return <CallCompleted key="completed" channel={channel} />;
       }
       var waiting = channel.created_by_id && channel.created_by_id != app.user_id;
       return <ChannelShare path={channel.path} waiting={waiting} key="share" />;
     }
 
     return null;
+  },
+
+  handleDoubleClick: function(ev) {
+    if (fullscreen.enabled) {
+      fullscreen.toggle(window.document.body);
+    }
   },
 
   getContent: function() {
@@ -87,7 +98,7 @@ var App = React.createClass({
     }
     
     if (app.app) {
-      return <div>
+      return <div onDoubleClick={this.handleDoubleClick}>
         <AudioOutput streamId={app.stream} />
         {video}
         {chat}

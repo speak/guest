@@ -74,7 +74,7 @@ var Message = React.createClass({
       'persisted': this.props.message.persisted
     });
     
-    return <li className={classes}>{this.getContent()}</li>;
+    return <li className={classes} style={this.props.style}>{this.getContent()}</li>;
   }
 });
 
