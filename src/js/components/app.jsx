@@ -10,6 +10,7 @@ var PermissionError = require('./permission-error');
 var PermissionDialog = require('./permission-dialog');
 var Incompatible = require('./incompatible');
 var Connecting = require('./connecting');
+var Participants = require('./participants');
 var Modal = require('./modal');
 var Chat = require('./chat');
 var ChannelShare = require('./channel-share');
@@ -39,7 +40,10 @@ var App = React.createClass({
     }
 
     if ((!auth.token && !channel.loading) || (auth.token && channel.not_found && !channel.id && !channel.loading)) {
-      return <Signin channel={channel} authenticated={authenticated} />;
+      return <div>
+        <Signin channel={channel} authenticated={authenticated} />
+        <Participants users={other_users} />
+      </div>;
     }
     
     if (app.permission_denied) {

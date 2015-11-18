@@ -14,6 +14,7 @@ var UsersStore = new Store({
     'channel.found':          'channelUpdated',
     'channel.created':        'channelUpdated',
     'channel.joined':         'channelJoined',
+    'channel.loaded':         'channelUpdated',
     'channel.left':           'channelLeft',
     'channel.kicked':         'channelLeft',
     'video.published':        'videoPublished',
