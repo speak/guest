@@ -55,25 +55,9 @@
       }
 
       .video,
-      .screen {
-        display: none;
-      }
-      
+      .screen,
       .full-name {
-        position: fixed;
-        z-index: 1;
-        top: 50%;
-        left: 50%;
-        transform: translate3d(-50%, -50%, 0);
-        margin-top: 134px;
-        font-size: 16px;
-        
-        @media (max-width: 600px) {
-          margin-top: 82px;
-        }
-        @media (max-width: 450px) {
-          margin-top: 70px;
-        }
+        display: none;
       }
 
       .name,
@@ -282,6 +266,24 @@
         position: fixed;
         top: 0;
         left: 0;
+      }
+      
+      .full-name {
+        position: fixed;
+        display: block;
+        z-index: 1;
+        top: 50%;
+        left: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        margin-top: 134px;
+        font-size: 16px;
+        
+        @media (max-width: 600px) {
+          margin-top: 82px;
+        }
+        @media (max-width: 450px) {
+          margin-top: 70px;
+        }
       }
 
       .background {
