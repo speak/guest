@@ -52,6 +52,7 @@
     "react-addons-css-transition-group": "^0.14.2",
     "react-document-title": "^2.0.1",
     "react-dom": "^0.14.2",
+    "react-icon-rating": "^0.2.0",
     "react-onclickoutside": "^4.1.1",
     "rtcpeerconnection": "speak/RTCPeerConnection",
     "screenfull": "^2.0.0",
