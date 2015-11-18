@@ -1,6 +1,7 @@
 var React = require('react');
 var classNames = require('classnames');
 var Formsy = require('formsy-react');
+var $ = require('jquery');
 
 var Input = React.createClass({
   mixins: [Formsy.Mixin],
@@ -9,8 +10,18 @@ var Input = React.createClass({
     this.setValue(event.currentTarget.value);
   },
   
+  getDefaultProps: function() {
+    return {
+      wrapperClass: ""
+    }
+  },
+  
+  closeNotification: function() {
+    $(this.refs.wrapper).fadeOut();
+  },
+  
   render: function () {
-    var error;
+    var notif;
     
     // Set a specific className based on the validation
     // state of this component. showRequired() is true
@@ -23,11 +34,20 @@ var Input = React.createClass({
       'error': this.showError()
     });
 
+    
+    if (this.props.notice) {
+      notif = <div className="notice-wrapper" ref="wrapper" onClick={this.closeNotification}>
+                <div className="notice slideFadeDown">
+                  {this.props.notice}
+                </div>
+              </div>
+    }
+    
     // An error message is returned ONLY if the component is invalid
     // or the server has returned an error message
     var errorMessage = this.getErrorMessage();
     if (errorMessage) {
-      error = <div className="error-wrapper">
+      notif = <div className="error-wrapper">
                 <div className="error slideFadeDown">
                   <span className="validation">{errorMessage}</span>
                 </div>
@@ -37,7 +57,7 @@ var Input = React.createClass({
     return (
       <div className={classes + " " + this.props.wrapperClass}>
         <input {...this.props} onChange={this.changeValue} value={this.getValue()}/>
-        {error}
+        {notif}
       </div>
     );
   }

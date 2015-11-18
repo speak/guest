@@ -127,7 +127,7 @@ var Signin = React.createClass({
     }
     
     if (this.state.password_required) {
-      password = <Input type="password" name="password" placeholder="Password" className="u-full-width" />;
+      password = <Input notice="Please enter your password to login to your Speak account" type="password" name="password" placeholder="Password" className="u-full-width" />;
     }
 
     return <DocumentTitle title={this.getText()}>
