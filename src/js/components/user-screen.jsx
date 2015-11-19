@@ -9,8 +9,8 @@ var UserScreen = React.createClass({
   handleClick: function(ev) {
     ev.preventDefault();
 
-    // if the screen is ours and we're fullscreen, ignore.
-    //if (this.props.item.me && AppStore.get('fullscreen')) return;
+    // if the screen is ours ignore dat click yo.
+    if (this.props.item.me) return;
     
     var user_id = (this.props.item.highlighted && this.props.item.highlighted_type == 'screen') ? null : this.props.item.id;
     UserActions.userHighlight(user_id, 'screen');

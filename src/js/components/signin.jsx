@@ -51,7 +51,9 @@ var Signin = React.createClass({
   },
   
   gotPreferredIp: function(data) {
-    this.setState({preferred_server: data.ip});
+    if (this.isMounted()) {
+      this.setState({preferred_server: data.ip});
+    }
   },
   
   getHeading: function() {
