@@ -1,4 +1,7 @@
 var Store =  require('./store');
+var Cookies = require('js-cookie');
+var Config = require('config');
+var development = (Config.environment == 'development');
 
 var AuthStore = new Store({
   storeName: 'auth',
@@ -19,11 +22,14 @@ var AuthStore = new Store({
 
   updateAuth: function(data) {
     var update = {};
-    if (data.token) update.token = data.token;
+    if (data.token) {
+      update.token = data.token;
+      Cookies.set('token', data.token, { expires: 90, path: '', secure: !development});
+    }
     if (data.ticket) update.ticket = data.ticket;
     if (data.email) update.email = data.email;
     this.set(update);
-
+    
     Raven.setUserContext({
       id: data.id,
       email: data.email,
@@ -36,6 +42,7 @@ var AuthStore = new Store({
       token: null
     });
     
+    Cookies.remove('token', { path: '', secure: !development });
     Raven.setUserContext();
   }
 });

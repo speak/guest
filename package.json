@@ -48,6 +48,7 @@
     "hark": "^1.1.1",
     "jquery": "^2.1.4",
     "jquery.autogrow-textarea": "^0.4.0",
+    "js-cookie": "^2.0.4",
     "react": "^0.14.2",
     "react-addons-css-transition-group": "^0.14.2",
     "react-document-title": "^2.0.1",
