@@ -1,7 +1,7 @@
 var React = require('react');
 var UserActions = require('../actions/user-actions');
 var ChannelShare = require('./channel-share');
-var Recording = require('./recording');
+var Upgrade = require('./upgrade');
 var Preferences = require('./preferences');
 
 var Modal = React.createClass({
@@ -10,8 +10,8 @@ var Modal = React.createClass({
     switch(this.props.name) {
       case 'add-people':
         return <ChannelShare path={this.props.channel.path} />;
-      case 'recording':
-        return <Recording />;
+      case 'upgrade':
+        return <Upgrade />;
       default:
       case 'preferences':
         return <Preferences user={this.props.user} />;
@@ -27,6 +27,7 @@ var Modal = React.createClass({
       UserActions.closeModal();
     }
   },
+  
   
   componentDidMount: function() {
     window.addEventListener('keydown', this.handleKeydown);

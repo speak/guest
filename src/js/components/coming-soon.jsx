@@ -5,8 +5,7 @@ var Analytics = require('../libs/analytics');
 var Formsy = require('formsy-react');
 var Input = require('./input');
 
-var Recording = React.createClass({
-  
+var ComingSoon = React.createClass({
   getInitialState: function() {
     return {
       email: UsersStore.getCurrentUser().email, 
@@ -27,19 +26,19 @@ var Recording = React.createClass({
   },
 
   handleSubmit: function(data, reset, invalidate) {
-    Analytics.track('interest.recording', data);
+    Analytics.track('interest.upgrade', data);
     UserActions.closeModal();
   },
   
   componentDidMount: function() {
-    Analytics.track('clicked.record');
+    Analytics.track('clicked.upgrade');
   },
 
   render: function() {
     return <div id="recording" className="centered">
-      <h2>Recording coming soon!</h2>
-      <p>We&#39;re working hard on building out recording, submit your email and 
-      we&#39;ll let you know as soon as it&#39;s ready!</p>
+      <h2>Speak Pro is coming soon!</h2>
+      <p>We&#39;re working hard on building out these features. Submit your email and 
+      we&#39;ll let you know as soon as they&#39;re ready!</p>
       
       <Formsy.Form onValidSubmit={this.handleSubmit} onValid={this.enableButton} onInvalid={this.disableButton}>
         <Input value={this.state.email} type="email" name="email" placeholder="Email address" />
@@ -49,4 +48,4 @@ var Recording = React.createClass({
   }
 });
 
-module.exports = Recording;
+module.exports = ComingSoon;
