@@ -40,7 +40,6 @@ var CurrentUser = React.createClass({
         <ul>
           <li><a href="mailto:howdy@speak.io" target="_blank">Help</a></li>
           <li><a onClick={this.signout}>Sign Out</a></li>
-          <li><a onClick={this.preferences}>Preferences</a></li>
         </ul>
       </nav>;
     }
