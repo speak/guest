@@ -1,5 +1,6 @@
 var React = require('react');
 var classNames = require('classnames');
+var Fullname = require('./fullname');
 var MuteButton = require('speak-widgets').MuteButton;
 var Avatar = require('speak-widgets').Avatar;
 var UserActions = require('../actions/user-actions');
@@ -46,7 +47,7 @@ var UserVideo = React.createClass({
     }
     
     if(this.props.centered) {
-      fullName = <span className="full-name">{user.me ? "Me" : (user.first_name + ' ' + user.last_name)}</span>;
+      fullName = <Fullname user={user} />;
     }
     
     var classes = classNames({
