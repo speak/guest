@@ -46,7 +46,7 @@ var UserVideo = React.createClass({
     }
     
     if(this.props.centered) {
-      fullName = <span className="full-name">{user.me ? "Me" : user.first_name.capitalize() + ' ' + user.last_name.capitalize()}</span>;
+      fullName = <span className="full-name">{user.me ? "Me" : (user.first_name + ' ' + user.last_name)}</span>;
     }
     
     var classes = classNames({
