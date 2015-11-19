@@ -21,7 +21,8 @@ var UsersStore = new Store({
     'video.unpublished':      'videoUnpublished',
     'screen.published':       'screenPublished',
     'screen.unpublished':     'screenUnpublished',
-    'session.destroy':        'sessionDestroyed'
+    'me.channel.left':        'reset',
+    'session.destroy':        'reset'
   },
   
   userConfiguration: function(data) {
@@ -59,7 +60,7 @@ var UsersStore = new Store({
     this.update(data.id, {muted: false});
   },
 
-  sessionDestroyed: function(data) {
+  reset: function(data) {
     this.state = {};
     this.emit("change")
   },
