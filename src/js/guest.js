@@ -75,7 +75,7 @@ document.getElementById('guest').style.backgroundImage = "url('" + _.sample([
 
 // allow homepage signin
 $(function() {
-  $('#homepage-start-meeting').submit(function(ev){
+  $('.homepage-start-meeting').submit(function(ev){
     ev.preventDefault();
     
     var name = $(this).find('input[name=first_name]').val();
