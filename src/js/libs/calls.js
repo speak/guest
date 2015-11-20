@@ -56,7 +56,10 @@ var Calls = {
           return CallActions.permissionsDialog(false);
         }
         
-        if (stream) stream.stop();
+        if (stream) {
+          var tracks = stream.getAudioTracks();
+          if (tracks && tracks[0] && tracks[0].stop) tracks[0].stop();
+        }
         CallActions.permissionsGranted(false);
       }.bind(this));
     }
@@ -104,7 +107,9 @@ var Calls = {
 
     // release hardware
     if (this.local_stream) {
-      this.local_stream.stop();
+      var tracks = this.local_stream.getAudioTracks();
+      if (tracks && tracks[0] && tracks[0].stop) tracks[0].stop();
+      
       delete this.local_stream;
     }
   },
