@@ -115,9 +115,13 @@ var CallControls = React.createClass({
   leave: function() {
     UserActions.channelLeave();
   },
+  
+  preventFullscreen: function(ev) {
+    ev.stopPropagation();
+  },
 
   render: function(){
-    return <nav id="call-controls">
+    return <nav id="call-controls" onDoubleClick={this.preventFullscreen}>
       <ul onMouseLeave={this.hideTooltip} className="controls">
         <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><MuteButton onClick={this.toggleMute} speaking={this.props.user.speaking} enabled={this.props.user.muted} /></li>
         <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><VideoButton onClick={this.toggleVideo} enabled={this.props.user.publishing_video} /></li>

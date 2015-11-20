@@ -49,10 +49,14 @@ var ChannelName = React.createClass({
     element.blur();
   },
 
+  preventFullscreen: function(ev) {
+    ev.stopPropagation();
+  },
+
   render: function(){
     // Note: Hidden input field prevents immediate focus on the field
     // when the app is loaded, whilst still allowing tab navigation
-    return <div id="channel-name">
+    return <div id="channel-name" onDoubleClick={this.preventFullscreen}>
       <input type="text" style={{position: 'fixed', left: '-1000px'}} />
       <input autoFocus={false} 
              title={this.state.name} 

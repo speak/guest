@@ -48,6 +48,10 @@ var Chat = React.createClass({
   handleResize: _.throttle(function() {
     this.updateLastVisible();
   }, 200),
+  
+  preventFullscreen: function(ev) {
+    ev.stopPropagation();
+  },
 
   render: function(){
     var list = [];
@@ -75,7 +79,7 @@ var Chat = React.createClass({
       index++;
     });
     
-    return <div id="chat" ref="chat">
+    return <div id="chat" ref="chat" onDoubleClick={this.preventFullscreen}>
       <ul>{list}</ul>
       <Composer typing={this.props.typing} />
     </div>;
