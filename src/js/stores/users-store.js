@@ -21,6 +21,7 @@ var UsersStore = new Store({
     'video.unpublished':      'videoUnpublished',
     'screen.published':       'screenPublished',
     'screen.unpublished':     'screenUnpublished',
+    'screen.cancelled':       'screenCancelled',
     'me.channel.left':        'reset',
     'session.destroy':        'reset'
   },
@@ -106,6 +107,12 @@ var UsersStore = new Store({
     }
     
     this.update(data.user_id, {publishing_screen: false});
+  },
+
+  screenCancelled: function() {
+    var user = this.getCurrentUser()
+
+    this.update(user.id, {publishing_screen: false});
   },
   
   getCurrentUser: function() {
