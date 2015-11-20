@@ -57,15 +57,19 @@ var Chat = React.createClass({
     var index = 0;
     
     _.each(messages, function(message){
-      var style;
+      var style, show_author;
       
       if (index < last) style = {opacity: 0};
-      if (index == last) style = {opacity: 0.5};
+      if (index == last) {
+        style = {opacity: 0.5};
+        show_author = true;
+      }
       
       if (message.event) {
         list.push(<Event key={message.id} message={message} style={style} />);        
+        previous_author_id = 'event';
       } else {
-        list.push(<Message key={message.id} message={message} style={style} author_hidden={previous_author_id == message.author_id} />);
+        list.push(<Message key={message.id} message={message} style={style} author_hidden={!show_author && (previous_author_id == message.author_id)} />);
         previous_author_id = message.author_id;
       }
       index++;
