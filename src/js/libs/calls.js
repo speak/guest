@@ -52,8 +52,8 @@ var Calls = {
         this.requesting_media = false;
         
         if (err) {
-          console.log(err);
-          CallActions.permissionsDialog(false);
+          console.error(err);
+          return CallActions.permissionsDialog(false);
         }
         
         if (stream) stream.stop();
