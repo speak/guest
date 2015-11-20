@@ -68,7 +68,7 @@ var ChatStore = new Store({
       var id = Utilities.guid();
       var user = UsersStore.get(data.user_id);
     
-      if (user.online) {
+      if (user && user.online) {
         this.update(id, {
           id: id,
           type: 'event',

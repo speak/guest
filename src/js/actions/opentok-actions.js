@@ -21,6 +21,10 @@ var OpentokActions = {
   
   screenUnpublished: function(user_id, channel_id) {
     AppDispatcher.dispatch('screen.unpublished', {user_id: user_id, channel_id: channel_id});
+  },
+  
+  screenCancelled: function() {
+    AppDispatcher.dispatch('screen.cancelled')
   }
 };
 

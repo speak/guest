@@ -67,7 +67,10 @@ var AudioInputSelect = React.createClass({
   
   stopStream: function() {
     if (this.state.stream) {
-      this.state.stream.stop();
+      var tracks = this.state.stream.getAudioTracks();
+      if (tracks && tracks[0] && tracks[0].stop) {
+        tracks[0].stop();
+      }
     }
   },
 

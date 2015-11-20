@@ -211,7 +211,10 @@ var Opentok = {
         audioSource: null,
         videoSource: 'screen',
       }, function(err){
-        if (err) console.error(err);
+        if (err) { 
+          console.error(err);
+          OpentokActions.screenCancelled()
+        }
       });
       this.screenPublisher.on('streamDestroyed', this.streamDestroyed);
       this.session.publish(this.screenPublisher);

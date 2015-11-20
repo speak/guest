@@ -65,12 +65,11 @@ window.addEventListener('message', function(event){
 
 // choose a random background image
 document.getElementById('guest').style.backgroundImage = "url('" + _.sample([
-  'https://images.unsplash.com/photo-1446080501695-8e929f879f2b?fit=crop&fm=jpg&h=1000&ixlib=rb-0.3.5&q=80&w=1600',
-  'https://images.unsplash.com/photo-1440073961997-d4282536a8e5?dpr=2&fit=crop&fm=jpg&h=1000&ixlib=rb-0.3.5&q=50&w=1600',
-  'https://images.unsplash.com/photo-1441906363162-903afd0d3d52?dpr=2&fit=crop&fm=jpg&h=1000&ixlib=rb-0.3.5&q=50&w=1600',
-  'https://images.unsplash.com/39/wdXqHcTwSTmLuKOGz92L_Landscape.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&w=1080&fit=max&s=68f7fe685547e5f740c71f8ca6985d9a',
-  'https://images.unsplash.com/photo-1444090542259-0af8fa96557e?ixlib=rb-0.3.5&q=80&fm=jpg&w=1080&fit=max&s=6d1a04e483a2ec9389ce14114b45e3cb',
-  'https://images.unsplash.com/photo-1441155472722-d17942a2b76a?ixlib=rb-0.3.5&q=80&fm=jpg&w=1080&fit=max&s=0fdad65d07729dde465aa8bdf62ddbec'
+  '/images/backgrounds/photo-1446080501695-8e929f879f2b.jpg',
+  '/images/backgrounds/photo-1441906363162-903afd0d3d52.jpg',
+  '/images/backgrounds/wdXqHcTwSTmLuKOGz92L_Landscape.jpg',
+  '/images/backgrounds/photo-1444090542259-0af8fa96557e.jpg',
+  '/images/backgrounds/photo-1441155472722-d17942a2b76a.jpg'
 ]) + "')";
 
 // allow homepage signin

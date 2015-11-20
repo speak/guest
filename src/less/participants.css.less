@@ -16,25 +16,30 @@
     display: flex;
     justify-content: center;
     list-style: none;
+    text-align: center;
     
     li {
       font-size: 12px;
-      margin: 0 6px;
+      margin: 0;
+      min-width: 50px;
       
       .avatar {
         width: 40px;
         height: 40px;
+        display: inline-block;
         
         .initials {
-          line-height: 40px;
+          display: none;
         }
       }
       
       .name {
         display: block;
-        max-width: 50px;
         overflow: hidden;
         margin-top: 5px;
+        max-width: 80px;
+        text-overflow: ellipsis;
+        line-height: 1.2;
         .opacity(0.8);
       }
     }

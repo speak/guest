@@ -116,9 +116,7 @@ var ChannelStore = new Store({
   },
   
   channelLeave: function() {
-    window.history.pushState({}, "Speak", "/");
-    this.state = {not_found: true};
-    this.emit('change');
+    this.set({completed: true});
   },
 
   userStartedSpeaking: function(data){

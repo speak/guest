@@ -69,7 +69,10 @@ var VideoInputSelect = React.createClass({
   
   stopStream: function() {
     if (this.state.stream) {
-      this.state.stream.stop();
+      var tracks = this.state.stream.getVideoTracks();
+      if (tracks && tracks[0] && tracks[0].stop) {
+        tracks[0].stop();
+      }
     }
   },
 

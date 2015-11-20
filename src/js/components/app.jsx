@@ -55,7 +55,7 @@ var App = React.createClass({
       return <PermissionDialog key="dialog" />;
     }
     
-    if (!app.permission_granted || !app.stream) {
+    if ((!app.permission_granted || !app.stream) && !channel.completed) {
       return <Connecting />;
     }
 
