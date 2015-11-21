@@ -6,6 +6,12 @@ var Analytics = {
       event: event,
       properties: properties || {}
     });
+
+    ga('send', {
+      hitType: 'event',
+      eventCategory: event.split(".").shift(),
+      eventAction: event.split(".").pop()
+    });
   }
 };
 

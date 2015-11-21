@@ -1,5 +1,4 @@
 var React = require('react');
-var Analytics = require('../libs/analytics');
 
 var UpgradeContent = React.createClass({
   render: function() {
