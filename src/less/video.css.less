@@ -355,14 +355,15 @@
           top: 50%;
           left: 50%;
           transform: translate3d(-50%,-50%,0);
-          .rounded(40px);
+          .rounded(0);
         }
 
         // show speaking animations
         &.speaking {
           .audio-activity {
             .transition(75ms);
-
+            .rounded(30px);
+            
             width: 120%;
             height: 120%;
           }
