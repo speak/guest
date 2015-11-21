@@ -76,13 +76,15 @@ document.getElementById('guest').style.backgroundImage = "url('" + _.sample([
 $(function() {
   $('.homepage-start-meeting').submit(function(ev){
     ev.preventDefault();
-    
-    document.getElementById('home').style.display='none';
-    document.getElementById('guest').style.display='block';
-    
-    var name = $(this).find('input[name=first_name]').val();
-    var change = new Event('input', { bubbles: true });
-    $('#floating-modal input[name=first_name]').val(name).get(0).dispatchEvent(change);
-    $('#floating-modal input[type=submit]').click();
+
+    if ($('#floating-modal').length) {
+      var name = $(this).find('input[name=first_name]').val();
+      var change = new Event('input', { bubbles: true });
+      $('#floating-modal input[name=first_name]').val(name).get(0).dispatchEvent(change);
+      $('#floating-modal input[type=submit]').click();
+    } else {
+      document.getElementById('home').style.display='none';
+      document.getElementById('guest').style.display='block';
+    }
   });
 });
