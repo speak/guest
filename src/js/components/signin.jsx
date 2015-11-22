@@ -89,10 +89,13 @@ var Signin = React.createClass({
     } else {
       data.server = this.state.preferred_server;
       data.guest = true;
-      var name_parts = data.first_name.split(" ");
-      if(name_parts.length > 1) {
-        data.last_name = name_parts.pop();
-        data.first_name = name_parts.join(' ');
+      
+      if (data.first_name) {
+        var name_parts = data.first_name.split(" ");
+        if (name_parts.length > 1) {
+          data.last_name = name_parts.pop();
+          data.first_name = name_parts.join(' ');
+        }
       }
 
       AuthActions.create(data, {

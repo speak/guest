@@ -28,7 +28,6 @@ var Modal = React.createClass({
     }
   },
   
-  
   componentDidMount: function() {
     window.addEventListener('keydown', this.handleKeydown);
   },
@@ -39,11 +38,11 @@ var Modal = React.createClass({
   
   render: function() {
     return <div id="modal" className="animated fadeAndZoomIn">
+      {this.getContent()}
       <a onClick={this.closeModal} className="close">
         <span>✕</span>
         <span className="shortcut">esc</span>
       </a>
-      {this.getContent()}
     </div>;
   }
 });

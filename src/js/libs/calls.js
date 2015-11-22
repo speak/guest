@@ -25,6 +25,7 @@ var Calls = {
     'me.channel.joined':         'meChannelJoined',
     'channel.leave':             'disconnect',
     'channel.created':           'connectOrRequestPermissions',
+    'channel.found':             'connectOrRequestPermissions',
     'channel.deleted':           'channelDeleted',
     'channel.defunct':           'channelDeleted',
     'channel.cancelled':         'channelCancelled',

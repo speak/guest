@@ -4,6 +4,9 @@ var Api = require('../libs/api');
 
 var BulldogActions = {
   signedIn: function(data) {
+    document.getElementById('home').style.display='none';
+    document.getElementById('guest').style.display='block';
+    
     AppDispatcher.dispatch('user.signedin', data);
     AppDispatcher.dispatch('session.created', data.ticket);
   },
