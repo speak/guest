@@ -58,7 +58,6 @@ var Bulldog = {
   },
 
   updatePassword: function(password, password_confirmation, token, success, error) {
-    var self = this;
     Bulldog.put({
       endpoint: '/password',
       data: {

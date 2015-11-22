@@ -55,8 +55,7 @@ var AppActions = {
         if(xhr.status == 404) {
           AppDispatcher.dispatch('channel.not_found');
         } else {
-          // TODO: Improve handling of this
-          AppDispatcher.dispatch('session.destroy');
+          AppDispatcher.dispatch('channel.not_authorized');
         }
       }
     });
