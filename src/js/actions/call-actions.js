@@ -97,10 +97,6 @@ var CallActions = {
   localStream: function(data) {
     var stream = data && data.stream;
     AppDispatcher.dispatch('webrtc.stream.local', stream ? stream.id : null);
-  },
-
-  error: function(message) {
-    AppDispatcher.dispatch('banner.error', message);
   }
 }
 

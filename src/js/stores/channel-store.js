@@ -33,18 +33,17 @@ var ChannelStore = new Store({
     'user.started_speaking':            'userStartedSpeaking',
     'user.stopped_speaking':            'userStoppedSpeaking',
     'channel.loading':                  'channelLoading',
-    'channel.found':                    'reset',
-    'channel.created':                  'reset',
+    'channel.found':                    'channelLoaded',
+    'channel.created':                  'channelLoaded',
     'channel.not_found':                'channelNotFound',
     'channel.joined':                   'channelJoined',
     'channel.updated':                  'set',
     'channel.leave':                    'channelLeave',
     'channel.left':                     'channelLeft',
     'channel.kicked':                   'clearActiveSpeaker',
+    'channel.not_authorized':           'destroy',
     'video.unpublished':                'clearActiveSpeaker',
     'screen.unpublished':               'clearActiveSpeaker',
-    'session.error':                    'destroy',
-    'session.destroy':                  'destroy',
     'user.signedin':                    'userSignedin',
     'user.configuration':               'userConfiguration',
     'signaling.video_session_started':  'videoSessionStarted',
@@ -56,7 +55,10 @@ var ChannelStore = new Store({
   },
 
   channelNotFound: function(){
-    this.set({not_found: true});
+    this.set({
+      not_found: true, 
+      loading: false
+    });
   },
   
   channelLeft: function(data) {
@@ -69,14 +71,11 @@ var ChannelStore = new Store({
 
   destroy: function(data){
     window.history.pushState({}, "Speak", "/");
-    this.set({
-      token: null,
-      video_token: null,
-      video_session_id: null
-    });
+    this.state = {};
+    this.emit('change');
   },
 
-  reset: function(data){
+  channelLoaded: function(data){
     data.loading = false;
     data.not_found = false;
     

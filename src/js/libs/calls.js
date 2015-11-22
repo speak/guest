@@ -60,6 +60,9 @@ var Calls = {
         if (stream) {
           var tracks = stream.getAudioTracks();
           if (tracks && tracks[0] && tracks[0].stop) tracks[0].stop();
+        
+          tracks = stream.getVideoTracks();
+          if (tracks && tracks[0] && tracks[0].stop) tracks[0].stop();
         }
         CallActions.permissionsGranted(false);
       }.bind(this));
