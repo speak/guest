@@ -2,15 +2,9 @@ var CallActions = require('../actions/call-actions');
 var ChannelStore = require('../stores/channel-store');
 var AppStore = require('../stores/app-store');
 var AppActions = require('../actions/app-actions');
-// var Stopwatch = require('./stopwatch');
-var WebRTC = require('./webrtc');
-var getUserMedia = require('getusermedia');
 var MediaManager = require('./media-manager');
 var hark = require('hark');
 var _ = require('underscore');
-
-var ringInterval = 2000;
-var ringTimeout = 30000;
 
 var Calls = {
   actions: {

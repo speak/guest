@@ -14,7 +14,6 @@ var Participants = require('./participants');
 var Modal = require('./modal');
 var Chat = require('./chat');
 var ChannelShare = require('./channel-share');
-var AudioOutput = require('./audio-output');
 var Signin = require('./signin');
 var Video = require('./video');
 var Logo = require('./logo');
@@ -99,7 +98,6 @@ var App = React.createClass({
     
     if (app.app) {
       return <div onDoubleClick={this.handleDoubleClick}>
-        <AudioOutput streamId={app.stream} />
         {video}
         {chat}
         {message}

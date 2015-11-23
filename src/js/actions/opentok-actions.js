@@ -1,8 +1,16 @@
 var AppDispatcher = require('../dispatcher/app-dispatcher');
 
 var OpentokActions = {
+  sessionConnected: function() {
+    AppDispatcher.dispatch('session.connected');
+  },
+
+  sessionDisconnected: function() {
+    AppDispatcher.dispatch('session.disconnected');
+  },
+
   sessionError: function(event) {
-    AppDispatcher.dispatch("video.session_error", {
+    AppDispatcher.dispatch('session.disconnected', {
       message: 'There was an issue connecting to the media server. Please try again. (Code ' + event.code+')'
     });
   },
@@ -24,8 +32,12 @@ var OpentokActions = {
   },
   
   screenCancelled: function() {
-    AppDispatcher.dispatch('screen.cancelled')
-  }
+    AppDispatcher.dispatch('screen.cancelled');
+  },
+
+  permissionsDialog: function(value) {
+    AppDispatcher.dispatch('webrtc.permissions', value);
+  },
 };
 
 module.exports = OpentokActions;
