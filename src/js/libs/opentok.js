@@ -95,7 +95,15 @@ var Opentok = {
   
   streamPropertyChanged: function (event) {
     console.log('streamPropertyChanged');
-    console.log(event);
+    var user = JSON.parse(event.stream.connection.data);
+    
+    if (event.changedProperty === 'hasAudio') {
+      if (event.newValue) {
+        OpentokActions.audioPublished(user.id);
+      } else {
+        OpentokActions.audioUnpublished(user.id);
+      }
+    }
   },
 
   streamCreated: function(event) {
