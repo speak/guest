@@ -5,6 +5,10 @@ var OpentokActions = {
     AppDispatcher.dispatch('channel.auth', {id: channel_id});
   },
   
+  message: function(data) {
+    AppDispatcher.dispatch('message.created', data);
+  },
+  
   sessionConnected: function() {
     AppDispatcher.dispatch('session.connected');
   },

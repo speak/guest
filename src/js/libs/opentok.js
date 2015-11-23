@@ -24,6 +24,8 @@ var Opentok = {
     "video.republish":                  "republishVideo",
     "screen.publish":                   "publishScreen",
     "screen.unpublish":                 "unpublishScreen",
+    "message.create":                   "messageCreate",
+    "message.update":                   "messageUpdate",
     "session.destroy":                  "destroy",
     "session.error":                    "destroy"
   },
@@ -46,6 +48,7 @@ var Opentok = {
 
     this.session = OT.initSession(Config.tokens.tokbox_api_key, sessionId);
     this.session.on({
+      signal: this.signal,
       streamCreated: this.streamCreated,
       streamDestroyed: this.streamDestroyed,
       streamPropertyChanged: this.streamPropertyChanged,
@@ -54,6 +57,14 @@ var Opentok = {
       exception: this.opentokException
     });
     this.session.connect(videoToken);
+  },
+  
+  signal: function(event) {
+    console.log('signal', event);
+    
+    if (event.type === 'signal:message') {
+      OpentokActions.message(JSON.parse(event.data));
+    }
   },
 
   opentokException: function(event) {
@@ -138,20 +149,18 @@ var Opentok = {
       var domElement = document.createElement("div");
       var options = {
         insertMode: "append",
-        publishVideo: user.publishing_video === true,
+        // === as undefined defaults to video being on
+        publishVideo: user.publishing_video === true, 
         publishAudio: !user.muted,
         resolution: "1080x720",
         audioFallbackEnabled: true,
-        frameRate: 30,
         showControls: false
       };
 
       MediaManager.getCurrentVideoSource(function(sourceId){
         // this cannot be set to null, otherwise OT assumes audio only session
         if (sourceId && user.publishing_video) options.videoSource = sourceId;
-        
-        console.log(options);
-        
+
         this.cameraPublisher = OT.initPublisher(domElement, options);
         this.cameraPublisher.on('streamDestroyed', this.streamDestroyed);
         this.cameraPublisher.on('accessDialogOpened', this.accessDialogOpened);
@@ -263,6 +272,16 @@ var Opentok = {
     
     this.domElements = {};
     this.session = null;
+  },
+  
+  messageCreate: function(message) {
+    var user = UsersStore.getCurrentUser();
+    message.author_id = user.id;
+    
+    this.session.signal({
+      type: 'message',
+      data: JSON.stringify(message)
+    })
   },
   
   setDOMElement: function(user_id, type, element) {
