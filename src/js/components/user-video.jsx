@@ -79,7 +79,7 @@ var UserVideo = React.createClass({
     var user = this.props.item;
     var element = OpenTok.getDOMElement(user.id, 'camera');
     
-    if (user.publishing_video && element) {
+    if (element) {
       video.innerHTML = "";
       video.appendChild(element);
 

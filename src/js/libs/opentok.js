@@ -12,6 +12,9 @@ var Opentok = {
   domElements: {},
 
   actions: {
+    "channel.found":                    "auth",
+    "channel.created":                  "auth",
+    "channel.authed":                   "connect",
     "signaling.video_session_started":  "connect",
     "signaling.video_token_generated":  "connect",
     "audio.publish":                    "publishAudio",
@@ -26,8 +29,14 @@ var Opentok = {
   },
   
   initialize: function() {
-    _.bindAll(this, 'streamCreated', 'streamDestroyed', 'mediaStopped',
-    'sessionConnected', 'opentokException');
+    _.bindAll(this, 'streamCreated', 'streamDestroyed', 'streamPropertyChanged',
+    'mediaStopped', 'sessionConnected', 'opentokException');
+  },
+  
+  auth: function() {
+    if (!ChannelStore.get('video_token')) {
+      OpentokActions.auth(ChannelStore.get('id'));
+    }
   },
 
   connect: function() {
@@ -39,6 +48,7 @@ var Opentok = {
     this.session.on({
       streamCreated: this.streamCreated,
       streamDestroyed: this.streamDestroyed,
+      streamPropertyChanged: this.streamPropertyChanged,
       mediaStopped: this.mediaStopped,
       sessionConnected: this.sessionConnected,
       exception: this.opentokException
@@ -63,6 +73,18 @@ var Opentok = {
     _.each(event.streams, function(stream) {
       this.streamCreated({ stream: stream });
     }.bind(this));
+  },
+  
+  sessionDisconnected: function(event) {
+    // The event is defined by the SessionDisconnectEvent class
+    if (event.reason == "networkDisconnected") {
+      console.warn("Your network connection terminated.");
+    }
+  },
+  
+  streamPropertyChanged: function (event) {
+    console.log('streamPropertyChanged');
+    console.log(event);
   },
 
   streamCreated: function(event) {
@@ -113,8 +135,8 @@ var Opentok = {
       var domElement = document.createElement("div");
       var options = {
         insertMode: "append",
-        publishVideo: user.publishing_video,
-        publishAudio: !user.muted,
+        publishVideo: user.publishing_video === true,
+        publishAudio: user.muted !== false,
         resolution: "1080x720",
         audioFallbackEnabled: true,
         frameRate: 30,
@@ -123,16 +145,22 @@ var Opentok = {
 
       MediaManager.getCurrentVideoSource(function(sourceId){
         // this cannot be set to null, otherwise OT assumes audio only session
-        if (sourceId) options.videoSource = sourceId;
+        if (sourceId && user.publishing_video) options.videoSource = sourceId;
+        
+        console.log(options);
         
         this.cameraPublisher = OT.initPublisher(domElement, options);
         this.cameraPublisher.on('streamDestroyed', this.streamDestroyed);
-        this.camerapublisher.on('accessDialogOpened', this.accessDialogOpened);
-        this.camerapublisher.on('accessDialogClosed', this.accessDialogClosed);
+        this.cameraPublisher.on('accessDialogOpened', this.accessDialogOpened);
+        this.cameraPublisher.on('accessDialogClosed', this.accessDialogClosed);
         this.session.publish(this.cameraPublisher);
         this.setDOMElement(user.id, 'camera', domElement);
-
-        OpentokActions.videoPublished(user.id);
+        
+        if (user.publishing_video) {
+          OpentokActions.videoPublished(user.id);
+        } else {
+          OpentokActions.audioPublished(user.id);
+        }
       }.bind(this));
     }
   },
@@ -147,14 +175,36 @@ var Opentok = {
     OpentokActions.permissionsDialog(false);
   },
 
+  publishAudio: function() {
+    console.log('publishAudio');
+    this.cameraPublisher.publishAudio(true);
+    
+    var user = UsersStore.getCurrentUser();
+    OpentokActions.audioPublished(user.id);
+  },
+
   unpublishAudio: function() {
     console.log('unpublishAudio');
     this.cameraPublisher.publishAudio(false);
+    
+    var user = UsersStore.getCurrentUser();
+    OpentokActions.audioUnpublished(user.id);
   },
-  
+
+  publishVideo: function() {
+    console.log('publishVideo');
+    this.cameraPublisher.publishVideo(true);
+    
+    var user = UsersStore.getCurrentUser();
+    OpentokActions.videoPublished(user.id);
+  },
+
   unpublishVideo: function() {
     console.log('unpublishVideo');
     this.cameraPublisher.publishVideo(false);
+    
+    var user = UsersStore.getCurrentUser();
+    OpentokActions.videoUnpublished(user.id);
   },
 
   publishScreen: function() {

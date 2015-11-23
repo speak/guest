@@ -36,6 +36,7 @@ var ChannelStore = new Store({
     'channel.not_found':                'channelNotFound',
     'channel.joined':                   'channelJoined',
     'channel.updated':                  'set',
+    'channel.authed':                   'set',
     'channel.leave':                    'channelLeave',
     'channel.left':                     'channelLeft',
     'channel.kicked':                   'clearActiveSpeaker',
@@ -76,8 +77,7 @@ var ChannelStore = new Store({
   channelLoaded: function(data){
     data.loading = false;
     data.not_found = false;
-    
-    if(data.path) {
+    if (data.path) {
       window.history.pushState(data.id, "Speak", "/" + data.path);
     }
     this.set(data);

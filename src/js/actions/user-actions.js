@@ -6,7 +6,9 @@ var $ = require('jquery');
 
 var UserActions = {
   mute: function(shortcut) {
-    var data = {id: AppStore.get('user_id')}
+    AppDispatcher.dispatch('audio.unpublish', {user_id: AppStore.get('user_id')});
+    
+    /*var data = {id: AppStore.get('user_id')}
 
     AppDispatcher.dispatch('user.stop_speaking');
     AppDispatcher.dispatch('user.mute', data, {
@@ -18,10 +20,12 @@ var UserActions = {
 
     // we send the past tense event locally so that the ui updates instantly
     AppDispatcher.dispatch('user.muted', data);
-    AppDispatcher.dispatch('user.stopped_speaking', data);
+    AppDispatcher.dispatch('user.stopped_speaking', data);*/
   },
 
   unmute: function(shortcut) {
+    AppDispatcher.dispatch('audio.publish', {user_id: AppStore.get('user_id')});
+    /*
     var data = {id: AppStore.get('user_id')}
 
     AppDispatcher.dispatch('user.unmute', data, {
@@ -32,14 +36,23 @@ var UserActions = {
     });
 
     // we send the past tense event locally so that the ui updates instantly
-    AppDispatcher.dispatch('user.unmuted', data);
+    AppDispatcher.dispatch('user.unmuted', data);*/
   },
 
   publishVideo: function() {
-    AppDispatcher.dispatch('video.publish', {
-      user_id: AppStore.get('user_id'),
-      channel_id: ChannelStore.get('id')
-    });
+    AppDispatcher.dispatch('video.publish', {user_id: AppStore.get('user_id')});
+  },
+  
+  unpublishVideo: function() {
+    AppDispatcher.dispatch('video.unpublish', {user_id: AppStore.get('user_id')});
+  },
+
+  publishScreen: function() {
+    AppDispatcher.dispatch('screen.publish', {user_id: AppStore.get('user_id')});
+  },
+
+  unpublishScreen: function() {
+    AppDispatcher.dispatch('screen.unpublish', {user_id: AppStore.get('user_id')});
   },
 
   installScreenshareExtension: function(callback) {
@@ -50,27 +63,6 @@ var UserActions = {
     }.bind(this), function(err){
       console.error(err);
       callback(err);
-    });
-  },
-
-  unpublishVideo: function() {
-    AppDispatcher.dispatch('video.unpublish', {
-      user_id: AppStore.get('user_id'),
-      channel_id: ChannelStore.get('id')
-    });
-  },
-
-  publishScreen: function() {
-    AppDispatcher.dispatch('screen.publish', {
-      user_id: AppStore.get('user_id'),
-      channel_id: ChannelStore.get('id')
-    });
-  },
-
-  unpublishScreen: function() {
-    AppDispatcher.dispatch('screen.unpublish', {
-      user_id: AppStore.get('user_id'),
-      channel_id: ChannelStore.get('id')
     });
   },
 

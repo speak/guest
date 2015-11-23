@@ -8,8 +8,6 @@ var UsersStore = new Store({
     'user.configuration':     'userConfiguration',
     'user.started_speaking':  'userStartedSpeaking',
     'user.stopped_speaking':  'userStoppedSpeaking',
-    'user.muted':             'muted',
-    'user.unmuted':           'unmuted',
     'user.highlighted':       'userHighlighted',
     'channel.found':          'channelUpdated',
     'channel.created':        'channelUpdated',
@@ -17,6 +15,8 @@ var UsersStore = new Store({
     'channel.loaded':         'channelUpdated',
     'channel.left':           'channelLeft',
     'channel.kicked':         'channelLeft',
+    'audio.published':        'unmuted',
+    'audio.unpublished':      'muted',
     'video.published':        'videoPublished',
     'video.unpublished':      'videoUnpublished',
     'screen.published':       'screenPublished',
@@ -54,11 +54,11 @@ var UsersStore = new Store({
   },
   
   muted: function(data) {
-    this.update(data.id, {muted: true});
+    this.update(data.user_id, {muted: true});
   },
   
   unmuted: function(data) {
-    this.update(data.id, {muted: false});
+    this.update(data.user_id, {muted: false});
   },
 
   reset: function(data) {

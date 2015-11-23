@@ -16,7 +16,7 @@ var AppStore = new Store({
         return this.state.socks && this.state.has_configuration;
       }
     },
-    permission_granted:     false,
+    permission_granted:     true, //TODO
     permission_dialog:      false,
     permission_denied:      false,
     extension_loaded:       false,
@@ -43,8 +43,8 @@ var AppStore = new Store({
     'user.extension_registered':  'extensionRegistered',
     'user.configuration':         'reset',
     'user.typing':                'typing',
-    'user.mute':                  'mute',
-    'user.unnmute':               'unmute',
+    'audio.unpublished':          'mute',
+    'audio.published':            'unmute',
     'socks.connected':            'socksConnected',
     'socks.disconnected':         'socksDisconnected'
   },

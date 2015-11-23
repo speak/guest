@@ -1,6 +1,10 @@
 var AppDispatcher = require('../dispatcher/app-dispatcher');
 
 var OpentokActions = {
+  auth: function(channel_id) {
+    AppDispatcher.dispatch('channel.auth', {id: channel_id});
+  },
+  
   sessionConnected: function() {
     AppDispatcher.dispatch('session.connected');
   },
@@ -15,20 +19,28 @@ var OpentokActions = {
     });
   },
   
-  videoPublished: function(user_id, channel_id) {
-    AppDispatcher.dispatch('video.published', {user_id: user_id, channel_id: channel_id});
+  audioPublished: function(user_id) {
+    AppDispatcher.dispatch('audio.published', {user_id: user_id});
   },
   
-  videoUnpublished: function(user_id, channel_id) {
-    AppDispatcher.dispatch('video.unpublished', {user_id: user_id, channel_id: channel_id});
+  audioUnpublished: function(user_id) {
+    AppDispatcher.dispatch('audio.unpublished', {user_id: user_id});
+  },
+    
+  videoPublished: function(user_id) {
+    AppDispatcher.dispatch('video.published', {user_id: user_id});
   },
   
-  screenPublished: function(user_id, channel_id) {
-    AppDispatcher.dispatch('screen.published', {user_id: user_id, channel_id: channel_id});
+  videoUnpublished: function(user_id) {
+    AppDispatcher.dispatch('video.unpublished', {user_id: user_id});
   },
   
-  screenUnpublished: function(user_id, channel_id) {
-    AppDispatcher.dispatch('screen.unpublished', {user_id: user_id, channel_id: channel_id});
+  screenPublished: function(user_id) {
+    AppDispatcher.dispatch('screen.published', {user_id: user_id});
+  },
+  
+  screenUnpublished: function(user_id) {
+    AppDispatcher.dispatch('screen.unpublished', {user_id: user_id});
   },
   
   screenCancelled: function() {
