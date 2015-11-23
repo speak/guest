@@ -15,6 +15,8 @@ var UsersStore = new Store({
     'channel.loaded':         'channelUpdated',
     'channel.left':           'channelLeft',
     'channel.kicked':         'channelLeft',
+    'stream.destroyed':       'channelLeft',
+    'stream.created':         'update',
     'audio.published':        'unmuted',
     'audio.unpublished':      'muted',
     'video.published':        'videoPublished',
@@ -78,7 +80,7 @@ var UsersStore = new Store({
   },
 
   channelLeft: function(data){
-    this.update(data.user_id, {
+    this.update(data.user_id || data.id, {
       online: false,
       speaking: false,
       highlighted: false,

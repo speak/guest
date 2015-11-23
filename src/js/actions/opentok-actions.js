@@ -19,6 +19,14 @@ var OpentokActions = {
     });
   },
   
+  streamCreated: function(data) {
+    AppDispatcher.dispatch('stream.created', data);
+  },
+  
+  streamDestroyed: function(data) {
+    AppDispatcher.dispatch('stream.destroyed', data);
+  },
+  
   audioPublished: function(user_id) {
     AppDispatcher.dispatch('audio.published', {user_id: user_id});
   },

@@ -39,7 +39,7 @@ var UserVideo = React.createClass({
   
   render: function() {
     var user = this.props.item;
-    var audioOnly = !this.props.video || !this.state.playing;
+    var audioOnly = !this.props.video; // || !this.state.playing;
     var mute, fullName;
 
     if(user.muted) {

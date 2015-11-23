@@ -91,19 +91,20 @@ var Opentok = {
     console.log('streamCreated', event);
     
     var domElement = document.createElement("div");
-    var userId = event.stream.connection.data.replace("userId=", "");
+    var user = JSON.parse(event.stream.connection.data);
     var subscriber = this.session.subscribe(event.stream, domElement, { showControls: false });
+    OpentokActions.streamCreated(user);
     
     subscriber.on('videoEnabled', function(){
       var action = event.stream.videoType == 'camera' ? "videoPublished" : "screenPublished";
-      OpentokActions[action](userId);
+      OpentokActions[action](user.id);
     });
     subscriber.on('videoDisabled', function(){
       var action = event.stream.videoType == 'camera' ? "videoUnpublished" : "screenUnpublished";
-      OpentokActions[action](userId);
+      OpentokActions[action](user.id);
     });
 
-    this.setDOMElement(userId, event.stream.videoType, domElement);
+    this.setDOMElement(user.id, event.stream.videoType, domElement);
   },
   
   mediaStopped: function(event) {
@@ -114,10 +115,12 @@ var Opentok = {
   streamDestroyed: function(event) {
     console.log('streamDestroyed', event);
 
-    var userId = event.stream.connection.data.replace("userId=", "");
+    var user = JSON.parse(event.stream.connection.data);
+    OpentokActions.streamDestroyed(user);
+    
     var action = event.stream.videoType == 'camera' ? "videoUnpublished" : "screenUnpublished";
-    this.setDOMElement(userId, event.stream.videoType, null);
-    OpentokActions[action](userId);
+    this.setDOMElement(user.id, event.stream.videoType, null);
+    OpentokActions[action](user.id);
   },
   
   republishVideo: function() {
@@ -136,7 +139,7 @@ var Opentok = {
       var options = {
         insertMode: "append",
         publishVideo: user.publishing_video === true,
-        publishAudio: user.muted !== false,
+        publishAudio: !user.muted,
         resolution: "1080x720",
         audioFallbackEnabled: true,
         frameRate: 30,
@@ -224,7 +227,6 @@ var Opentok = {
         },
         frameRate: 7,
         showControls: false,
-        name: 'Screen',
         mirror: false,
         audioSource: null,
         videoSource: 'screen',
@@ -236,8 +238,8 @@ var Opentok = {
       });
       this.screenPublisher.on('streamDestroyed', this.streamDestroyed);
       this.session.publish(this.screenPublisher);
-      this.setDOMElement(userId, 'screen', domElement);
-      OpentokActions.screenPublished(userId, channelId);
+      this.setDOMElement(user.id, 'screen', domElement);
+      OpentokActions.screenPublished(user.id, channelId);
     } else {
       this.publishScreenOnConnect = true;
     }
