@@ -31,7 +31,7 @@ var App = React.createClass({
     var channel = this.getStore('channelStore');
     var other_users = UsersStore.otherUsers();
     var highlighted_user = UsersStore.getHighlightedUser();
-    var authenticated = app.socks && app.has_configuration;
+    var authenticated = app.has_configuration;
     
     if (highlighted_user) return null;
 

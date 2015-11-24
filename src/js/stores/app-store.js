@@ -11,9 +11,9 @@ var AppStore = new Store({
       }
     },
     app: {
-      deps: ['socks', 'has_configuration'],
+      deps: ['has_configuration'],
       calculate: function() {
-        return this.state.socks && this.state.has_configuration;
+        return this.state.has_configuration;
       }
     },
     permission_granted:     true, //TODO

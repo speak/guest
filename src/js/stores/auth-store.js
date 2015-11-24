@@ -28,12 +28,16 @@ var AuthStore = new Store({
     }
     if (data.ticket) update.ticket = data.ticket;
     if (data.email) update.email = data.email;
+    if (data.id) update.id = data.id;
     this.set(update);
     
     Raven.setUserContext({
       id: data.id,
       email: data.email,
     });
+    
+    var AuthActions = require('../actions/auth-actions');
+    AuthActions.getUser(data.id);
   },
   
   removeAuth: function(data) {
