@@ -6,15 +6,6 @@ var Config = require('config');
 
 var Api = {
 
-  getChannel: function(id, opts){
-    opts = opts || {};
-    Api.get({
-      endpoint: '/channels/' + id,
-    })
-    .done(opts.success || ApiActions.channelFound)
-    .fail(opts.error || this.dispatchError);
-  },
-
   dispatchError: function(xhr) {
     var response;
 

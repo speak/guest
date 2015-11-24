@@ -10,10 +10,6 @@ var ApiActions = {
     AppDispatcher.dispatch('organization.updated', data);
   },
 
-  channelFound: function(data) {
-    AppDispatcher.dispatch('channel.found', data);
-  },
-
   error: function(){
     //TODO
   }

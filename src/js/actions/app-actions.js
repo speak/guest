@@ -49,20 +49,34 @@ var AppActions = {
   
   channelLoad: function(id) {
     AppDispatcher.dispatch('channel.loading', id);
-    
-    Api.getChannel(id, {
-      error: function(xhr){
-        if(xhr.status == 404) {
-          AppDispatcher.dispatch('channel.not_found');
-        } else {
-          AppDispatcher.dispatch('channel.not_authorized');
-        }
-      }
-    });
+
+    Api.get({
+      endpoint: '/channels/' + id,
+    })
+    .done(this.channelFound)
+    .fail(this.channelLoadError);
+  },
+  
+  channelLoadError: function(xhr){
+    if(xhr.status == 404) {
+      AppDispatcher.dispatch('channel.not_found');
+    } else {
+      AppDispatcher.dispatch('channel.not_authorized');
+    }
+  },
+
+  channelFound: function(data) {
+    AppDispatcher.dispatch('channel.found', data);
   },
 
   channelCreate: function(data) {
-    AppDispatcher.dispatch('channel.create', data);
+    Api.post({
+      endpoint: '/channels',
+      data: data
+    })
+    .done(function(data){
+      AppDispatcher.dispatch('channel.created', data);
+    });
   }
 };
 
