@@ -37,7 +37,7 @@ var Composer = React.createClass({
           text: val
         });
       } else {
-        UserActions.sendMessage(val, ChannelStore.get('id'));
+        UserActions.sendMessage(val, ChannelStore.state);
       }
     }
   },

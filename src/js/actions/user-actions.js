@@ -2,6 +2,7 @@ var AppDispatcher = require('../dispatcher/app-dispatcher');
 var ChannelStore = require('../stores/channel-store');
 var AppStore = require('../stores/app-store');
 var Utilities = require('../libs/utilities');
+var Api = require('../libs/api');
 var $ = require('jquery');
 
 var UserActions = {
@@ -80,10 +81,6 @@ var UserActions = {
   editLastMessage: function() {
     AppDispatcher.dispatch('message.edit_last');
   },
-
-  updateMessage: function(data) {
-    AppDispatcher.dispatch('message.update', data);
-  },
   
   typing: function(value) {
     AppDispatcher.dispatch('user.typing', value);
@@ -112,21 +109,33 @@ var UserActions = {
     AppDispatcher.dispatch('channel.leave');
   },
 
-  sendMessage: function(text, channel_id) {
+  sendMessage: function(text, channel) {
     var id = Utilities.guid();
-    AppDispatcher.dispatch('message.create', {
+    var data = {
       id: id,
       text: text,
-      channel_id: channel_id,
+      token: channel.token,
+      channel_id: channel.id,
       author_id: AppStore.get('user_id')
-    }, {
-      success: function(data){
-        AppDispatcher.dispatch('message.persisted', {
-          id: id,
-          server_id: data.id
-        });
-      }
-    });
+    };
+      
+    AppDispatcher.dispatch('message.create', data);
+    Api.post({
+      endpoint: '/messages',
+      data: data
+    }).done(function(data){
+      AppDispatcher.dispatch('message.persisted', {
+        id: id,
+        server_id: data.id
+      });
+      AppDispatcher.dispatch('message.created', data);
+    }).fail(function(){
+      // TODO
+    })
+  },
+
+  updateMessage: function(data) {
+    AppDispatcher.dispatch('message.update', data);
   }
 };
 

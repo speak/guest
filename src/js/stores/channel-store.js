@@ -12,6 +12,7 @@ var ChannelStore = new Store({
     loading: false,
     temporary: null,
     completed: false,
+    token: null,
     video_token: null,
     video_session_id: null,
     active_speaker_id: null,

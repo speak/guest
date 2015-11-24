@@ -25,8 +25,8 @@ var Opentok = {
     "video.republish":                  "republishVideo",
     "screen.publish":                   "publishScreen",
     "screen.unpublish":                 "unpublishScreen",
-    "message.create":                   "messageCreate",
-    "message.update":                   "messageUpdate",
+    "message.created":                  "messageCreated",
+    "message.updated":                  "messageUpdated",
     "session.destroy":                  "destroy",
     "session.error":                    "destroy"
   },
@@ -62,9 +62,9 @@ var Opentok = {
   },
   
   signal: function(event) {
-    console.log('signal', event);
-    
-    if (event.type === 'signal:message') {
+    var user = JSON.parse(event.from.data);
+
+    if (event.type === 'signal:message' && user.id != AppStore.get('user_id')) {
       OpentokActions.message(JSON.parse(event.data));
     }
   },
@@ -284,14 +284,22 @@ var Opentok = {
     this.session = null;
   },
   
-  messageCreate: function(message) {
-    var user = UsersStore.getCurrentUser();
-    message.author_id = user.id;
-    
-    this.session.signal({
-      type: 'message',
-      data: JSON.stringify(message)
-    })
+  messageCreated: function(message) {
+    if (message.author_id == AppStore.get('user_id')) {
+      this.session.signal({
+        type: 'message',
+        data: JSON.stringify(message)
+      });
+    }
+  },
+  
+  messageUpdated: function(message) {
+    if (message.author_id == AppStore.get('user_id')) {
+      this.session.signal({
+        type: 'message',
+        data: JSON.stringify(message)
+      });
+    }
   },
   
   setDOMElement: function(user_id, type, element) {
