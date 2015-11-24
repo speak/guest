@@ -30,6 +30,7 @@ var UsersStore = new Store({
   
   userConfiguration: function(data) {
     data.user.me = true;
+    data.user.online = true;
     this.update(data.user);
   },
 

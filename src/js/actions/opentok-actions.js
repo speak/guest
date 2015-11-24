@@ -1,8 +1,14 @@
 var AppDispatcher = require('../dispatcher/app-dispatcher');
+var Api = require('../libs/api');
 
 var OpentokActions = {
   auth: function(channel_id) {
-    AppDispatcher.dispatch('channel.auth', {id: channel_id});
+    Api.get({
+      endpoint: '/channels/' + channel_id + '/auth',
+    })
+    .done(function(data){
+      AppDispatcher.dispatch('channel.authed', data);
+    });
   },
   
   message: function(data) {
@@ -24,6 +30,7 @@ var OpentokActions = {
   },
   
   streamCreated: function(data) {
+    data.online = true;
     AppDispatcher.dispatch('stream.created', data);
   },
   

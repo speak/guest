@@ -15,6 +15,7 @@ var Opentok = {
     "channel.found":                    "auth",
     "channel.created":                  "auth",
     "channel.authed":                   "connect",
+    "user.configuration":               "connect",
     "signaling.video_session_started":  "connect",
     "signaling.video_token_generated":  "connect",
     "audio.publish":                    "publishAudio",
@@ -44,7 +45,8 @@ var Opentok = {
   connect: function() {
     var sessionId = ChannelStore.get('video_session_id');
     var videoToken = ChannelStore.get('video_token');
-    if (!sessionId || !videoToken) return;
+    var userId = AppStore.get('user_id');
+    if (!sessionId || !videoToken || !userId) return;
 
     this.session = OT.initSession(Config.tokens.tokbox_api_key, sessionId);
     this.session.on({
