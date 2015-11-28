@@ -66,6 +66,14 @@ var OpentokActions = {
     AppDispatcher.dispatch('screen.cancelled');
   },
 
+  startedSpeaking: function(user_id) {
+    AppDispatcher.dispatch('user.started_speaking', {id: user_id});
+  },
+
+  stoppedSpeaking: function(user_id) {
+    AppDispatcher.dispatch('user.stopped_speaking', {id: user_id});
+  },
+
   permissionsDialog: function(value) {
     AppDispatcher.dispatch('webrtc.permissions', value);
   },

@@ -124,6 +124,11 @@ var Opentok = {
       var action = event.stream.videoType == 'camera' ? "videoUnpublished" : "screenUnpublished";
       OpentokActions[action](user.id);
     });
+    SpeakerDetection(subscriber, function() {
+      OpentokActions.startedSpeaking(user.id);
+    }, function() {
+      OpentokActions.stoppedSpeaking(user.id);
+    });
 
     this.setDOMElement(user.id, event.stream.videoType, domElement);
   },
@@ -322,6 +327,38 @@ var Opentok = {
       }
     }
   }
+};
+
+// TEMP
+var SpeakerDetection = function(subscriber, startTalking, stopTalking) {
+  var activity = null;
+  subscriber.on('audioLevelUpdated', function(event) {
+    console.log('audioLevelUpdated', event);
+    
+    var now = Date.now();
+    if (event.audioLevel > 0.2) {
+      if (!activity) {
+        activity = {timestamp: now, talking: false};
+      } else if (activity.talking) {
+        activity.timestamp = now;
+      } else if (now- activity.timestamp > 1000) {
+        // detected audio activity for more than 1s
+        // for the first time.
+        activity.talking = true;
+        if (typeof(startTalking) === 'function') {
+          startTalking();
+        }
+      }
+    } else if (activity && now - activity.timestamp > 3000) {
+      // detected low audio activity for more than 3s
+      if (activity.talking) {
+        if (typeof(stopTalking) === 'function') {
+          stopTalking();
+        }
+      }
+      activity = null;
+    }
+  });
 };
 
 Opentok.initialize();
