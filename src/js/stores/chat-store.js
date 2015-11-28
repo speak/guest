@@ -52,13 +52,13 @@ var ChatStore = new Store({
   },
   
   channelJoined: function(data) {
-    if (data.user.id != AppStore.get('user_id')) {
+    if (data.user_id != AppStore.get('user_id')) {
       var id = Utilities.guid();
       this.update(id, {
         id: id,
         type: 'event',
         event: 'channel.joined',
-        author_id: data.user.id
+        user: {id: data.user_id}
       });
     }
   },
@@ -73,7 +73,7 @@ var ChatStore = new Store({
           id: id,
           type: 'event',
           event: 'channel.left',
-          author_id: data.user_id
+          user: {id: data.user_id}
         });
       }
     }

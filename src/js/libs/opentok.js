@@ -286,7 +286,7 @@ var Opentok = {
   },
   
   messageCreated: function(message) {
-    if (message.author_id == AppStore.get('user_id')) {
+    if (message.user_id == AppStore.get('user_id')) {
       this.session.signal({
         type: 'message',
         data: JSON.stringify(message)
@@ -295,7 +295,7 @@ var Opentok = {
   },
   
   messageUpdated: function(message) {
-    if (message.author_id == AppStore.get('user_id')) {
+    if (message.user_id == AppStore.get('user_id')) {
       this.session.signal({
         type: 'message',
         data: JSON.stringify(message)

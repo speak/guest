@@ -4,7 +4,7 @@ var UsersStore = require('../stores/users-store');
 var Event = React.createClass({
 
   getUser: function() {
-    var author_id = this.props.message.author_id;
+    var author_id = this.props.message.user_id;
     return UsersStore.get(author_id);
   },
   

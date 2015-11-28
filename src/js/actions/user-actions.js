@@ -108,9 +108,9 @@ var UserActions = {
     }).done(function(data){
       AppDispatcher.dispatch('message.persisted', {
         id: id,
-        server_id: data.id
+        server_id: data.message.id
       });
-      AppDispatcher.dispatch('message.created', data);
+      AppDispatcher.dispatch('message.created', data.message);
     }).fail(function(){
       // TODO
     });

@@ -73,8 +73,8 @@ var Chat = React.createClass({
         list.push(<Event key={message.id} message={message} style={style} />);        
         previous_author_id = 'event';
       } else {
-        list.push(<Message key={message.id} message={message} style={style} author_hidden={!show_author && (previous_author_id == message.author_id)} />);
-        previous_author_id = message.author_id;
+        list.push(<Message key={message.id} message={message} style={style} author_hidden={!show_author && (previous_author_id == message.user_id)} />);
+        previous_author_id = message.user_id;
       }
       index++;
     });

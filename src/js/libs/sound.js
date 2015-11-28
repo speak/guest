@@ -48,7 +48,7 @@ var Sound = {
   },
 
   messageCreated: function(data) {
-    if(AppStore.get('user_id') == data.author_id) {
+    if(AppStore.get('user_id') == data.user_id) {
       this.play('message-persisted');
     } else {
       this.play('message-received');

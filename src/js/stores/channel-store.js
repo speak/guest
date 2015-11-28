@@ -44,8 +44,8 @@ var ChannelStore = new Store({
     'channel.not_authorized':           'destroy',
     'video.unpublished':                'clearActiveSpeaker',
     'screen.unpublished':               'clearActiveSpeaker',
-    'user.created':                     'userLoaded',
-    'user.found':                       'userLoaded',
+    'user.created':                     'createChannelIfNotFound',
+    'user.found':                       'createChannelIfNotFound',
     'signaling.video_session_started':  'videoSessionStarted',
     'signaling.video_token_generated':  'videoTokenGenerated'
   },
@@ -59,6 +59,8 @@ var ChannelStore = new Store({
       not_found: true, 
       loading: false
     });
+    
+    this.createChannelIfNotFound();
   },
   
   channelLeft: function(data) {
@@ -84,7 +86,7 @@ var ChannelStore = new Store({
     this.set(data);
   },
 
-  userLoaded: function(){
+  createChannelIfNotFound: function(){
     var AppActions =  require('../actions/app-actions');
     if (this.state.not_found || (!this.state.id && !this.state.requested_path)) {
       var opts = {};
@@ -94,6 +96,8 @@ var ChannelStore = new Store({
       if(this.state.requested_path){
         opts.path = this.state.requested_path;
       }
+      
+      this.set({loading: true});
       AppActions.channelCreate(opts);
     }
   },
