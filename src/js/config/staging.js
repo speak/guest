@@ -2,12 +2,9 @@ module.exports = {
   environment: 'staging',
   report_errors: true,
   hosts: {
-    ws: 'wss://staging-socks.speak.io',
     app: 'https://staging-go.speak.io',
     account: 'https://staging-account.speak.io',
-    bulldog: 'https://staging-bulldog.speak.io',
-    api: 'https://staging-api.speak.io',
-    twoface: 'https://staging-mcu.speak.io',
+    api: 'https://staging-api.speak.io'
   },
   storage: {
     photos: 'speak-staging-photos'

@@ -2,12 +2,9 @@ module.exports = {
   environment: 'production',
   report_errors: true,
   hosts: {
-    ws: 'wss://socks.speak.io',
     app: 'https://go.speak.io',
     account: 'https://account.speak.io',
-    bulldog: 'https://bulldog.speak.io',
-    api: 'https://api.speak.io',
-    twoface: 'https://mcu.speak.io',
+    api: 'https://api.speak.io'
   },
   storage: {
     photos: 'speak-production-photos'

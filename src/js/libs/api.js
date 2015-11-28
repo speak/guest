@@ -48,7 +48,7 @@ var Api = {
 
     if(AuthStore.state.token) {
       options.beforeSend = function (xhr) {
-        xhr.setRequestHeader('Authorization', 'Basic ' + btoa(AuthStore.state.token + ':'));
+        xhr.setRequestHeader('Authorization', 'Bearer ' + AuthStore.state.token);
       }
     }
 

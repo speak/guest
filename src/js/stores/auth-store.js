@@ -9,41 +9,44 @@ var AuthStore = new Store({
   
   scheme: {
     id: null,
-    ticket: null,
     email: '',
-    token: null
+    access_token: null,
+    refresh_token: null
   },
   
   actions: {
-    'user.signedin':       'updateAuth',
+    'user.created':        'updateUser',
+    'user.signedin':       'updateUser',
+    'session.created':     'updateAuth',
     'session.error':       'removeAuth',
     'session.destroy':     'removeAuth'
   },
-
-  updateAuth: function(data) {
-    var update = {};
-    if (data.token) {
-      update.token = data.token;
-      Cookies.set('token', data.token, { expires: 90, path: '', secure: !development});
-    }
-    if (data.ticket) update.ticket = data.ticket;
-    if (data.email) update.email = data.email;
-    if (data.id) update.id = data.id;
-    this.set(update);
+  
+  updateUser: function(data) {
+    this.set({
+      id: data.id,
+      email: data.email
+    });
     
     Raven.setUserContext({
       id: data.id,
       email: data.email,
     });
-    
-    var AuthActions = require('../actions/auth-actions');
-    AuthActions.getUser(data.id);
+  },
+
+  updateAuth: function(data) {
+    Cookies.set('token', data.access_token, { expires: 90, path: '', secure: !development});
+    this.set(data);
+
+    //var AuthActions = require('../actions/auth-actions');
+    //AuthActions.getUser(data.id);
   },
   
   removeAuth: function(data) {
     this.set({
-      ticket: null,
-      token: null
+      id: null,
+      access_token: null,
+      refresh_token: null
     });
     
     Cookies.remove('token', { path: '', secure: !development });

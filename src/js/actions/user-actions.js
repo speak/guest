@@ -8,36 +8,10 @@ var $ = require('jquery');
 var UserActions = {
   mute: function(shortcut) {
     AppDispatcher.dispatch('audio.unpublish', {user_id: AppStore.get('user_id')});
-    
-    /*var data = {id: AppStore.get('user_id')}
-
-    AppDispatcher.dispatch('user.stop_speaking');
-    AppDispatcher.dispatch('user.mute', data, {
-      error: function() {
-        // catches unlikely errors and resets the UI
-        AppDispatcher.dispatch('user.unmuted', data);
-      }
-    });
-
-    // we send the past tense event locally so that the ui updates instantly
-    AppDispatcher.dispatch('user.muted', data);
-    AppDispatcher.dispatch('user.stopped_speaking', data);*/
   },
 
   unmute: function(shortcut) {
     AppDispatcher.dispatch('audio.publish', {user_id: AppStore.get('user_id')});
-    /*
-    var data = {id: AppStore.get('user_id')}
-
-    AppDispatcher.dispatch('user.unmute', data, {
-      error: function() {
-        // catches unlikely errors and resets the UI
-        AppDispatcher.dispatch('user.muted', data);
-      }
-    });
-
-    // we send the past tense event locally so that the ui updates instantly
-    AppDispatcher.dispatch('user.unmuted', data);*/
   },
 
   publishVideo: function() {
@@ -114,14 +88,12 @@ var UserActions = {
     var data = {
       id: id,
       text: text,
-      token: channel.token,
-      channel_id: channel.id,
-      author_id: AppStore.get('user_id')
+      user_id: AppStore.get('user_id')
     };
       
     AppDispatcher.dispatch('message.create', data);
     Api.post({
-      endpoint: '/messages',
+      endpoint: '/channels/'+ channel.id +'/messages',
       data: data
     }).done(function(data){
       AppDispatcher.dispatch('message.persisted', {
@@ -131,11 +103,11 @@ var UserActions = {
       AppDispatcher.dispatch('message.created', data);
     }).fail(function(){
       // TODO
-    })
+    });
   },
 
   updateMessage: function(data) {
-    AppDispatcher.dispatch('message.update', data);
+    // TODO
   }
 };
 

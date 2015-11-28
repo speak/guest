@@ -3,7 +3,6 @@ var DocumentTitle = require('react-document-title');
 var Api = require('../libs/api');
 var AuthActions = require('../actions/auth-actions');
 var UserActions = require('../actions/user-actions');
-var BulldogActions = require('../actions/bulldog-actions');
 var Utilities = require('../libs/utilities');
 var Config = require('config');
 var Formsy = require('formsy-react');
@@ -98,14 +97,8 @@ var Signin = React.createClass({
         }
       }
 
-      AuthActions.create(data, {
-        success: function(response){
-          response.channel_name = data.channel_name,
-          BulldogActions.signedIn(response);
-        },
-        error: function(xhr, data){
-          this.handleError(xhr, data, invalidate);
-        }.bind(this)
+      AuthActions.createUser(data).fail(function(){
+        // TODO
       });
     }
   },

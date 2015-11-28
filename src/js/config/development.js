@@ -2,12 +2,9 @@ module.exports = {
   environment: 'development',
   report_errors: false,
   hosts: {
-    ws: 'ws://docker:4000',
     app: 'http://docker:5002',
     account: 'http://docker:5001',
-    bulldog: 'http://docker:9393',
-    api: 'http://docker:4444',
-    twoface: 'http://docker:9999'
+    api: 'http://docker:8080',
   },
   storage: {
     photos: 'speak-development-photos'

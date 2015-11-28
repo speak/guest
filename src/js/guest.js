@@ -7,7 +7,6 @@ if (Config.report_errors) {
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Bulldog = require('./libs/bulldog');
 var Sound = require('./libs/sound');
 var OpenTok = require('./libs/opentok');
 var AppDispatcher = require('./dispatcher/app-dispatcher');
@@ -20,10 +19,6 @@ var _ = require('underscore');
 var $ = require('jquery');
 
 Sound.loadAll();
-
-if (AuthStore.get('token')) {
-  Bulldog.createSessionFromToken(AuthStore.get('token'));
-}
 
 if (channelId) {
   AppActions.channelLoad(channelId);
