@@ -42,9 +42,15 @@ var AppActions = {
       registration_id: id
     });
   },
-
-  requestConfiguration: function() {
-    AppDispatcher.dispatch('user.configure');
+  
+  userLoad: function(id) {
+    Api.get({
+      endpoint: '/users/me',
+    })
+    .done(function(data) {
+      AppDispatcher.dispatch('user.found', data.user);
+    })
+    .fail(this.signOut);
   },
   
   channelLoad: function(id) {
@@ -53,7 +59,9 @@ var AppActions = {
     Api.get({
       endpoint: '/channels/' + id,
     })
-    .done(this.channelFound)
+    .done(function(data) {
+      AppDispatcher.dispatch('channel.found', data.channel);
+    })
     .fail(this.channelLoadError);
   },
   
@@ -65,17 +73,14 @@ var AppActions = {
     }
   },
 
-  channelFound: function(data) {
-    AppDispatcher.dispatch('channel.found', data);
-  },
-
   channelCreate: function(data) {
     Api.post({
       endpoint: '/channels',
       data: data
     })
     .done(function(data){
-      AppDispatcher.dispatch('channel.created', data);
+      AppDispatcher.dispatch('channel.created', data.channel);
+      AppDispatcher.dispatch('channel.authed', data.channel_auth);
     });
   }
 };

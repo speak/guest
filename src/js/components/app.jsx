@@ -31,7 +31,7 @@ var App = React.createClass({
     var channel = this.getStore('channelStore');
     var other_users = UsersStore.otherUsers();
     var highlighted_user = UsersStore.getHighlightedUser();
-    var authenticated = app.has_configuration;
+    var authenticated = app.user_id;
     
     if (highlighted_user) return null;
 
@@ -39,7 +39,7 @@ var App = React.createClass({
       return <Incompatible />
     }
 
-    if ((!auth.token && !channel.loading) || (auth.token && channel.not_found && !channel.id && !channel.loading)) {
+    if ((!auth.access_token && !channel.loading) || (auth.access_token && channel.not_found && !channel.id && !channel.loading)) {
       return <div>
         <Signin channel={channel} authenticated={authenticated} />
         <Participants users={other_users} />

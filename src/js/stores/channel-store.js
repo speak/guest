@@ -7,14 +7,12 @@ var ChannelStore = new Store({
   scheme: {
     id: null,
     name: null,
-    public: null,
     public_url: null,
     loading: false,
-    temporary: null,
     completed: false,
     token: null,
-    video_token: null,
-    video_session_id: null,
+    p2p_session_id: null,
+    routed_session_id: null,
     active_speaker_id: null,
     last_active_speaker_id: null,
     created_by_id: null,
@@ -44,8 +42,8 @@ var ChannelStore = new Store({
     'channel.not_authorized':           'destroy',
     'video.unpublished':                'clearActiveSpeaker',
     'screen.unpublished':               'clearActiveSpeaker',
-    'user.signedin':                    'userSignedin',
-    'user.configuration':               'userConfiguration',
+    'user.created':                     'userLoaded',
+    'user.found':                       'userLoaded',
     'signaling.video_session_started':  'videoSessionStarted',
     'signaling.video_token_generated':  'videoTokenGenerated'
   },
@@ -84,19 +82,10 @@ var ChannelStore = new Store({
     this.set(data);
   },
 
-  userSignedin: function(data){
-    if(data.channel_name) {
-      this.set({name: data.channel_name});
-    }
-  }, 
-
-  userConfiguration: function(){
+  userLoaded: function(){
     var AppActions =  require('../actions/app-actions');
-    if(this.state.not_found || (!this.state.id && !this.state.requested_path)) {
-      var opts = {
-        temporary: true,
-        public: true
-      }
+    if (this.state.not_found || (!this.state.id && !this.state.requested_path)) {
+      var opts = {};
       if(this.state.name){
         opts.name = this.state.name;
       }

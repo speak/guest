@@ -20,11 +20,15 @@ var $ = require('jquery');
 
 Sound.loadAll();
 
+if (AuthStore.get('access_token')) {
+  AppActions.userLoad();
+}
+
 if (channelId) {
   AppActions.channelLoad(channelId);
 }
 
-// forward events into webrtc and socks libs
+// forward events into libs
 AppDispatcher.register(function(action, payload, options) {
   OpenTok.dispatchAction(action, payload);
   Sound.dispatchAction(action, payload);

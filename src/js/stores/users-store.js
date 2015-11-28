@@ -5,7 +5,8 @@ var _ = require('underscore');
 
 var UsersStore = new Store({
   actions: {
-    'user.configuration':     'userConfiguration',
+    'user.created':           'userLoaded',
+    'user.found':             'userLoaded',
     'user.started_speaking':  'userStartedSpeaking',
     'user.stopped_speaking':  'userStoppedSpeaking',
     'user.highlighted':       'userHighlighted',
@@ -28,10 +29,10 @@ var UsersStore = new Store({
     'session.destroy':        'reset'
   },
   
-  userConfiguration: function(data) {
-    data.user.me = true;
-    data.user.online = true;
-    this.update(data.user);
+  userLoaded: function(data) {
+    data.me = true;
+    data.online = true;
+    this.update(data);
   },
 
   userStartedSpeaking: function(data) {

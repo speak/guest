@@ -15,9 +15,6 @@ var Opentok = {
     "channel.found":                    "auth",
     "channel.created":                  "auth",
     "channel.authed":                   "connect",
-    "user.configuration":               "connect",
-    "signaling.video_session_started":  "connect",
-    "signaling.video_token_generated":  "connect",
     "audio.publish":                    "publishAudio",
     "audio.unpublish":                  "unpublishAudio",
     "video.publish":                    "publishVideo",
@@ -37,14 +34,14 @@ var Opentok = {
   },
   
   auth: function() {
-    if (!ChannelStore.get('video_token')) {
+    if (!ChannelStore.get('token')) {
       OpentokActions.auth(ChannelStore.get('id'));
     }
   },
 
   connect: function() {
-    var sessionId = ChannelStore.get('video_session_id');
-    var videoToken = ChannelStore.get('video_token');
+    var sessionId = ChannelStore.get('p2p_session_id');
+    var videoToken = ChannelStore.get('token');
     var userId = AppStore.get('user_id');
     if (!sessionId || !videoToken || !userId) return;
 

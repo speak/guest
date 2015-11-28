@@ -46,9 +46,9 @@ var Api = {
     options.dataType = 'json';
     options.contentType = 'application/json';
 
-    if(AuthStore.state.token) {
+    if (AuthStore.get('access_token')) {
       options.beforeSend = function (xhr) {
-        xhr.setRequestHeader('Authorization', 'Bearer ' + AuthStore.state.token);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + AuthStore.get('access_token'));
       }
     }
 

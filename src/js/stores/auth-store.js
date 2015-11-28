@@ -37,9 +37,6 @@ var AuthStore = new Store({
   updateAuth: function(data) {
     Cookies.set('token', data.access_token, { expires: 90, path: '', secure: !development});
     this.set(data);
-
-    //var AuthActions = require('../actions/auth-actions');
-    //AuthActions.getUser(data.id);
   },
   
   removeAuth: function(data) {

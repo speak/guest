@@ -16,7 +16,6 @@ var Signin = React.createClass({
     return {
       can_submit: false,
       password_required: false,
-      preferred_server: null,
       defaults: {}
     }
   },
@@ -38,20 +37,10 @@ var Signin = React.createClass({
     
     this.setState({defaults: params});
   },
-
-  componentDidMount: function() {
-    $.get(Config.hosts.twoface + '/status', this.gotPreferredIp);
-  },
   
   componentDidUpdate: function(prevProps, prevState) {
     if (this.state.password_required && !prevState.password_required) {
       $('input[name=password').focus();
-    }
-  },
-  
-  gotPreferredIp: function(data) {
-    if (this.isMounted()) {
-      this.setState({preferred_server: data.ip});
     }
   },
   
@@ -75,7 +64,6 @@ var Signin = React.createClass({
 
     if (this.props.authenticated) {
       UserActions.channelCreate({
-        public: true,
         name: data.channel_name
       });
       
@@ -86,8 +74,6 @@ var Signin = React.createClass({
         }.bind(this)
       });
     } else {
-      data.server = this.state.preferred_server;
-      data.guest = true;
       
       if (data.first_name) {
         var name_parts = data.first_name.split(" ");
@@ -96,7 +82,8 @@ var Signin = React.createClass({
           data.first_name = name_parts.join(' ');
         }
       }
-
+      
+      UserActions.channelUpdated({name: data.channel_name});
       AuthActions.createUser(data).fail(function(){
         // TODO
       });

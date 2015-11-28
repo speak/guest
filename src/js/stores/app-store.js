@@ -11,26 +11,20 @@ var AppStore = new Store({
       }
     },
     app: {
-      deps: ['has_configuration'],
+      deps: ['user_id'],
       calculate: function() {
-        return this.state.has_configuration;
+        return this.state.user_id;
       }
     },
     permission_granted:     true, //TODO
     permission_dialog:      false,
     permission_denied:      false,
     extension_loaded:       false,
-    ice_servers:            null,
-    ice_servers_expire_at:  null,
     user_id:                null,
-    organization_id:        null,
     muted:                  false,
     online:                 true,
     stream:                 null,
-    level:                  null,
-    has_configuration:      false,
     gcm_registration_id:    null,
-    socks:                  false,
     typing:                 false,
     modal:                  false
   },
@@ -41,22 +35,15 @@ var AppStore = new Store({
     'session.connected':          'sessionConnected',
     'session.disconnected':       'sessionDisconnected',
     'user.extension_registered':  'extensionRegistered',
-    'user.configuration':         'reset',
+    'user.created':               'userLoaded',
+    'user.found':                 'userLoaded',
     'user.typing':                'typing',
     'audio.unpublished':          'mute',
-    'audio.published':            'unmute',
-    'socks.connected':            'socksConnected',
-    'socks.disconnected':         'socksDisconnected'
+    'audio.published':            'unmute'
   },
 
-  reset: function(data) {
-    this.set({
-      ice_servers: data.ice_servers,
-      ice_servers_expire_at: data.ice_servers_expire_at,
-      user_id: data.user.id,
-      has_configuration: true,
-      level: data.user.level
-    });
+  userLoaded: function(data) {
+    this.set({user_id: data.id});
   },
   
   extensionLoaded: function() {
@@ -81,14 +68,6 @@ var AppStore = new Store({
   
   unmute: function() {
     this.set({muted: false});
-  },
-
-  socksConnected: function(){
-    this.set({socks: true});
-  },
-  
-  socksDisconnected: function() {
-    this.set({socks: false});
   },
 
   sessionConnected: function() {

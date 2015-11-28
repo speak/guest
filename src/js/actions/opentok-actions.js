@@ -7,7 +7,7 @@ var OpentokActions = {
       endpoint: '/channels/' + channel_id + '/auth',
     })
     .done(function(data){
-      AppDispatcher.dispatch('channel.authed', data);
+      AppDispatcher.dispatch('channel.authed', data.channel_auth);
     });
   },
   

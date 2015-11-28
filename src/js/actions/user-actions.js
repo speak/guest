@@ -74,6 +74,10 @@ var UserActions = {
   closeModal: function() {
     AppDispatcher.dispatch('app.modal');
   },
+  
+  channelUpdated: function(data) {
+    AppDispatcher.dispatch('channel.updated', data);
+  },
 
   channelCreate: function(data) {
     AppDispatcher.dispatch('channel.create', data);
