@@ -8,6 +8,7 @@ var ChannelStore = new Store({
     id: null,
     name: null,
     public_url: null,
+    locked: false,
     loading: false,
     completed: false,
     token: null,
@@ -16,7 +17,8 @@ var ChannelStore = new Store({
     active_speaker_id: null,
     last_active_speaker_id: null,
     created_by_id: null,
-    started_at: null,
+    created_at: null,
+    updated_at: null,
     not_found: false,
     path: null,
     requested_path: {

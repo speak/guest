@@ -49,7 +49,13 @@ var UserActions = {
   },
 
   channelUpdate: function(data) {
-    AppDispatcher.dispatch('channel.update', data);
+    return Api.put({
+      endpoint: '/channels/' + ChannelStore.get('id'),
+      data: data
+    })
+    .done(function(data){
+      AppDispatcher.dispatch('channel.updated', data.channel);
+    });
   },
   
   editLastMessage: function() {

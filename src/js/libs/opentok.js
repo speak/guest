@@ -13,7 +13,6 @@ var Opentok = {
 
   actions: {
     "channel.found":                    "auth",
-    "channel.created":                  "auth",
     "channel.authed":                   "connect",
     "audio.publish":                    "publishAudio",
     "audio.unpublish":                  "unpublishAudio",
