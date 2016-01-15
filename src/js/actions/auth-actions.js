@@ -9,8 +9,8 @@ var AuthActions = {
       data: data
     })
     .done(function(data){
-      AppDispatcher.dispatch('user.created', data.user);
       AppDispatcher.dispatch('session.created', data.auth);
+      AppDispatcher.dispatch('user.created', data.user);
     });
   },
   

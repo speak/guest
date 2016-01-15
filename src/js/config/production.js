@@ -4,7 +4,7 @@ module.exports = {
   hosts: {
     app: 'https://go.speak.io',
     account: 'https://account.speak.io',
-    api: 'https://api.speak.io'
+    api: 'https://speak-prod-api.herokuapp.com'
   },
   storage: {
     photos: 'speak-production-photos'
