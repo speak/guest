@@ -19,6 +19,7 @@ var ChannelStore = new Store({
     created_by_id: null,
     created_at: null,
     updated_at: null,
+    recording_id: null,
     not_found: false,
     path: null,
     requested_path: {
@@ -42,6 +43,8 @@ var ChannelStore = new Store({
     'channel.left':                     'channelLeft',
     'channel.kicked':                   'clearActiveSpeaker',
     'channel.not_authorized':           'destroy',
+    'channel.started_recording':        'startedRecording',
+    'channel.stopped_recording':        'stoppedRecording',
     'video.unpublished':                'clearActiveSpeaker',
     'screen.unpublished':               'clearActiveSpeaker',
     'user.created':                     'createChannelIfNotFound',
@@ -110,6 +113,14 @@ var ChannelStore = new Store({
   
   channelLeave: function() {
     this.set({completed: true});
+  },
+  
+  startedRecording: function(data) {
+    this.set({recording_id: data.id});
+  },
+
+  stoppedRecording: function() {
+    this.set({recording_id: null});
   },
 
   userStartedSpeaking: function(data){

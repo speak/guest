@@ -8,13 +8,15 @@ var ChatStore = new Store({
   lastMessageId: null,
   
   actions: {
-    'message.create':      'messageCreate',
-    'message.created':     'messageCreated',
-    'message.updated':     'messageUpdated',
-    'message.persisted':   'messagePersisted',
-    'message.edit_last':   'messageEditLast',
-    'channel.joined':      'channelJoined',
-    'channel.left':        'channelLeft'
+    'message.create':             'messageCreate',
+    'message.created':            'messageCreated',
+    'message.updated':            'messageUpdated',
+    'message.persisted':          'messagePersisted',
+    'message.edit_last':          'messageEditLast',
+    'channel.started_recording':  'startedRecording',
+    'channel.stopped_recording':  'stoppedRecording',
+    'channel.joined':             'channelJoined',
+    'channel.left':               'channelLeft'
   },
 
   messageCreate: function(data){
@@ -51,6 +53,24 @@ var ChatStore = new Store({
     }
   },
   
+  startedRecording: function(data) {
+    this.update(id, {
+      id: Utilities.guid(),
+      type: 'event',
+      event: 'channel.started_recording',
+      user: {id: data.user_id}
+    });
+  },
+  
+  stoppedRecording: function(data) {
+    this.update(id, {
+      id: Utilities.guid(),
+      type: 'event',
+      event: 'channel.stopped_recording',
+      user: {id: data.user_id}
+    });
+  },
+
   channelJoined: function(data) {
     if (data.user_id != AppStore.get('user_id')) {
       var id = Utilities.guid();

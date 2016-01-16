@@ -10,6 +10,10 @@ var Event = React.createClass({
   
   getText: function() {
     switch(this.props.message.event) {
+      case "channel.started_recording":
+        return "started recording this call";
+      case "channel.stopped_recording":
+        return "stopped the call recording";
       case "channel.joined":
         return "joined";
       case "channel.left":

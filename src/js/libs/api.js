@@ -29,13 +29,17 @@ var Api = {
     return this.request(data);
   },
 
+  delete: function(data) {
+    data.type = 'DELETE';
+    return this.request(data);
+  },
+
   post: function(data) {
     data.type = 'POST';
     return this.request(data);
   },
 
   request: function(options) {
-    //TODO error out when no auth token
     options = _.extend({url: Config.hosts.api}, options);
 
     if (options.data) options.data = JSON.stringify(options.data);
@@ -50,6 +54,8 @@ var Api = {
       options.beforeSend = function (xhr) {
         xhr.setRequestHeader('Authorization', 'Bearer ' + AuthStore.get('access_token'));
       }
+    } else {
+      throw new Error("API request without an access token");
     }
 
     return $.ajax(options);

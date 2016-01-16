@@ -13,16 +13,14 @@ var RecordButton = React.createClass({
   
   render: function(){
     var tooltip;
-    var classes = classNames({
-      'record': true
-    });
+    var text = this.props.enabled ? "Stop Recording" : "Start Recording";
 
     if (this.props.hasTooltip) {
-      tooltip = <span className="tooltip">Record Call<i className="triangle"></i></span>;
+      tooltip = <span className="tooltip">{text}<i className="triangle"></i></span>;
     }
 
     return <span>
-      <a className={classes} {...this.props}></a>
+      <a className="record" {...this.props}></a>
       {tooltip}
     </span>;
   }

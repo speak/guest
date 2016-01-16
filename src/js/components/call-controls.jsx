@@ -102,20 +102,23 @@ var CallControls = React.createClass({
       UserActions.publishScreen();
     }
   },
-  
+
   toggleAddPerson: function() {
     UserActions.showModal('add-people');
   },
-  
+
   toggleRecord: function() {
-    Analytics.track('clicked.record');
-    UserActions.showModal('upgrade');
+    if (this.props.channel.recording_id) {
+      UserActions.stopRecording();
+    } else {
+      UserActions.startRecording();
+    }
   },
 
   leave: function() {
     UserActions.channelLeave();
   },
-  
+
   preventFullscreen: function(ev) {
     ev.stopPropagation();
   },
@@ -126,7 +129,7 @@ var CallControls = React.createClass({
         <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><MuteButton onClick={this.toggleMute} speaking={this.props.user.speaking} enabled={this.props.user.muted} /></li>
         <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><VideoButton onClick={this.toggleVideo} enabled={this.props.user.publishing_video} /></li>
         <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><ScreenButton onClick={this.toggleScreen} disabled={!this.state.screenshare_supported} enabled={this.props.user.publishing_screen} working={this.state.screenshare_extension_installing} /></li>
-        <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><RecordButton onClick={this.toggleRecord} /></li>
+        <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><RecordButton onClick={this.toggleRecord} enabled={this.props.channel.recording_id} /></li>
         <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><AddPeopleButton onClick={this.toggleAddPerson} /></li>
         <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><LeaveButton onClick={this.leave} /></li>
       </ul>

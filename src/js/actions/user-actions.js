@@ -30,6 +30,28 @@ var UserActions = {
     AppDispatcher.dispatch('screen.unpublish', {user_id: AppStore.get('user_id')});
   },
 
+  startRecording: function() {
+    Api.post({
+      endpoint: '/channels/' + ChannelStore.get('id') + '/recording'
+    })
+    .done(function(data){
+      AppDispatcher.dispatch('channel.started_recording', {
+        recording_id: data.recording.id
+      });
+    });
+  },
+
+  stopRecording: function() {
+    Api.delete({
+      endpoint: '/channels/' + ChannelStore.get('id') + '/recording/' + ChannelStore.get('recording_id')
+    })
+    .done(function(data){
+      AppDispatcher.dispatch('channel.stopped_recording', {
+        recording_id: data.recording.id
+      });
+    });
+  },
+
   installScreenshareExtension: function(callback) {
     var extension = Utilities.getScreenshareExtensionUrl();
     // convert to node-style callback

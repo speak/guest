@@ -23,6 +23,8 @@ var Opentok = {
     "screen.unpublish":                 "unpublishScreen",
     "message.created":                  "messageCreated",
     "message.updated":                  "messageUpdated",
+    "channel.started_recording":        "startedRecording",
+    "channel.stopped_recording":        "stoppedRecording",
     "session.destroy":                  "destroy",
     "session.error":                    "destroy"
   },
@@ -299,6 +301,24 @@ var Opentok = {
       this.session.signal({
         type: 'message',
         data: JSON.stringify(message)
+      });
+    }
+  },
+  
+  startedRecording: function(data) {
+    if (message.user_id == AppStore.get('user_id')) {
+      this.session.signal({
+        type: 'channel.started_recording',
+        data: data
+      });
+    }
+  },
+  
+  stoppedRecording: function(data) {
+    if (message.user_id == AppStore.get('user_id')) {
+      this.session.signal({
+        type: 'channel.stopped_recording',
+        data: data
       });
     }
   },
