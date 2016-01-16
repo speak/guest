@@ -42,8 +42,8 @@ var UserActions = {
   },
 
   stopRecording: function() {
-    Api.delete({
-      endpoint: '/channels/' + ChannelStore.get('id') + '/recording/' + ChannelStore.get('recording_id')
+    Api.post({
+      endpoint: '/channels/' + ChannelStore.get('id') + '/recording/' + ChannelStore.get('recording_id') + '/stop'
     })
     .done(function(data){
       AppDispatcher.dispatch('channel.stopped_recording', {
