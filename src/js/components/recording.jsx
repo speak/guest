@@ -12,7 +12,7 @@ var Recording = React.createClass({
     
     return <li className="recording">
       <span className="users">{list.join(', ')}</span>
-      <span className="name">{channel.name}</span>
+      <a href={channel.public_url} className="name">{channel.name}</a>
       <span className="duration">{recording.duration}</span>
       <span className="created-at">{recording.created_at}</span>
       <a href={recording.download_url}>Download</a>
