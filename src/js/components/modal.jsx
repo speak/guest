@@ -3,6 +3,7 @@ var UserActions = require('../actions/user-actions');
 var ChannelShare = require('./channel-share');
 var Upgrade = require('./upgrade');
 var Preferences = require('./preferences');
+var Recordings = require('./recordings');
 
 var Modal = React.createClass({
   
@@ -12,6 +13,8 @@ var Modal = React.createClass({
         return <ChannelShare path={this.props.channel.path} />;
       case 'upgrade':
         return <Upgrade />;
+      case 'recordings':
+        return <Recordings />;
       default:
       case 'preferences':
         return <Preferences user={this.props.user} />;

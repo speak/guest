@@ -25,19 +25,24 @@ var CurrentUser = React.createClass({
     AuthActions.signout();
   },
   
-  preferences: function() {
+  showPreferences: function() {
     UserActions.showModal('preferences');
+  },
+  
+  showRecordings: function() {
+    UserActions.showModal('recordings');
   },
 
   render: function() {
     var nav;
     
     if (this.state.enabled) {
-      // <li><a onClick={this.preferences}>Preferences</a></li>
+      // <li><a onClick={this.showPreferences}>Preferences</a></li>
       // <li><a href="https://account.speak.io" target="_blank">Account</a></li>
       
       nav = <nav className="dropdown animated slideFadeDown">
         <ul>
+          <li><a onClick={this.showRecordings}>Recordings</a></li>      
           <li><a href="mailto:howdy@speak.io" target="_blank">Help</a></li>
           <li><a onClick={this.signout}>Sign Out</a></li>
         </ul>
