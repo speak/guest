@@ -39,7 +39,7 @@ var App = React.createClass({
       return <Incompatible />
     }
 
-    if ((!auth.access_token && !channel.loading) || (auth.access_token && channel.not_found && !channel.id && !channel.loading)) {
+    if ((channel.locked && !channel.token) || (!auth.access_token && !channel.loading) || (auth.access_token && channel.not_found && !channel.id && !channel.loading)) {
       return <div>
         <Signin channel={channel} authenticated={authenticated} />
         <Participants users={other_users} />
@@ -70,8 +70,11 @@ var App = React.createClass({
   },
 
   handleDoubleClick: function(ev) {
-    if (fullscreen.enabled) {
-      fullscreen.toggle(window.document.body);
+    var app = this.getStore('appStore');
+    if (!app.modal) {
+      if (fullscreen.enabled) {
+        fullscreen.toggle(window.document.body);
+      }
     }
   },
 

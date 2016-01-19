@@ -9,6 +9,7 @@ var ChannelStore = new Store({
     name: null,
     public_url: null,
     locked: false,
+    locked_by: null,
     loading: false,
     completed: false,
     token: null,
@@ -21,6 +22,7 @@ var ChannelStore = new Store({
     updated_at: null,
     not_found: false,
     path: null,
+    password: null,
     requested_path: {
       calculate: function () {
         return window.location.pathname.split('/')[1];

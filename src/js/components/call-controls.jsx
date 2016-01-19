@@ -4,6 +4,7 @@ var VideoButton = require('speak-widgets').VideoButton;
 var ScreenButton = require('speak-widgets').ScreenButton;
 var AddPeopleButton = require('speak-widgets').AddPeopleButton;
 var LeaveButton = require('speak-widgets').LeaveButton;
+var LockButton = require('./lock-button');
 var RecordButton = require('./record-button');
 var Analytics = require('../libs/analytics');
 var $ = require('jquery');
@@ -111,6 +112,11 @@ var CallControls = React.createClass({
     Analytics.track('clicked.record');
     UserActions.showModal('upgrade');
   },
+  
+  toggleLocked: function() {
+    Analytics.track('clicked.lock');
+    UserActions.showModal('lock');
+  },
 
   leave: function() {
     UserActions.channelLeave();
@@ -121,6 +127,7 @@ var CallControls = React.createClass({
   },
 
   render: function(){
+    //<li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><LeaveButton onClick={this.leave} /></li>
     return <nav id="call-controls" onDoubleClick={this.preventFullscreen}>
       <ul onMouseLeave={this.hideTooltip} className="controls">
         <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><MuteButton onClick={this.toggleMute} speaking={this.props.user.speaking} enabled={this.props.user.muted} /></li>
@@ -128,7 +135,7 @@ var CallControls = React.createClass({
         <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><ScreenButton onClick={this.toggleScreen} disabled={!this.state.screenshare_supported} enabled={this.props.user.publishing_screen} working={this.state.screenshare_extension_installing} /></li>
         <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><RecordButton onClick={this.toggleRecord} /></li>
         <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><AddPeopleButton onClick={this.toggleAddPerson} /></li>
-        <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><LeaveButton onClick={this.leave} /></li>
+        <li className="call-control" onMouseMove={this.updateTooltipTimeout} onMouseLeave={this.stopTooltipTimeout}><LockButton onClick={this.toggleLocked} enabled={this.props.channel.locked} /></li>
       </ul>
     </nav>;
   }

@@ -92,7 +92,29 @@ var UserActions = {
   channelLeave: function() {
     AppDispatcher.dispatch('channel.leave');
   },
-
+  
+  channelLock: function(data) {
+    return Api.post({
+      endpoint: '/channels/'+ ChannelStore.get('id') +'/lock',
+      data: data
+    }).done(function(data){
+      AppDispatcher.dispatch('channel.updated', {
+        locked: true
+      });
+    })
+  },
+  
+  channelUnlock: function(data) {
+    return Api.post({
+      endpoint: '/channels/'+ ChannelStore.get('id') +'/unlock',
+      data: data
+    }).done(function(data){
+      AppDispatcher.dispatch('channel.updated', {
+        locked: false
+      });
+    })
+  },
+  
   sendMessage: function(text, channel) {
     var id = Utilities.guid();
     var data = {

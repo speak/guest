@@ -2,9 +2,10 @@ var AppDispatcher = require('../dispatcher/app-dispatcher');
 var Api = require('../libs/api');
 
 var OpentokActions = {
-  auth: function(channel_id) {
-    Api.get({
+  auth: function(channel_id, password) {
+    Api.post({
       endpoint: '/channels/' + channel_id + '/auth',
+      data: {password: password}
     })
     .done(function(data){
       AppDispatcher.dispatch('channel.authed', data.channel_auth);
