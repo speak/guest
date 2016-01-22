@@ -26,6 +26,7 @@ var MessagesStore = new Store({
   messageCreated: function(data) {
     if (data.user_id != AppStore.get('user_id')) {
       data.persisted = true;
+      data.created_at = (new Date()).getTime()
       this.update(data);
     }
   },
@@ -41,6 +42,7 @@ var MessagesStore = new Store({
 
     message.id = data.server_id;
     message.persisted = true;
+    message.created_at = (new Date()).getTime()
     
     this.lastMessageId = data.server_id;
     this.state[data.server_id] = message;
@@ -60,7 +62,8 @@ var MessagesStore = new Store({
         id: id,
         type: 'event',
         event: 'channel.joined',
-        user_id: data.user_id
+        user_id: data.user_id,
+        created_at: (new Date()).getTime()
       });
     }
   },
@@ -75,33 +78,32 @@ var MessagesStore = new Store({
           id: id,
           type: 'event',
           event: 'channel.left',
-          user_id: data.user_id
+          user_id: data.user_id,
+          created_at: (new Date()).getTime()
         });
       }
     }
   },
   
   channelLocked: function(data) {
-    console.log("channelLocked", data);
-    
     var id = Utilities.guid();
     this.update(id, {
       id: id,
       type: 'event',
       event: 'channel.locked',
-      user_id: data.user_id
+      user_id: data.user_id,
+      created_at: (new Date()).getTime()
     });
   },
   
   channelUnlocked: function(data) {
-    console.log("channelUnlocked", data);
-    
     var id = Utilities.guid();
     this.update(id, {
       id: id,
       type: 'event',
       event: 'channel.unlocked',
-      user_id: data.user_id
+      user_id: data.user_id,
+      created_at: (new Date()).getTime()
     });
   }
 });

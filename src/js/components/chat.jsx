@@ -60,6 +60,8 @@ var Chat = React.createClass({
     var last = this.state.last;
     var index = 0;
     
+    messages = _.sortBy(messages, function(m){ return m.created_at; });
+    
     _.each(messages, function(message){
       var style, show_author;
       

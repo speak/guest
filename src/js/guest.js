@@ -56,15 +56,6 @@ window.addEventListener('message', function(event){
   }
 });
 
-// choose a random background image
-document.getElementById('guest').style.backgroundImage = "url('" + _.sample([
-  '/images/backgrounds/photo-1446080501695-8e929f879f2b.jpg',
-  '/images/backgrounds/photo-1441906363162-903afd0d3d52.jpg',
-  '/images/backgrounds/wdXqHcTwSTmLuKOGz92L_Landscape.jpg',
-  '/images/backgrounds/photo-1444090542259-0af8fa96557e.jpg',
-  '/images/backgrounds/photo-1441155472722-d17942a2b76a.jpg'
-]) + "')";
-
 // allow homepage signin
 $(function() {
   $('.homepage-start-meeting').submit(function(ev){

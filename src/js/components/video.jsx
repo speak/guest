@@ -54,7 +54,7 @@ var Video = React.createClass({
       var active_speaker = ChannelStore.getActiveSpeaker() || {};
       var users = _.sortBy(this.props.users, function(user){
         return user.me ? 0 : 1;
-      }); 
+      });
     
       _.each(users, function(user, index) {
         if (!user.me && user.channel_state) return;
