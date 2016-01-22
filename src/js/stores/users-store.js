@@ -24,7 +24,6 @@ var UsersStore = new Store({
     'screen.published':       'screenPublished',
     'screen.unpublished':     'screenUnpublished',
     'screen.cancelled':       'screenCancelled',
-    'me.channel.left':        'reset',
     'session.destroy':        'reset'
   },
   

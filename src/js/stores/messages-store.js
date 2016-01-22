@@ -3,8 +3,8 @@ var AppStore = require('./app-store');
 var UsersStore = require('./users-store');
 var Utilities = require('../libs/utilities');
 
-var ChatStore = new Store({
-  storeName: 'chat',
+var MessagesStore = new Store({
+  storeName: 'messages',
   lastMessageId: null,
   
   actions: {
@@ -14,7 +14,9 @@ var ChatStore = new Store({
     'message.persisted':   'messagePersisted',
     'message.edit_last':   'messageEditLast',
     'channel.joined':      'channelJoined',
-    'channel.left':        'channelLeft'
+    'channel.left':        'channelLeft',
+    'channel.locked':      'channelLocked',
+    'channel.unlocked':    'channelUnlocked'
   },
 
   messageCreate: function(data){
@@ -58,7 +60,7 @@ var ChatStore = new Store({
         id: id,
         type: 'event',
         event: 'channel.joined',
-        user: {id: data.user_id}
+        user_id: data.user_id
       });
     }
   },
@@ -73,11 +75,35 @@ var ChatStore = new Store({
           id: id,
           type: 'event',
           event: 'channel.left',
-          user: {id: data.user_id}
+          user_id: data.user_id
         });
       }
     }
+  },
+  
+  channelLocked: function(data) {
+    console.log("channelLocked", data);
+    
+    var id = Utilities.guid();
+    this.update(id, {
+      id: id,
+      type: 'event',
+      event: 'channel.locked',
+      user_id: data.user_id
+    });
+  },
+  
+  channelUnlocked: function(data) {
+    console.log("channelUnlocked", data);
+    
+    var id = Utilities.guid();
+    this.update(id, {
+      id: id,
+      type: 'event',
+      event: 'channel.unlocked',
+      user_id: data.user_id
+    });
   }
 });
 
-module.exports = ChatStore;
+module.exports = MessagesStore;

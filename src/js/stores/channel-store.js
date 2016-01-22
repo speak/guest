@@ -36,6 +36,8 @@ var ChannelStore = new Store({
     'channel.loading':                  'channelLoading',
     'channel.found':                    'channelLoaded',
     'channel.created':                  'channelLoaded',
+    'channel.locked':                   'channelLocked',
+    'channel.unlocked':                 'channelUnlocked',
     'channel.not_found':                'channelNotFound',
     'channel.joined':                   'channelJoined',
     'channel.updated':                  'set',
@@ -55,7 +57,15 @@ var ChannelStore = new Store({
   channelLoading: function() {
     this.set({loading: true});
   },
-
+  
+  channelLocked: function() {
+    this.set({locked: true});
+  },  
+  
+  channelUnlocked: function() {
+    this.set({locked: false});
+  },
+  
   channelNotFound: function(){
     this.set({
       not_found: true, 

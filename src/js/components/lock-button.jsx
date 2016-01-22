@@ -19,7 +19,7 @@ var LockButton = React.createClass({
     });
     
     if (this.props.hasTooltip) {
-      tooltip = <span className="tooltip">{this.props.enabled ? "Unlock Call" : "Lock Call"}<i className="triangle"></i></span>;
+      tooltip = <span className="tooltip">{this.props.enabled ? "Unlock Channel" : "Lock Channel"}<i className="triangle"></i></span>;
     }
 
     return <span>

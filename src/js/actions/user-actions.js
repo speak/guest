@@ -98,8 +98,8 @@ var UserActions = {
       endpoint: '/channels/'+ ChannelStore.get('id') +'/lock',
       data: data
     }).done(function(data){
-      AppDispatcher.dispatch('channel.updated', {
-        locked: true
+      AppDispatcher.dispatch('channel.locked', {
+        user_id: AppStore.get('user_id')
       });
     })
   },
@@ -109,8 +109,8 @@ var UserActions = {
       endpoint: '/channels/'+ ChannelStore.get('id') +'/unlock',
       data: data
     }).done(function(data){
-      AppDispatcher.dispatch('channel.updated', {
-        locked: false
+      AppDispatcher.dispatch('channel.unlocked', {
+        user_id: AppStore.get('user_id')
       });
     })
   },
