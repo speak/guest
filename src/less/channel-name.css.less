@@ -1,10 +1,48 @@
 @import "elements.css.less";
 
 #channel-name {
+  .pattie {
+    display: block;
+    position: absolute;
+    top: 39px;
+    left: 20px;
+    height: 20px;
+    cursor: pointer;
+    .opacity(0.8);
+    .transition();
+  }
+  
+  .pattie:hover {
+    .opacity(1);
+  }
+  
+  .pattie i {
+    display: block;
+    width: 20px;
+    height: 3px;
+    background: #fff;
+    position: relative;
+    
+    &:before,
+    &:after {
+      content: "";
+      display: block;
+      width: 20px;
+      height: 3px;
+      background: #fff;
+      position: relative;
+      top: 12px;
+    }
+    
+    &:after {
+      top: 3px;
+    }
+  }
+  
   input {
     position: absolute;
     top: 23px;
-    left: 10px;
+    left: 50px;
     padding: 10px 30px 10px 10px;
     font-size: 18px;
     background: transparent;

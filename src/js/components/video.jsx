@@ -6,7 +6,6 @@ var ChannelStore = require('../stores/channel-store');
 var UserActions = require('../actions/user-actions');
 var UserVideo = require('./user-video');
 var UserScreen = require('./user-screen');
-var CurrentUser = require('./current-user');
 var ChannelName = require('./channel-name');
 var _ = require('underscore');
 
@@ -27,6 +26,10 @@ var Video = React.createClass({
   
   handleKeyDown: function() {
     UserActions.typing(true);
+  },
+  
+  closeMenu: function() {
+    UserActions.closeMenu();
   },
 
   handleMouseMove: function() {
@@ -75,11 +78,10 @@ var Video = React.createClass({
       'screen-centered': active_speaker && active_speaker.type == 'screen'
     });
 
-    return <div id="video" className={classes} onMouseMove={this.handleMouseMove} onKeyDown={this.handleKeyDown}>
+    return <div id="video" className={classes} onClick={this.closeMenu} onMouseMove={this.handleMouseMove} onKeyDown={this.handleKeyDown}>
       <ReactCSSTransitionGroup component="ul" transitionName="mini" transitionEnterTimeout={250} transitionLeaveTimeout={250} className="users">{list}</ReactCSSTransitionGroup>
       <CallControls user={me} channel={channel} />
       <ChannelName {...channel} />
-      <CurrentUser user={me} />
     </div>;
   }
 });

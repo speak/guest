@@ -42,6 +42,11 @@ var ChannelName = React.createClass({
     }
   },
   
+  showMenu: function(ev) {
+    ev.stopPropagation();
+    UserActions.showMenu();
+  },
+  
   cancelEdit: function() {
     this.setState({escaped: true, name: this.props.name});
     var element = this.refs.input;
@@ -57,6 +62,7 @@ var ChannelName = React.createClass({
     // Note: Hidden input field prevents immediate focus on the field
     // when the app is loaded, whilst still allowing tab navigation
     return <div id="channel-name" onDoubleClick={this.preventFullscreen}>
+      <a className="pattie" onClick={this.showMenu}><i></i></a>
       <input type="text" style={{position: 'fixed', left: '-1000px'}} />
       <input autoFocus={false} 
              title={this.state.name} 

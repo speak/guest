@@ -1,13 +1,13 @@
 @import "elements.css.less";
 
-#chat{
+#chat {
   position: absolute;
   bottom: 0;
   padding: 10px;
   
   textarea {
-    border-color: rgba(255,255,255,0.9);
-    background: rgba(255,255,255,0.9);
+    border-color: transparent;
+    background: rgba(255,255,255,0.6);
     color: #333;
     margin: 10px;
     height: 40px;
@@ -16,9 +16,11 @@
     padding: 10px;
     min-height: 0;
     box-sizing: border-box;
+    .transition();
     
     &:active,
-    &:focus {
+    &:focus
+    &:hover {
       background: #fff;
     }
   }
@@ -97,5 +99,11 @@
         animation-name: messageFadeIn;
       }
     }
+  }
+}
+
+#chat:hover {
+  textarea {
+    background: #fff;
   }
 }

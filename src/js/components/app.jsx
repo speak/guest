@@ -17,6 +17,7 @@ var ChannelShare = require('./channel-share');
 var Signin = require('./signin');
 var Video = require('./video');
 var Logo = require('./logo');
+var Menu = require('./menu');
 var fullscreen = require('screenfull');
 var _ = require('underscore');
 
@@ -85,7 +86,7 @@ var App = React.createClass({
     var channel = this.getStore('channelStore');
     var user = UsersStore.getCurrentUser();
     var message = this.getMessage();
-    var video, chat, modal, current;
+    var video, chat, modal, current, menu;
     
     if (user && channel.id && app.permission_granted) {
       video = <Video users={users} user={user} channel={channel} />;
@@ -99,11 +100,16 @@ var App = React.createClass({
       message = <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={250} transitionLeaveTimeout={250} id="message-wrapper">{message}</ReactCSSTransitionGroup>;
     }
     
+    if (app.menu) {
+      menu = <Menu />;
+    }
+    
     if (app.app) {
       return <div onDoubleClick={this.handleDoubleClick}>
         {video}
         {chat}
         {message}
+        <ReactCSSTransitionGroup transitionName="slide-left" transitionEnterTimeout={450} transitionLeaveTimeout={450}>{menu}</ReactCSSTransitionGroup>
         <ReactCSSTransitionGroup transitionName="zoom" transitionEnterTimeout={150} transitionLeaveTimeout={150}>{modal}</ReactCSSTransitionGroup>
       </div>;
     }

@@ -81,6 +81,14 @@ var UserActions = {
     AppDispatcher.dispatch('app.modal');
   },
   
+  showMenu: function() {
+    AppDispatcher.dispatch('app.menu', true);
+  },
+  
+  closeMenu: function() {
+    AppDispatcher.dispatch('app.menu', false);
+  },
+  
   channelUpdated: function(data) {
     AppDispatcher.dispatch('channel.updated', data);
   },
