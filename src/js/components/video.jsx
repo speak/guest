@@ -28,15 +28,19 @@ var Video = React.createClass({
     UserActions.typing(true);
   },
   
-  closeMenu: function() {
-    UserActions.closeMenu();
+  closeMenu: function(ev) {
+    if (this.props.app.menu) {
+      // if the menu is open we want first click to close it
+      ev.stopPropagation();
+      UserActions.closeMenu();
+    }
   },
 
   handleMouseMove: function() {
     clearTimeout(this.state.timeout_hide);
     
     if (!this.state.hovering) {
-      this.setState({hovering: true});    
+      this.setState({hovering: true});
     }
     
     this.state.timeout_hide = setTimeout(function(){
