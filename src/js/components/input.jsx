@@ -21,7 +21,7 @@ var Input = React.createClass({
   },
   
   render: function () {
-    var notif;
+    var notif, label;
     
     // Set a specific className based on the validation
     // state of this component. showRequired() is true
@@ -33,7 +33,10 @@ var Input = React.createClass({
       'required': this.showRequired(),
       'error': this.showError()
     });
-
+    
+    if (this.props.label) {
+      label = <label>{this.props.label}</label>;
+    }
     
     if (this.props.notice) {
       notif = <div className="notice-wrapper" ref="wrapper" onClick={this.closeNotification}>
@@ -56,6 +59,7 @@ var Input = React.createClass({
 
     return (
       <div className={classes + " " + this.props.wrapperClass}>
+        {label}
         <input {...this.props} onChange={this.changeValue} value={this.getValue()}/>
         {notif}
       </div>

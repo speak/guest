@@ -88,6 +88,14 @@ input[type=submit] {
   margin-top: 16px;
 }
 
+.warning {
+  background: @blue;
+  padding: 15px;
+  color: #fff;
+  line-height: 1.4;
+  .rounded(4px);
+}
+
 form {
   // Input errors
   .error-wrapper,
@@ -117,6 +125,28 @@ form {
 
       .close {
         display: none;
+      }
+    }
+  }
+  
+  .row.double {
+    .input-wrapper {
+      width: 50%;
+      float: left;
+    }
+    
+    .input-wrapper:first-child {
+      input {
+        border-right: 0px none;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+      }
+    }
+    
+    .input-wrapper:last-child {
+      input {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
       }
     }
   }

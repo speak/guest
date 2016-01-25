@@ -34,6 +34,10 @@
   }
 }
 
+.with-menu #modal {
+  background: transparent;
+}
+
 #modal {
   .centered {
     top: 50%;
@@ -121,24 +125,27 @@
   .rounded(4px);
   
   .inputs {
-    input {
-      border-color: transparent;
-    }
-  
-    .input-wrapper:first-child {
+    .input-wrapper {
       padding-bottom:0;
       
       input {
+        border-color: #fff;
+        border: 0;
         border-bottom: 1px solid #EEE;
-        border-bottom-left-radius: 0px;
-        border-bottom-right-radius: 0px;
+        .border-radius(0,0,0,0);
       }
     }
-  
+    
+    .input-wrapper:first-child {
+      input {
+        .border-radius(4px,0,0,4px);
+      }
+    }
+    
     .input-wrapper:last-child {
       input {
-        border-top-left-radius: 0px;
-        border-top-right-radius: 0px;
+        border: 0;
+        .border-radius(0,4px,4px,0);
       }
     }
   }

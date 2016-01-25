@@ -2,6 +2,7 @@ var React = require('react');
 var Flux = require('delorean').Flux;
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 var DocumentTitle = require('react-document-title');
+var classNames = require('classnames');
 
 var UsersStore = require('../stores/users-store');
 var UserActions = require('../actions/user-actions');
@@ -109,8 +110,8 @@ var App = React.createClass({
         {video}
         {chat}
         {message}
-        <ReactCSSTransitionGroup transitionName="slide-left" transitionEnterTimeout={450} transitionLeaveTimeout={450}>{menu}</ReactCSSTransitionGroup>
         <ReactCSSTransitionGroup transitionName="zoom" transitionEnterTimeout={150} transitionLeaveTimeout={150}>{modal}</ReactCSSTransitionGroup>
+        <ReactCSSTransitionGroup transitionName="slide-left" transitionEnterTimeout={450} transitionLeaveTimeout={450}>{menu}</ReactCSSTransitionGroup>
       </div>;
     }
     
@@ -121,13 +122,17 @@ var App = React.createClass({
     var app = this.getStore('appStore');
     var channel = this.getStore('channelStore');
     var title = "Speak";
+    var classes = classNames({
+      'authenticated': app.user_id,
+      'with-menu': app.menu
+    });
     
     if (channel && channel.name) {
       title = channel.name;
     }
     
     return <DocumentTitle title={title}>
-      <div id="app" className={app.user_id ? 'authenticated' : ''}>
+      <div id="app" className={classes}>
         {this.getContent()}
         <Logo />
       </div>

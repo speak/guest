@@ -4,6 +4,9 @@ var ChannelShare = require('./channel-share');
 var ChannelLock = require('./channel-lock');
 var Upgrade = require('./upgrade');
 var Preferences = require('./preferences');
+var Billing = require('./billing');
+var Account = require('./account');
+var Recordings = require('./recordings');
 
 var Modal = React.createClass({
   
@@ -15,6 +18,12 @@ var Modal = React.createClass({
         return <ChannelShare path={this.props.channel.path} />;
       case 'upgrade':
         return <Upgrade />;
+      case 'billing':
+        return <Billing />;
+      case 'account':
+        return <Account />;
+      case 'recordings':
+        return <Recordings />;
       default:
       case 'preferences':
         return <Preferences user={this.props.user} />;
@@ -23,6 +32,7 @@ var Modal = React.createClass({
   
   closeModal: function() {
     UserActions.closeModal();
+    UserActions.closeMenu();
   },
   
   handleKeydown: function(ev) {

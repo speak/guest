@@ -47,6 +47,16 @@ var UserActions = {
       type: type
     });
   },
+  
+  userUpdate: function(data) {
+    return Api.put({
+      endpoint: '/users/' + AppStore.get('user_id'),
+      data: data
+    })
+    .done(function(data){
+      AppDispatcher.dispatch('user.updated', data.user);
+    });
+  },
 
   channelUpdate: function(data) {
     return Api.put({

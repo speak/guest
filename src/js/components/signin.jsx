@@ -111,9 +111,7 @@ var Signin = React.createClass({
         can_submit: true
       });
     } else {
-      var invalid = {};
-      invalid[data.params.param] = data.params.message;
-      invalidate(invalid);
+      invalidate(data.params);
       this.setState({can_submit: true});
     }
   },
