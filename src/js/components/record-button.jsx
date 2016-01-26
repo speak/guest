@@ -11,16 +11,44 @@ var RecordButton = React.createClass({
     }
   },
   
+  getInitialState: function() {
+    return {
+      transition: false
+    }
+  },
+  
+  onClick: function() {
+    this.setState({transition: true});
+    this.props.onClick();
+  },
+  
+  componentDidUpdate: function(prevProps) {
+    if (this.props.enabled != prevProps.enabled) {
+      this.setState({transition: false});
+    }
+  },
+  
+  getTooltipText: function() {
+    if (this.state.transition) return "Just a second...";
+    return this.props.enabled ? "Stop Recording" : "Start Recording";
+  },
+  
   render: function(){
     var tooltip;
-    var text = this.props.enabled ? "Stop Recording" : "Start Recording";
-
+    var classes = classNames({
+      'record': true,
+      'animated': true,
+      'transition': this.state.transition,
+      'disabled': this.props.disabled,
+      'enabled': this.props.enabled
+    });
+    
     if (this.props.hasTooltip) {
-      tooltip = <span className="tooltip">{text}<i className="triangle"></i></span>;
+      tooltip = <span className="tooltip">{this.getTooltipText()}<i className="triangle"></i></span>;
     }
 
     return <span>
-      <a className="record" {...this.props}></a>
+      <a className={classes} {...this.props} onClick={this.onClick}></a>
       {tooltip}
     </span>;
   }
