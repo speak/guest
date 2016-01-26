@@ -35,9 +35,7 @@ var UserActions = {
       endpoint: '/channels/' + ChannelStore.get('id') + '/recording'
     })
     .done(function(data){
-      AppDispatcher.dispatch('channel.started_recording', {
-        recording_id: data.recording.id
-      });
+      AppDispatcher.dispatch('channel.started_recording', data.recording);
     });
   },
 

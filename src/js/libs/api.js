@@ -54,9 +54,10 @@ var Api = {
       options.beforeSend = function (xhr) {
         xhr.setRequestHeader('Authorization', 'Bearer ' + AuthStore.get('access_token'));
       }
-    } else {
-      throw new Error("API request without an access token");
     }
+    // else {
+    //   throw new Error("API request without an access token");
+    // }
 
     return $.ajax(options);
   }

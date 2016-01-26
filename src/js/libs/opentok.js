@@ -306,7 +306,7 @@ var Opentok = {
   },
   
   startedRecording: function(data) {
-    if (message.user_id == AppStore.get('user_id')) {
+    if (data.created_by_id == AppStore.get('user_id')) {
       this.session.signal({
         type: 'channel.started_recording',
         data: data
@@ -315,7 +315,7 @@ var Opentok = {
   },
   
   stoppedRecording: function(data) {
-    if (message.user_id == AppStore.get('user_id')) {
+    if (data.stopped_by_id == AppStore.get('user_id')) {
       this.session.signal({
         type: 'channel.stopped_recording',
         data: data

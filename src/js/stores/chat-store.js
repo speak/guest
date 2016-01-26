@@ -54,17 +54,18 @@ var ChatStore = new Store({
   },
   
   startedRecording: function(data) {
+    var id = Utilities.guid()
     this.update(id, {
-      id: Utilities.guid(),
       type: 'event',
+      id: id,
       event: 'channel.started_recording',
       user: {id: data.user_id}
     });
   },
-  
+
   stoppedRecording: function(data) {
+    var id = Utilities.guid()
     this.update(id, {
-      id: Utilities.guid(),
       type: 'event',
       event: 'channel.stopped_recording',
       user: {id: data.user_id}
