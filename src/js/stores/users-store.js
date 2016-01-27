@@ -10,6 +10,7 @@ var UsersStore = new Store({
     'user.started_speaking':  'userStartedSpeaking',
     'user.stopped_speaking':  'userStoppedSpeaking',
     'user.highlighted':       'userHighlighted',
+    'user.updated':           'update',
     'channel.found':          'channelUpdated',
     'channel.created':        'channelUpdated',
     'channel.joined':         'channelJoined',
@@ -24,7 +25,6 @@ var UsersStore = new Store({
     'screen.published':       'screenPublished',
     'screen.unpublished':     'screenUnpublished',
     'screen.cancelled':       'screenCancelled',
-    'me.channel.left':        'reset',
     'session.destroy':        'reset'
   },
   
@@ -33,7 +33,7 @@ var UsersStore = new Store({
     data.online = true;
     this.update(data);
   },
-
+  
   userStartedSpeaking: function(data) {
     this.update(data.id, {speaking: true});
   },

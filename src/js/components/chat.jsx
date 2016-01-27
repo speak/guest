@@ -9,7 +9,7 @@ var $ = require('jquery');
 var Chat = React.createClass({
   mixins: [Flux.mixins.storeListener],
 
-  watchStores: ['chatStore'],
+  watchStores: ['messagesStore'],
   
   getInitialState: function() {
     return {
@@ -55,10 +55,12 @@ var Chat = React.createClass({
 
   render: function(){
     var list = [];
-    var messages = this.getStore('chatStore');
+    var messages = this.getStore('messagesStore');
     var previous_author_id;
     var last = this.state.last;
     var index = 0;
+    
+    messages = _.sortBy(messages, function(m){ return m.created_at; });
     
     _.each(messages, function(message){
       var style, show_author;
@@ -70,7 +72,7 @@ var Chat = React.createClass({
       }
       
       if (message.event) {
-        list.push(<Event key={message.id} message={message} style={style} />);        
+        list.push(<Event key={message.id} message={message} style={style} />);
         previous_author_id = 'event';
       } else {
         list.push(<Message key={message.id} message={message} style={style} author_hidden={!show_author && (previous_author_id == message.user_id)} />);

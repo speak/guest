@@ -21,6 +21,10 @@ var Event = React.createClass({
         } else {
           return "stopped the call recording";
         }
+      case "channel.locked":
+        return "locked the channel";
+      case "channel.unlocked":
+        return "unlocked the channel";
       case "channel.joined":
         return "joined";
       case "channel.left":

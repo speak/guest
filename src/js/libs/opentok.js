@@ -13,6 +13,7 @@ var Opentok = {
 
   actions: {
     "channel.found":                    "auth",
+    "channel.updated":                  "auth",
     "channel.authed":                   "connect",
     "audio.publish":                    "publishAudio",
     "audio.unpublish":                  "unpublishAudio",
@@ -35,8 +36,8 @@ var Opentok = {
   },
   
   auth: function() {
-    if (!ChannelStore.get('token')) {
-      OpentokActions.auth(ChannelStore.get('id'));
+    if (!ChannelStore.get('token') && (!ChannelStore.get('locked') || ChannelStore.get('password'))) {
+      OpentokActions.auth(ChannelStore.get('id'), ChannelStore.get('password'));
     }
   },
 

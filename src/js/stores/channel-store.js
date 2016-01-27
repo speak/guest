@@ -9,6 +9,7 @@ var ChannelStore = new Store({
     name: null,
     public_url: null,
     locked: false,
+    locked_by: null,
     loading: false,
     completed: false,
     token: null,
@@ -22,6 +23,7 @@ var ChannelStore = new Store({
     recording_id: null,
     not_found: false,
     path: null,
+    password: null,
     requested_path: {
       calculate: function () {
         return window.location.pathname.split('/')[1];
@@ -35,6 +37,8 @@ var ChannelStore = new Store({
     'channel.loading':                  'channelLoading',
     'channel.found':                    'channelLoaded',
     'channel.created':                  'channelLoaded',
+    'channel.locked':                   'channelLocked',
+    'channel.unlocked':                 'channelUnlocked',
     'channel.not_found':                'channelNotFound',
     'channel.joined':                   'channelJoined',
     'channel.updated':                  'set',
@@ -56,7 +60,15 @@ var ChannelStore = new Store({
   channelLoading: function() {
     this.set({loading: true});
   },
-
+  
+  channelLocked: function() {
+    this.set({locked: true});
+  },  
+  
+  channelUnlocked: function() {
+    this.set({locked: false});
+  },
+  
   channelNotFound: function(){
     this.set({
       not_found: true, 

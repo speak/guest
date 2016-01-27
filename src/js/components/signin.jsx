@@ -46,26 +46,40 @@ var Signin = React.createClass({
   
   getHeading: function() {
     var channel = this.props.channel;
+    var subtext = "Just add your name below to join the call."
     
     if (!channel.id) {
-      return <h2>Start a Meeting</h2>;
+      return <h2>Start a Call</h2>;
+    }
+    
+    if (channel.locked) {
+      subtext = "This call has been locked with a secret code, you'll need to enter it to join.";
     }
     
     // TODO: Use participant names here
-    return <div><h2>{channel.name || "Join Meeting"}</h2><p>Just add your name below to join the call.</p></div>;
+    return <div>
+      <h2>{channel.name || "Join Call"}</h2>
+      <p>{subtext}</p>
+    </div>;
   },
   
   getText: function() {
-    return this.props.channel.guest ? "Start Meeting" : "Join Meeting";
+    return this.props.channel.guest ? "Start Call" : "Join Call";
   },
 
   handleSubmit: function(data, reset, invalidate) {
     this.setState({can_submit: false});
 
     if (this.props.authenticated) {
-      UserActions.channelCreate({
-        name: data.channel_name
-      });
+      if (this.props.channel.id) {
+        UserActions.channelUpdated({
+          password: data.secret
+        })
+      } else {
+        UserActions.channelCreate({
+          name: data.channel_name
+        });
+      }
       
     } else if (data.password) {
       AuthActions.signin(data, {
@@ -83,7 +97,7 @@ var Signin = React.createClass({
         }
       }
       
-      UserActions.channelUpdated({name: data.channel_name});
+      UserActions.channelUpdated({name: data.channel_name, password: data.secret});
       AuthActions.createUser(data).fail(function(){
         // TODO
       });
@@ -97,16 +111,20 @@ var Signin = React.createClass({
         can_submit: true
       });
     } else {
-      var invalid = {};
-      invalid[data.params.param] = data.params.message;
-      invalidate(invalid);
+      invalidate(data.params);
       this.setState({can_submit: true});
     }
   },
 
   render: function() {
     var heading = this.getHeading();
-    var channel_name, password, email, name;
+    var channel_name, password, email, name, secret;
+    
+    if (this.props.channel.locked) {
+      secret = <div className="secret-code">
+        <Input type="password" name="secret" placeholder="Secret Code" className="u-full-width" autoComplete="off" />;
+      </div>
+    }
     
     if (!this.props.channel.id) {
       channel_name = <Input value={this.state.defaults.channel_name} type="text" name="channel_name" placeholder="Meeting Name" className="u-full-width" wrapperClass="optional" />;
@@ -122,13 +140,16 @@ var Signin = React.createClass({
     }
 
     return <DocumentTitle title={this.getText()}>
-      <div id="floating-modal">
+      <div id="floating-modal" className="signin">
+        {heading}
         <Formsy.Form onValidSubmit={this.handleSubmit} onValid={this.enableButton} onInvalid={this.disableButton}>
-          {heading}
-          {name}
-          {email}
-          {password}
-          {channel_name}
+          <div className="inputs">
+            {name}
+            {email}
+            {password}
+            {channel_name}
+            {secret}
+          </div>
           <input type="submit" value={this.getText()} disabled={!this.state.can_submit} className="u-full-width button primary" />
         </Formsy.Form>
       </div>

@@ -11,31 +11,33 @@ var Media = React.createClass({
   
   watchStores: ['preferencesStore'],
   
+  submitForm: function() {
+    // TODO: move to formsy?
+  },
+  
   render: function(){
     var prefs = this.getStore('preferencesStore');
     
     return (
-      <div id="audio-preferences" className="panel">
-        <form onSubmit={this.submitForm}>
-          <div className="row">
-            <div className="column">
-              <label>Microphone</label>
-            </div>
-            <div className="column">
-              <AudioInputSelect deviceId={prefs.audio_input} />
-            </div>
+      <form onSubmit={this.submitForm}>
+        <div className="row">
+          <div className="column">
+            <label>Microphone</label>
           </div>
-      
-          <div className="row video">
-            <div className="column">
-              <label>Camera</label>
-            </div>
-            <div className="column">
-              <VideoInputSelect deviceId={prefs.video_input} />
-            </div>
-          </div> 
-        </form>
-      </div>
+          <div className="column">
+            <AudioInputSelect deviceId={prefs.audio_input} />
+          </div>
+        </div>
+    
+        <div className="row video">
+          <div className="column">
+            <label>Camera</label>
+          </div>
+          <div className="column">
+            <VideoInputSelect deviceId={prefs.video_input} />
+          </div>
+        </div> 
+      </form>
     );
   }
 });

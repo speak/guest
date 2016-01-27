@@ -99,19 +99,19 @@ module.exports = {
   },
 
   isVideoSourceAvailable: function(sourceId, cb) {
-    this.isSourceAvailable(sourceId, 'video', cb);
+    this.isSourceAvailable(sourceId, 'videoinput', cb);
   },
 
   isAudioSourceAvailable: function(sourceId, cb) {
-    this.isSourceAvailable(sourceId, 'audio', cb);
+    this.isSourceAvailable(sourceId, 'audioinput', cb);
   },
 
   getVideoSources: function(cb) {
-    this.getSources('video', cb);
+    this.getSources('videoinput', cb);
   },
 
   getAudioSources: function(cb) {
-    this.getSources('audio', cb);
+    this.getSources('audioinput', cb);
   },
 
   getAudioOutputDevices: function(cb) {
@@ -127,7 +127,7 @@ module.exports = {
   },
 
   getSources: function(type, cb) {
-    MediaStreamTrack.getSources(function(sources){
+    navigator.mediaDevices.enumerateDevices().then(function(sources){
       cb(this.filterSourcesFor(sources, type));
     }.bind(this));
   },

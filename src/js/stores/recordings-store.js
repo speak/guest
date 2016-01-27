@@ -1,12 +1,20 @@
 var Store =  require('./store');
+var _ = require('underscore');
 
 var RecordingsStore = new Store({
   storeName: 'recordings',
 
   actions: {
+    'recordings.loaded':   'recordingsLoaded',
     'recording.created':   'recordingCreated',
     'recording.persisted': 'recordingPersisted',
     'recording.deleted':   'recordingDeleted'
+  },
+  
+  recordingsLoaded: function(data) {
+    _.each(data, function(recording){
+      this.update(recording);
+    }.bind(this))
   },
 
   recordingCreated: function(data) {

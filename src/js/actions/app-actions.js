@@ -44,13 +44,22 @@ var AppActions = {
   },
   
   userLoad: function(id) {
-    Api.get({
+    return Api.get({
       endpoint: '/users/me',
     })
     .done(function(data) {
       AppDispatcher.dispatch('user.found', data.user);
     })
     .fail(this.signOut);
+  },
+  
+  recordingsLoad: function() {
+    return Api.get({
+      endpoint: '/recordings',
+    })
+    .done(function(data) {
+      AppDispatcher.dispatch('recordings.loaded', data.recordings);
+    });
   },
   
   channelLoad: function(id) {

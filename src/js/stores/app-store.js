@@ -26,11 +26,13 @@ var AppStore = new Store({
     stream:                 null,
     gcm_registration_id:    null,
     typing:                 false,
-    modal:                  false
+    modal:                  false,
+    menu:                   false
   },
 
   actions: {
     'app.modal':                  'showModal',
+    'app.menu':                   'toggleMenu',
     'extension.loaded':           'extensionLoaded',
     'session.connected':          'sessionConnected',
     'session.disconnected':       'sessionDisconnected',
@@ -56,6 +58,10 @@ var AppStore = new Store({
   
   showModal: function(name) {
     this.set({modal: name});
+  },
+  
+  toggleMenu: function(value) {
+    this.set({menu: value});
   },
   
   typing: function() {

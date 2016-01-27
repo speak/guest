@@ -35,7 +35,7 @@ var AuthStore = new Store({
   },
 
   updateAuth: function(data) {
-    Cookies.set('token', data.access_token, { expires: 90, path: '', secure: !development});
+    Cookies.set('token', data.access_token, {expires: 90, path: '', secure: !development});
     this.set(data);
   },
   

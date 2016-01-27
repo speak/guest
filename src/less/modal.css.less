@@ -34,6 +34,10 @@
   }
 }
 
+.with-menu #modal {
+  background: transparent;
+}
+
 #modal {
   .centered {
     top: 50%;
@@ -114,25 +118,55 @@
   left: 50%;
   transform: translate(-50%, -50%);
   
-  background-color: #fff;
   width: auto;
   padding: 20px 32px 20px 32px;
   min-width: 350px;
   box-sizing: border-box;
   .rounded(4px);
   
+  .inputs {
+    .input-wrapper {
+      padding-bottom:0;
+      
+      input {
+        border-color: #fff;
+        border: 0;
+        border-bottom: 1px solid #EEE;
+        .border-radius(0,0,0,0);
+      }
+    }
+    
+    .input-wrapper:first-child {
+      input {
+        .border-radius(4px,0,0,4px);
+      }
+    }
+    
+    .input-wrapper:last-child {
+      input {
+        border: 0;
+        .border-radius(0,4px,4px,0);
+      }
+    }
+  }
+  
   h2 {
-    color: #474747;
+    color: #fff;
     margin: 10px 0 24px 0;
+    width: auto;
   }
   
   p {
-    color: #444;
+    color: #eee;
     font-size: 14px;
   }
   
   h2 + p {
     margin: -18px 0px 24px 0;
+  }
+  
+  .secret-code {
+    margin-top: 10px;
   }
   
   .optional:before {

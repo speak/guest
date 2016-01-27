@@ -2,6 +2,7 @@ var React = require('react');
 var Flux = require('delorean').Flux;
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 var DocumentTitle = require('react-document-title');
+var classNames = require('classnames');
 
 var UsersStore = require('../stores/users-store');
 var UserActions = require('../actions/user-actions');
@@ -17,6 +18,7 @@ var ChannelShare = require('./channel-share');
 var Signin = require('./signin');
 var Video = require('./video');
 var Logo = require('./logo');
+var Menu = require('./menu');
 var fullscreen = require('screenfull');
 var _ = require('underscore');
 
@@ -39,7 +41,7 @@ var App = React.createClass({
       return <Incompatible />
     }
 
-    if ((!auth.access_token && !channel.loading) || (auth.access_token && channel.not_found && !channel.id && !channel.loading)) {
+    if ((channel.locked && !channel.token) || (!auth.access_token && !channel.loading) || (auth.access_token && channel.not_found && !channel.id && !channel.loading)) {
       return <div>
         <Signin channel={channel} authenticated={authenticated} />
         <Participants users={other_users} />
@@ -70,8 +72,11 @@ var App = React.createClass({
   },
 
   handleDoubleClick: function(ev) {
-    if (fullscreen.enabled) {
-      fullscreen.toggle(window.document.body);
+    var app = this.getStore('appStore');
+    if (!app.modal) {
+      if (fullscreen.enabled) {
+        fullscreen.toggle(window.document.body);
+      }
     }
   },
 
@@ -82,10 +87,10 @@ var App = React.createClass({
     var channel = this.getStore('channelStore');
     var user = UsersStore.getCurrentUser();
     var message = this.getMessage();
-    var video, chat, modal, current;
+    var video, chat, modal, current, menu;
     
     if (user && channel.id && app.permission_granted) {
-      video = <Video users={users} user={user} channel={channel} />;
+      video = <Video users={users} user={user} channel={channel} app={app} />;
       chat = <Chat typing={app.typing} />;
     }
 
@@ -96,12 +101,17 @@ var App = React.createClass({
       message = <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={250} transitionLeaveTimeout={250} id="message-wrapper">{message}</ReactCSSTransitionGroup>;
     }
     
+    if (app.menu) {
+      menu = <Menu />;
+    }
+    
     if (app.app) {
       return <div onDoubleClick={this.handleDoubleClick}>
         {video}
         {chat}
         {message}
         <ReactCSSTransitionGroup transitionName="zoom" transitionEnterTimeout={150} transitionLeaveTimeout={150}>{modal}</ReactCSSTransitionGroup>
+        <ReactCSSTransitionGroup transitionName="slide-left" transitionEnterTimeout={450} transitionLeaveTimeout={450}>{menu}</ReactCSSTransitionGroup>
       </div>;
     }
     
@@ -112,13 +122,17 @@ var App = React.createClass({
     var app = this.getStore('appStore');
     var channel = this.getStore('channelStore');
     var title = "Speak";
+    var classes = classNames({
+      'authenticated': app.user_id,
+      'with-menu': app.menu
+    });
     
     if (channel && channel.name) {
       title = channel.name;
     }
     
     return <DocumentTitle title={title}>
-      <div id="app" className={app.user_id ? 'authenticated' : ''}>
+      <div id="app" className={classes}>
         {this.getContent()}
         <Logo />
       </div>

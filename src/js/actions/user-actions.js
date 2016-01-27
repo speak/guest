@@ -67,6 +67,16 @@ var UserActions = {
       type: type
     });
   },
+  
+  userUpdate: function(data) {
+    return Api.put({
+      endpoint: '/users/' + AppStore.get('user_id'),
+      data: data
+    })
+    .done(function(data){
+      AppDispatcher.dispatch('user.updated', data.user);
+    });
+  },
 
   channelUpdate: function(data) {
     return Api.put({
@@ -101,6 +111,14 @@ var UserActions = {
     AppDispatcher.dispatch('app.modal');
   },
   
+  showMenu: function() {
+    AppDispatcher.dispatch('app.menu', true);
+  },
+  
+  closeMenu: function() {
+    AppDispatcher.dispatch('app.menu', false);
+  },
+  
   channelUpdated: function(data) {
     AppDispatcher.dispatch('channel.updated', data);
   },
@@ -112,7 +130,29 @@ var UserActions = {
   channelLeave: function() {
     AppDispatcher.dispatch('channel.leave');
   },
-
+  
+  channelLock: function(data) {
+    return Api.post({
+      endpoint: '/channels/'+ ChannelStore.get('id') +'/lock',
+      data: data
+    }).done(function(data){
+      AppDispatcher.dispatch('channel.locked', {
+        user_id: AppStore.get('user_id')
+      });
+    })
+  },
+  
+  channelUnlock: function(data) {
+    return Api.post({
+      endpoint: '/channels/'+ ChannelStore.get('id') +'/unlock',
+      data: data
+    }).done(function(data){
+      AppDispatcher.dispatch('channel.unlocked', {
+        user_id: AppStore.get('user_id')
+      });
+    })
+  },
+  
   sendMessage: function(text, channel) {
     var id = Utilities.guid();
     var data = {

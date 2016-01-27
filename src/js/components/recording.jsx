@@ -1,7 +1,14 @@
 var React = require('react');
+var AuthStore = require('../stores/auth-store');
+var moment = require('moment');
 var _ = require('underscore');
 
 var Recording = React.createClass({
+  
+  getDownloadUrl: function() {
+    return this.props.recording.download_url+"?access_token="+AuthStore.get('access_token');
+  },
+  
   render: function() {
     var channel = this.props.recording.channel;
     var list = [];
@@ -11,11 +18,11 @@ var Recording = React.createClass({
     })
     
     return <li className="recording">
-      <span className="users">{list.join(', ')}</span>
-      <a href={channel.public_url} className="name">{channel.name}</a>
-      <span className="duration">{recording.duration}</span>
-      <span className="created-at">{recording.created_at}</span>
-      <a href={recording.download_url}>Download</a>
+      <h3 className="users">{list.join(', ')}</h3>
+      <a href={channel.public_url} className="duration">{channel.name}</a>
+      <span className="duration">{this.props.recording.duration}</span>
+      <span className="created-at">{moment(this.props.recording.created_at).format('MMMM Do YYYY, h:mm:ss a')}</span>
+      <a className="button small" href={this.getDownloadUrl()} download="Speak Recording">Download</a>
     </li>;
   }
 });

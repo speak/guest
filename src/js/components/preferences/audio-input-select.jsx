@@ -44,9 +44,7 @@ var AudioInputSelect = React.createClass({
     var self = this;
     MediaManager.getAudioSources(function(audioSources){
       if (!self.isMounted()) return;
-      
-      console.log(audioSources);
-      
+
       if(audioSources.length) {
         var options = _.map(audioSources, function(source) {
           source.value = source.deviceId;
