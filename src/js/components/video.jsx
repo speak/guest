@@ -8,6 +8,7 @@ var UserVideo = require('./user-video');
 var UserScreen = require('./user-screen');
 var ChannelName = require('./channel-name');
 var _ = require('underscore');
+var $ = require('jquery');
 
 var Video = React.createClass({
   
@@ -24,7 +25,15 @@ var Video = React.createClass({
     }
   },
   
-  handleKeyDown: function() {
+  componentDidMount: function() {
+    $(document).on('keydown', this.handleKeyDown);
+  },
+  
+  componentWillUnmount: function() {
+    $(document).off('keydown', this.handleKeyDown);
+  },
+  
+  handleKeyDown: function(ev) {
     UserActions.typing(true);
   },
   
@@ -82,7 +91,7 @@ var Video = React.createClass({
       'screen-centered': active_speaker && active_speaker.type == 'screen'
     });
 
-    return <div id="video" className={classes} onClick={this.closeMenu} onMouseMove={this.handleMouseMove} onKeyDown={this.handleKeyDown}>
+    return <div id="video" className={classes} onClick={this.closeMenu} onMouseMove={this.handleMouseMove}>
       <ReactCSSTransitionGroup component="ul" transitionName="mini" transitionEnterTimeout={250} transitionLeaveTimeout={250} className="users">{list}</ReactCSSTransitionGroup>
       <CallControls user={me} channel={channel} />
       <ChannelName {...channel} />

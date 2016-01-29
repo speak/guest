@@ -64,8 +64,8 @@ var AppStore = new Store({
     this.set({menu: value});
   },
   
-  typing: function() {
-    this.set({typing: true});
+  typing: function(val) {
+    this.set({typing: val});
   },
 
   mute: function() {

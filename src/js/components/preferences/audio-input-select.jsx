@@ -28,7 +28,7 @@ var AudioInputSelect = React.createClass({
             if (self.isMounted()) {
               self.setState({requesting: false});
             }
-            throw error;
+            throw err;
           }
           
           self.stopStream();

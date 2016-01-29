@@ -81,7 +81,7 @@ var Composer = React.createClass({
   
   componentWillReceiveProps: function(nextProps) {
     if (nextProps.typing && !this.props.typing) {
-      $(this.refs.input).focus();
+      this.refs.input.focus();
     }
   },
   
