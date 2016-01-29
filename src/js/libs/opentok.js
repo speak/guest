@@ -177,6 +177,8 @@ var Opentok = {
 
         this.cameraPublisher = OT.initPublisher(domElement, options);
         this.cameraPublisher.on('streamDestroyed', this.streamDestroyed);
+        this.cameraPublisher.on('accessDenied', this.accessDenied);
+        this.cameraPublisher.on('accessGranted', this.accessGranted);
         this.cameraPublisher.on('accessDialogOpened', this.accessDialogOpened);
         this.cameraPublisher.on('accessDialogClosed', this.accessDialogClosed);
         this.session.publish(this.cameraPublisher);
@@ -189,6 +191,14 @@ var Opentok = {
         }
       }.bind(this));
     }
+  },
+  
+  accessDenied: function() {
+    OpentokActions.permissionsDenied();
+  },
+  
+  accessGranted: function() {
+    OpentokActions.permissionsGranted();
   },
   
   accessDialogOpened: function() {

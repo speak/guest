@@ -78,6 +78,14 @@ var OpentokActions = {
   permissionsDialog: function(value) {
     AppDispatcher.dispatch('webrtc.permissions', value);
   },
+  
+  permissionsDenied: function() {
+    AppDispatcher.dispatch('webrtc.permissions_denied');
+  },
+  
+  permissionsGranted: function() {
+    AppDispatcher.dispatch('webrtc.permissions_granted');
+  }
 };
 
 module.exports = OpentokActions;

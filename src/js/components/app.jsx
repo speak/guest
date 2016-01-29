@@ -48,15 +48,15 @@ var App = React.createClass({
       </div>;
     }
     
-    if (app.permission_denied) {
+    if (app.permissions_denied) {
       return <PermissionError />;
     }
 
-    if (app.permission_dialog) {
+    if (app.permissions_dialog) {
       return <PermissionDialog key="dialog" />;
     }
     
-    if ((!app.permission_granted || !app.stream) && !channel.completed) {
+    if ((!app.permissions_granted || !app.stream) && !channel.completed) {
       return <Connecting />;
     }
 
@@ -89,7 +89,7 @@ var App = React.createClass({
     var message = this.getMessage();
     var video, chat, modal, current, menu;
     
-    if (user && channel.id && app.permission_granted) {
+    if (user && channel.id && app.permissions_granted) {
       video = <Video users={users} user={user} channel={channel} app={app} />;
       chat = <Chat typing={app.typing} />;
     }

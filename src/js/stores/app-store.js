@@ -16,9 +16,9 @@ var AppStore = new Store({
         return this.state.user_id;
       }
     },
-    permission_granted:     true, //TODO
-    permission_dialog:      false,
-    permission_denied:      false,
+    permissions_granted:     true, //TODO
+    permissions_dialog:      false,
+    permissions_denied:      false,
     extension_loaded:       false,
     user_id:                null,
     muted:                  false,
@@ -33,6 +33,8 @@ var AppStore = new Store({
   actions: {
     'app.modal':                  'showModal',
     'app.menu':                   'toggleMenu',
+    'webrtc.permissions_granted': 'permissionsGranted',
+    'webrtc.permissions_denied':  'permissionsDenied',
     'extension.loaded':           'extensionLoaded',
     'session.connected':          'sessionConnected',
     'session.disconnected':       'sessionDisconnected',
@@ -43,7 +45,21 @@ var AppStore = new Store({
     'audio.unpublished':          'mute',
     'audio.published':            'unmute'
   },
-
+  
+  permissionsGranted: function() {
+    this.set({
+      permissions_granted: true, 
+      permissions_denied: false
+    });
+  },
+  
+  permissionsDenied: function() {
+    this.set({
+      permissions_granted: false, 
+      permissions_denied: true
+    });
+  },
+  
   userLoaded: function(data) {
     this.set({user_id: data.id});
   },
