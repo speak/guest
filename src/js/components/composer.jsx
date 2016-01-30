@@ -1,6 +1,7 @@
 var React = require('react');
 var UserActions = require('../actions/user-actions');
 var ChannelStore = require('../stores/channel-store');
+var EmojiPicker = require('emojione-picker/js/picker');
 var emojione = require('emojione');
 var $ = require('jquery'); 
 var g = require('jquery.autogrow-textarea'); 
@@ -11,6 +12,12 @@ var Composer = React.createClass({
     return {
       text: "",
       id: null
+    }
+  },
+  
+  getInitialState: function() {
+    return {
+      picker: false
     }
   },
   
@@ -85,15 +92,25 @@ var Composer = React.createClass({
     }
   },
   
-  render: function(){
-    var save;
+  toggleEmojiPicker: function() {
+    this.setState({picker: !this.state.picker});
+  },
+  
+  render: function() {
+    var save, picker;
     
     if (this.props.id) {
       save = <span className="note save">↵ to <a onClick={this.sendMessage}>save</a></span>;
     }
+    
+    if (this.state.picker) {
+      picker = <EmojiPicker onChange={function(){}}/>;
+    }
 
-    return <div>
+    return <div className="composer-wrapper">
       <textarea placeholder={this.getPlaceholder()} defaultValue={this.props.text} className="composer" ref="input" onKeyDown={this.handleKeyDown} onBlur={this.handleBlur}></textarea>
+      <a className="emoji-picker-toggle" onClick={this.toggleEmojiPicker} dangerouslySetInnerHTML={{__html: emojione.shortnameToImage(':smile:')}}></a>
+      {picker}
       {save}
     </div>;
   }

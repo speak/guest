@@ -1,25 +1,44 @@
 @import "elements.css.less";
 
-#chat{
+#chat {
   position: absolute;
   bottom: 0;
   padding: 10px;
   
-  textarea {
-    border-color: rgba(255,255,255,0.9);
-    background: rgba(255,255,255,0.9);
-    color: #333;
-    margin: 10px;
-    height: 40px;
-    width: 200px;
-    font-size: 14px;
-    padding: 10px;
-    min-height: 0;
-    box-sizing: border-box;
+  .composer-wrapper {
+    .emoji-dialog {
+      position: absolute;
+      bottom: 60px;
+      left: 190px;
+    }
     
-    &:active,
-    &:focus {
-      background: #fff;
+    .emoji-picker-toggle {
+      position: absolute;
+      right: 25px;
+      bottom: 28px;
+      
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    
+    textarea {
+      border-color: transparent;
+      background: rgba(255,255,255,0.9);
+      color: #333;
+      margin: 10px;
+      height: 40px;
+      width: 200px;
+      font-size: 14px;
+      padding: 10px;
+      min-height: 0;
+      box-sizing: border-box;
+    
+      &:active,
+      &:focus {
+        background: #fff;
+      }
     }
   }
 
@@ -28,7 +47,7 @@
     padding: 0;
     list-style: none;
     
-    li {
+    li.message {
       .opacity(0.2);
       .transition();
       
