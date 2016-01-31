@@ -1,12 +1,14 @@
 var React = require('react');
 var UserActions = require('../actions/user-actions');
 var ChannelStore = require('../stores/channel-store');
-var EmojiPicker = require('emojione-picker/js/picker');
+var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+var EmojiPicker = require('emojione-picker');
 var emojione = require('emojione');
 var $ = require('jquery'); 
 var g = require('jquery.autogrow-textarea'); 
 
 var Composer = React.createClass({
+  mixins: [require('react-onclickoutside')],
   
   getDefaultProps: function() {
     return {
@@ -96,6 +98,18 @@ var Composer = React.createClass({
     this.setState({picker: !this.state.picker});
   },
   
+  handleClickOutside: function() {
+    if (this.state.picker) {
+      this.setState({picker: false});
+    }
+  },
+  
+  insertEmoji: function(data) {
+    this.refs.input.value = this.refs.input.value+data.shortname+" ";
+    this.setState({picker: false});
+    this.refs.input.focus();
+  },
+  
   render: function() {
     var save, picker;
     
@@ -103,14 +117,14 @@ var Composer = React.createClass({
       save = <span className="note save">↵ to <a onClick={this.sendMessage}>save</a></span>;
     }
     
-    if (this.state.picker) {
-      picker = <EmojiPicker onChange={function(){}}/>;
+    if (this.state.picker && !this.props.id) {
+      picker = <EmojiPicker onChange={this.insertEmoji}/>;
     }
 
     return <div className="composer-wrapper">
       <textarea placeholder={this.getPlaceholder()} defaultValue={this.props.text} className="composer" ref="input" onKeyDown={this.handleKeyDown} onBlur={this.handleBlur}></textarea>
       <a className="emoji-picker-toggle" onClick={this.toggleEmojiPicker} dangerouslySetInnerHTML={{__html: emojione.shortnameToImage(':smile:')}}></a>
-      {picker}
+      <ReactCSSTransitionGroup transitionName="fade-up" transitionEnterTimeout={250} transitionLeaveTimeout={250}>{picker}</ReactCSSTransitionGroup>
       {save}
     </div>;
   }

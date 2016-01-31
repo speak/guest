@@ -27,6 +27,31 @@
 
 
 
+
+.fade-up-enter {
+  opacity: 0.5;
+  transform: translate3d(0, 10px, 0);
+}
+
+.fade-up-enter.fade-up-enter-active {
+  opacity: 1;
+  transition: all 250ms ease-in;
+  transform: translate3d(0, 0, 0);
+}
+
+.fade-up-leave {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.fade-up-leave.fade-up-leave-active {
+  opacity: 0.5;
+  transition: all 250ms ease-in;
+  transform: translate3d(0, 10px, 0);
+}
+
+
+
 .zoom-enter {
   opacity: 0.01;
   -webkit-transform: scale3d(.98, .98, .98);
