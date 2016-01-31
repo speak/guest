@@ -16,6 +16,9 @@
       position: absolute;
       right: 25px;
       bottom: 28px;
+      .scale(0.95);
+      .opacity(0);
+      .transition();
       
       img {
         width: 20px;
@@ -38,6 +41,17 @@
       &:active,
       &:focus {
         background: #fff;
+      }
+      
+      &.picker-open + .emoji-picker-toggle,
+      &:active + .emoji-picker-toggle,
+      &:focus + .emoji-picker-toggle {
+        .scale(1);
+        .opacity(1);
+        
+        &:hover {
+          .scale(1.1);
+        }
       }
     }
   }

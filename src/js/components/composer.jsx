@@ -4,6 +4,7 @@ var ChannelStore = require('../stores/channel-store');
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 var EmojiPicker = require('emojione-picker');
 var emojione = require('emojione');
+var classNames = require('classnames');
 var $ = require('jquery'); 
 var g = require('jquery.autogrow-textarea'); 
 
@@ -60,6 +61,10 @@ var Composer = React.createClass({
       UserActions.cancelEditing(this.props.id);
     }
     
+    if (this.state.picker && ev.keyCode === 27) { // ESC
+      this.setState({picker: false});
+    }
+    
     if (ev.keyCode === 38) { // UP
       if (!this.props.id && !this.refs.input.value) {
         ev.preventDefault();
@@ -112,6 +117,10 @@ var Composer = React.createClass({
   
   render: function() {
     var save, picker;
+    var classes = classNames({
+      composer: true,
+      'picker-open': this.state.picker
+    });
     
     if (this.props.id) {
       save = <span className="note save">↵ to <a onClick={this.sendMessage}>save</a></span>;
@@ -122,7 +131,7 @@ var Composer = React.createClass({
     }
 
     return <div className="composer-wrapper">
-      <textarea placeholder={this.getPlaceholder()} defaultValue={this.props.text} className="composer" ref="input" onKeyDown={this.handleKeyDown} onBlur={this.handleBlur}></textarea>
+      <textarea placeholder={this.getPlaceholder()} defaultValue={this.props.text} className={classes} ref="input" onKeyDown={this.handleKeyDown} onBlur={this.handleBlur}></textarea>
       <a className="emoji-picker-toggle" onClick={this.toggleEmojiPicker} dangerouslySetInnerHTML={{__html: emojione.shortnameToImage(':smile:')}}></a>
       <ReactCSSTransitionGroup transitionName="fade-up" transitionEnterTimeout={250} transitionLeaveTimeout={250}>{picker}</ReactCSSTransitionGroup>
       {save}
